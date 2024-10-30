@@ -70,7 +70,7 @@
                 <!-- Search Box -->
 
                 <!-- MAIN MENU Label -->
-                <TextBlock Text="MAIN MENU" Foreground="#ADE8F4" Margin="10,10,0,5" FontSize="14" />
+                <TextBlock Text="nice MENU" Foreground="#ADE8F4" Margin="10,10,0,5" FontSize="14" />
 
                 <!-- Menu Items -->
                 <!-- Add your menu buttons here -->
