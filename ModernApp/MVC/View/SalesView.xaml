@@ -1,0 +1,166 @@
+﻿<UserControl x:Class="ModernApp.MVVM.View.SalesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:local="clr-namespace:ModernApp.MVVM.View"
+             mc:Ignorable="d"  
+             Background="White">
+
+    <!-- Resources for Shadow Effect -->
+    <UserControl.Resources>
+        <DropShadowEffect x:Key="ShadowEffect" ShadowDepth="1" BlurRadius="9" Color="#888" Opacity="0.3" />
+    </UserControl.Resources>
+
+    <ScrollViewer>
+        <Grid Background="#F4F6F9" Margin="10">
+            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                <!-- Header -->
+                <TextBlock Text="Sales Dashboard" FontSize="24" FontWeight="Bold" Foreground="#333" Margin="30,20,0,40" HorizontalAlignment="Left" />
+
+                <!-- Sales Metrics Section -->
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" Margin="0,0,0,20">
+                    <Border Background="White" CornerRadius="8" Width="150" Height="100" Margin="0,0,70,0" Padding="10"
+                            VerticalAlignment="Center" HorizontalAlignment="Center" Effect="{StaticResource ShadowEffect}">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="Total Sales" FontSize="14" Foreground="#888" HorizontalAlignment="Center" />
+                            <TextBlock Name="TotalSalesTextBlock" Text="{Binding TotalSalesDisplay, Mode=OneWay}"
+                                       FontSize="24" FontWeight="Bold" Foreground="#007bff" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="White" CornerRadius="8" Width="150" Height="100" Margin="0,0,70,0" Padding="10" 
+                            Effect="{StaticResource ShadowEffect}">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="New Customers" FontSize="14" Foreground="#888" HorizontalAlignment="Center" />
+                            <TextBlock Text="{Binding TotalCustomerDisplay, Mode=OneWay}" 
+                                       FontSize="24" FontWeight="Bold" Foreground="#007bff" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="White" CornerRadius="8" Width="150" Height="100" Margin="0,0,70,0" Padding="10" 
+                            Effect="{StaticResource ShadowEffect}">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="Sales Today" FontSize="14" Foreground="#888" HorizontalAlignment="Center" />
+                            <TextBlock Text="{Binding TodaySalesDisplay, Mode=OneWay}" 
+                                       FontSize="24" FontWeight="Bold" Foreground="#007bff" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="White" CornerRadius="8" Width="150" Height="100" Margin="0,0,70,0" Padding="10" 
+                            Effect="{StaticResource ShadowEffect}">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="Profit" FontSize="14" Foreground="#888" HorizontalAlignment="Center" />
+                            <TextBlock Text="+$20000" FontSize="24" FontWeight="Bold" Foreground="LightGreen" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="White" CornerRadius="8" Width="150" Height="100" Margin="0,0,70,0" Padding="10" 
+         Effect="{StaticResource ShadowEffect}">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="Top product" FontSize="14" Foreground="#888" HorizontalAlignment="Center" />
+                            <TextBlock Name="txtTopProduct"  FontSize="16" FontWeight="Bold" Foreground="#007bff" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- Sales Performance Chart Section -->
+                <Border Background="White" CornerRadius="8" Margin="10" Padding="20" Height="892" Effect="{StaticResource ShadowEffect}">
+                    <Grid Background="#F4F6F9" Margin="10">
+                        <!-- Title -->
+                        <TextBlock Text="Sales Performance" FontSize="20" FontWeight="Bold" Foreground="#333" Margin="10,10,0,20" />
+
+                        <!-- Card Container -->
+                        <Grid Margin="20,50,20,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Card 1: Line Chart -->
+                            <Border CornerRadius="15" Width="400" Height="360" Margin="10"
+                                    Background="#ffffff" Effect="{StaticResource ShadowEffect}" Grid.Row="0" Grid.Column="0">
+                                <StackPanel>
+                                    <TextBlock Text="Sales Trend" FontSize="16" FontWeight="Bold" Foreground="#333" Margin="10" />
+                                    <lvc:CartesianChart Name="LineChart" Margin="10" Height="276">
+                                        <lvc:CartesianChart.Series>
+                                            <lvc:LineSeries Title="Sales Trend" Stroke="#007bff" Fill="#E3F2FD" Values="{Binding LineValues}" PointGeometrySize="10" />
+                                        </lvc:CartesianChart.Series>
+                                    </lvc:CartesianChart>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Card 2: Bar Chart -->
+                            <Border CornerRadius="15" Width="400" Height="360" Margin="10"
+                                    Background="#ffffff" Effect="{StaticResource ShadowEffect}" Grid.Row="0" Grid.Column="1">
+                                <StackPanel>
+                                    <TextBlock Text="Product Performance" FontSize="16" FontWeight="Bold" Foreground="#333" Margin="10" />
+                                    <lvc:CartesianChart Name="Barchart" Margin="10" Height="272">
+                                        <lvc:CartesianChart.AxisX>
+                                            <lvc:Axis Labels="{Binding XLabels}" Foreground="#666">
+                                                <lvc:Axis.Separator>
+                                                    <lvc:Separator Step="1" IsEnabled="False" />
+                                                </lvc:Axis.Separator>
+                                            </lvc:Axis>
+                                        </lvc:CartesianChart.AxisX>
+                                        <lvc:CartesianChart.Series>
+                                            <lvc:ColumnSeries Title="Products" Fill="#007bff" Values="{Binding BarValues}" />
+                                        </lvc:CartesianChart.Series>
+                                    </lvc:CartesianChart>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Card 3: Pie Chart -->
+                            <Border CornerRadius="15" Width="400" Height="360" Margin="10"
+                                    Background="#ffffff" Effect="{StaticResource ShadowEffect}" Grid.Row="1" Grid.Column="0">
+                                <StackPanel>
+                                    <TextBlock Text="Revenue Distribution" FontSize="16" FontWeight="Bold" Foreground="#333" Margin="10" />
+                                    
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Card 4: Summary -->
+                            <Border CornerRadius="15" Width="400" Height="360" Margin="10"
+                                    Background="#ffffff" Effect="{StaticResource ShadowEffect}" Grid.Row="1" Grid.Column="1">
+                                <StackPanel>
+                                    <TextBlock Text="Monthly Summary" FontSize="16" FontWeight="Bold" Foreground="#333" Margin="10" />
+                                    <StackPanel Margin="10" Height="275">
+                                        <TextBlock Name="txtBSummaryTotsales" Text="Total Sales: $12,345" FontSize="14" Foreground="#333" Margin="5" />
+                                        <TextBlock Name="txtBSummaryNewCus" Text="New Customers: 124" FontSize="14" Foreground="#333" Margin="5" />
+                                        <TextBlock Name="txtBSummaryProfit" Text="Profit: $5,678" FontSize="14" Foreground="Green" Margin="5" />
+                                        <TextBlock Name="txtBSummaryGrowth" Text="Growth: +12%" FontSize="14" Foreground="Green" Margin="5" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                        <ComboBox Name="GraphStateManipulateComboBox" HorizontalAlignment="Left" Margin="880,16,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged_1" >
+                            <ComboBoxItem Content="This Year"/>
+                            <ComboBoxItem Content="This Month"/>
+                            <ComboBoxItem Content="Today"/>
+                        </ComboBox>
+                    </Grid>
+                </Border>
+
+                <!-- Top Selling Products Section -->
+                <Border Background="White" CornerRadius="8" Margin="10" Padding="20" Effect="{StaticResource ShadowEffect}">
+                    <StackPanel>
+                        <TextBlock Text="Top Selling Products" FontSize="16" FontWeight="Bold" Foreground="#333" Margin="0,0,0,10" />
+                        <DataGrid  x:Name="TopSalesDataGrid"  AutoGenerateColumns="False" BorderThickness="0" HeadersVisibility="Column" GridLinesVisibility="None">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Product Name" Width="800" Binding="{Binding ProductName}" />
+                                <DataGridTextColumn Header="Sales ($)" Width="100" Binding="{Binding SalesAmount, StringFormat=C}"  />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:ModernApp"
         xmlns:viewModel="clr-namespace:ModernApp.MVVM.ViewModel"
         mc:Ignorable="d"
+        
         Background="Transparent"
         WindowState="Maximized"
-        WindowStyle="None"
-        ResizeMode="CanResizeWithGrip" Height="751" Width="1223">
+       
+        ResizeMode="NoResize"  Height="751" Width="1223">
 
     <Window.DataContext>
         <viewModel:MainViewModel/>
@@ -62,8 +63,8 @@
             <StackPanel Margin="0,93,0,0" Grid.RowSpan="2">
                 <StackPanel.Background>
                     <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                        <GradientStop Color="#003597" Offset="0" />
-                        <GradientStop Color="#003597" Offset="1" />
+                        <GradientStop Color="#4F75FF" Offset="0" />
+                        <GradientStop Color="#4F75FF" Offset="1" />
                     </LinearGradientBrush>
                 </StackPanel.Background>
 

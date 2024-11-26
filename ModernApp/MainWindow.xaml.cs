@@ -13,6 +13,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
+using LiveCharts.Wpf;
+using LiveCharts;
+using System.Windows.Markup;
+using ModernApp.MVVM.Model;
 
 
 namespace ModernApp
@@ -22,11 +26,17 @@ namespace ModernApp
     /// </summary>
     public partial class MainWindow : Window
     {
+      
         public MainWindow()
         {
             InitializeComponent();
-            fContainer.Navigate(new Uri("pack://application:,,,/MVVM/View/HomeView.xaml", UriKind.Absolute));
+            fContainer.Navigate(new Uri("pack://application:,,,/MVC/View/HomeView.xaml", UriKind.Absolute));
+           
+
+
         }
+
+      
 
         private void closeApp(object sender, MouseButtonEventArgs e)
         {
@@ -73,7 +83,7 @@ namespace ModernApp
             try
             {
                 // Make sure the URI points to the compiled XAML file location
-                fContainer.Navigate(new System.Uri("pack://application:,,,/MVVM/View/HomeView.xaml", UriKind.Absolute));
+                fContainer.Navigate(new System.Uri("pack://application:,,,/MVC/View/HomeView.xaml", UriKind.Absolute));
             }
             catch (Exception ex)
             {
@@ -88,7 +98,7 @@ namespace ModernApp
             {
                 if (fContainer != null)
                 {
-                    fContainer.Navigate(new Uri("pack://application:,,,/MVVM/View/DiscoveryView.xaml", UriKind.Absolute));
+                    fContainer.Navigate(new Uri("pack://application:,,,/MVC/View/DiscoveryView.xaml", UriKind.Absolute));
                 }
                 else
                 {
@@ -107,7 +117,7 @@ namespace ModernApp
             {
                 if (fContainer != null)
                 {
-                    fContainer.Navigate(new Uri("pack://application:,,,/MVVM/View/SalesView.xaml", UriKind.Absolute));
+                    fContainer.Navigate(new Uri("pack://application:,,,/MVC/View/SalesView.xaml", UriKind.Absolute));
                 }
                 else
                 {
@@ -127,7 +137,7 @@ namespace ModernApp
             {
                 if (fContainer != null)
                 {
-                    fContainer.Navigate(new Uri("pack://application:,,,/MVVM/View/EmployeeView.xaml", UriKind.Absolute));
+                    fContainer.Navigate(new Uri("pack://application:,,,/MVC/View/EmployeeView.xaml", UriKind.Absolute));
                 }
                 else
                 {
@@ -146,7 +156,7 @@ namespace ModernApp
             {
                 if (fContainer != null)
                 {
-                    fContainer.Navigate(new Uri("pack://application:,,,/MVVM/View/ReportsView.xaml", UriKind.Absolute));
+                    fContainer.Navigate(new Uri("pack://application:,,,/MVC/View/ReportsView.xaml", UriKind.Absolute));
                 }
                 else
                 {
@@ -165,7 +175,7 @@ namespace ModernApp
             {
                 if (fContainer != null)
                 {
-                    fContainer.Navigate(new Uri("pack://application:,,,/MVVM/View/SystemDiagnosisView.xaml", UriKind.Absolute));
+                    fContainer.Navigate(new Uri("pack://application:,,,/MVC/View/SystemDiagnosisView.xaml", UriKind.Absolute));
                 }
                 else
                 {
@@ -184,7 +194,7 @@ namespace ModernApp
             {
                 if (fContainer != null)
                 {
-                    fContainer.Navigate(new Uri("pack://application:,,,/MVVM/View/SettingsView.xaml", UriKind.Absolute));
+                    fContainer.Navigate(new Uri("pack://application:,,,/MVC/View/SettingsView.xaml", UriKind.Absolute));
                 }
                 else
                 {
@@ -203,7 +213,7 @@ namespace ModernApp
             {
                 if (fContainer != null)
                 {
-                    fContainer.Navigate(new Uri("pack://application:,,,/MVVM/View/HelpView.xaml", UriKind.Absolute));
+                    fContainer.Navigate(new Uri("pack://application:,,,/MVC/View/HelpView.xaml", UriKind.Absolute));
                 }
                 else
                 {
@@ -222,7 +232,7 @@ namespace ModernApp
             {
                 if (fContainer != null)
                 {
-                    fContainer.Navigate(new Uri("pack://application:,,,/MVVM/View/InventoryView.xaml", UriKind.Absolute));
+                    fContainer.Navigate(new Uri("pack://application:,,,/MVC/View/InventoryView.xaml", UriKind.Absolute));
                 }
                 else
                 {
@@ -241,7 +251,7 @@ namespace ModernApp
             {
                 if (fContainer != null)
                 {
-                    fContainer.Navigate(new Uri("pack://application:,,,/MVVM/View/DashboardView.xaml", UriKind.Absolute));
+                    fContainer.Navigate(new Uri("pack://application:,,,/MVC/View/DashboardView.xaml", UriKind.Absolute));
                 }
                 else
                 {
