@@ -3,10 +3,134 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:local="clr-namespace:ModernApp.MVVM.View"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="LightPink">
-    <Grid>
-        <TextBlock Text="Inventory Page" FontSize="30" Foreground="Black"/>
-    </Grid>
+             mc:Ignorable="d"  
+             Background="White">
+
+    <!-- Resources for Shadow Effect -->
+    <UserControl.Resources>
+        <DropShadowEffect x:Key="ShadowEffect" ShadowDepth="1" BlurRadius="9" Color="#888" Opacity="0.3" />
+    </UserControl.Resources>
+
+    <ScrollViewer>
+        <Grid Background="#F4F6F9" Margin="10">
+            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                <!-- Header -->
+                <TextBlock Text="Inventory Dashboard" FontSize="24" FontWeight="Bold" Foreground="#333" Margin="30,20,0,40" HorizontalAlignment="Left" />
+
+                <!-- Inventory Metrics Section -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <!-- Total Items -->
+                    <Border Style="{StaticResource HoverableBorderStyle}" 
+            Background="White" CornerRadius="12" Width="230" Height="120" Padding="20" Margin="30,10,0,20" >
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="Total Items" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
+                            <TextBlock Name="TotalItemsTextBlock" Text="500" 
+                       FontSize="32" FontWeight="Bold" Foreground="#333333" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Out of Stock -->
+                    <Border Style="{StaticResource HoverableBorderStyle}" 
+            Background="White" CornerRadius="12" Width="230" Height="120" Padding="20" Margin="30,10,0,20">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="Out of Stock" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
+                            <TextBlock Text="20" 
+                       FontSize="32" FontWeight="Bold" Foreground="#FF3B30" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Reorders Needed -->
+                    <Border Style="{StaticResource HoverableBorderStyle}" 
+            Background="White" CornerRadius="12" Width="230" Height="120" Padding="20" Margin="30,10,0,20">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="Reorders Needed" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
+                            <TextBlock Text="15" 
+                       FontSize="32" FontWeight="Bold" Foreground="#007AFF" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Low Stock -->
+                    <Border Style="{StaticResource HoverableBorderStyle}" 
+            Background="White" CornerRadius="12" Width="230" Height="120" Padding="20" Margin="30,10,0,20">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="Low Stock" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
+                            <TextBlock Text="10" 
+                       FontSize="32" FontWeight="Bold" Foreground="#FF9500" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+
+                <!-- Inventory Overview Chart Section -->
+                <Border Background="White" CornerRadius="8" Margin="10" Padding="20" Height="600" Effect="{StaticResource ShadowEffect}">
+                    <Grid Background="#F4F6F9" Margin="10">
+                        <!-- Title -->
+                        <TextBlock Text="Inventory Overview" FontSize="20" FontWeight="Bold" Foreground="#333" Margin="10,10,0,20" />
+
+                        <!-- Card Container -->
+                        <Grid Margin="20,50,20,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Card 1: Bar Chart -->
+                            <Border CornerRadius="15" Width="400" Height="360" Margin="10"
+                                    Background="#ffffff" Effect="{StaticResource ShadowEffect}" Grid.Row="0" Grid.Column="0">
+                                <StackPanel>
+                                    <TextBlock Text="Stock Levels" FontSize="16" FontWeight="Bold" Foreground="#333" Margin="10" />
+                                    <lvc:CartesianChart Name="BarChart" Margin="10" Height="272">
+                                        <lvc:CartesianChart.AxisX>
+                                            <lvc:Axis Labels="{Binding XLabels}" Foreground="#666">
+                                                <lvc:Axis.Separator>
+                                                    <lvc:Separator Step="1" IsEnabled="False" />
+                                                </lvc:Axis.Separator>
+                                            </lvc:Axis>
+                                        </lvc:CartesianChart.AxisX>
+                                        <lvc:CartesianChart.Series>
+                                            <lvc:ColumnSeries Title="Stock Levels" Fill="#007bff" Values="20" />
+                                            <lvc:ColumnSeries Title="Stock Levels" Fill="#007bff" Values="30" />
+                                        </lvc:CartesianChart.Series>
+                                    </lvc:CartesianChart>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Card 2: Pie Chart -->
+                            <Border CornerRadius="15" Width="400" Height="360" Margin="10"
+                                    Background="#ffffff" Effect="{StaticResource ShadowEffect}" Grid.Row="0" Grid.Column="1">
+                                <StackPanel>
+                                    <TextBlock Text="Category Distribution" FontSize="16" FontWeight="Bold" Foreground="#333" Margin="10" />
+                                    <lvc:PieChart Name="CategoryPieChart" Margin="10" Height="296">
+                                        <lvc:PieChart.Series>
+                                            <lvc:PieSeries Title="Electronics" Values="5" Fill="#4CAF50" />
+                                            <lvc:PieSeries Title="Electronics" Values="3" Fill="Yellow" />
+                                            <lvc:PieSeries Title="Electronics" Values="6" Fill="MediumOrchid" />
+                                        </lvc:PieChart.Series>
+                                    </lvc:PieChart>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!-- Inventory Details Section -->
+                <Border Background="White" CornerRadius="8" Margin="10" Padding="20" Effect="{StaticResource ShadowEffect}">
+                    <StackPanel>
+                        <TextBlock Text="Inventory Details" FontSize="16" FontWeight="Bold" Foreground="#333" Margin="0,0,0,10" />
+                        <DataGrid Name="InventoryDataGrid" AutoGenerateColumns="False" BorderThickness="0" HeadersVisibility="Column" GridLinesVisibility="None">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Item Name" Binding="{Binding ItemName}" Width="*" />
+                                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="200" />
+                                <DataGridTextColumn Header="Stock" Binding="{Binding StockCount}" Width="100" />
+                                <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice, StringFormat=C}" Width="150" />
+                                <DataGridTextColumn Header="Total Value" Binding="{Binding TotalValue, StringFormat=C}" Width="150" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 </UserControl>
