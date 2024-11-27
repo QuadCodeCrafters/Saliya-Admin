@@ -2,7 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- Drop Shadow Effects -->
-    <DropShadowEffect x:Key="DefaultShadowEffect" ShadowDepth="0" BlurRadius="9" Color="#888" Opacity="0.3" />
+    <!-- Default shadow effect with shadow only at the bottom -->
+    <DropShadowEffect x:Key="DefaultShadowEffect" 
+                      ShadowDepth="4" 
+                      Direction="260" 
+                      BlurRadius="17" 
+                      Color="#888" 
+                      Opacity="0.4" />
+    
     <DropShadowEffect x:Key="HoverShadowEffect" ShadowDepth="1" BlurRadius="10" Color="#555" Opacity="0.4" />
 
     <!-- Hover Style for Border -->
@@ -28,9 +35,17 @@
                         <Storyboard>
                             <!-- Smooth Scaling Animation -->
                             <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
-                                             To="1.1" Duration="0:0:0.5" />
+                                             To="1.1" Duration="0:0:0.9" >
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                             <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY"
-                                             To="1.1" Duration="0:0:0.5" />
+                                             To="1.1" Duration="0:0:0.9">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.EnterActions>
@@ -39,9 +54,17 @@
                         <Storyboard>
                             <!-- Smooth Return to Default Scale -->
                             <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
-                                             To="1" Duration="0:0:0.5" />
+                                             To="1" Duration="0:0:0.8">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseInOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                             <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY"
-                                             To="1" Duration="0:0:0.5" />
+                                             To="1" Duration="0:0:0.8">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseInOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.ExitActions>
