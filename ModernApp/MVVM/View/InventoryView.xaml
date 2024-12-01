@@ -4,9 +4,160 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ModernApp.MVVM.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="LightPink">
+ Background="GhostWhite" Height="648">
     <Grid>
-        <TextBlock Text="Inventory Page" FontSize="30" Foreground="Black"/>
+        <TextBlock Text="Inventory Page" FontSize="30" FontWeight="SemiBold" Width="auto" Height="auto" Margin="15,15,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+            <Button Content="Inventory" Name="Inventory" HorizontalAlignment="Right" VerticalAlignment="Top" Width="100" Height="40"  Margin="690,10,0,0" RenderTransformOrigin="0.466,-0.902" Click="Inventory_Click"/>
+            <Button Content="Add" Name="Add" HorizontalAlignment="Right" VerticalAlignment="Top" Width="100" Height="40"  Margin="15,10,10,0" RenderTransformOrigin="0.466,-0.902" Click="Add_Click"/>
+        </StackPanel>
+
+
+
+        <Grid Margin="0,120,0,468">
+            <StackPanel VerticalAlignment="Center" Margin="0,0,264,0" Height="60">
+                <Border Background="#f0f0f0" CornerRadius="15" Padding="10" Width="514" Height="60">
+                    <Grid>
+
+
+                        <!-- Search TextBox -->
+                        <TextBox x:Name="txtItemID" Height="30" 
+                      Background="Transparent" 
+                      BorderThickness="0"
+                      VerticalAlignment="Center" 
+                      Margin="66,0,10,0"
+                      Foreground="Black"
+                      FontSize="20"
+                      />
+                        <!-- TextChanged="SearchBox_TextChanged"
+                             FontSize="14"/> -->
+
+                    </Grid>
+
+                </Border>
+
+                <!-- Search Box Container -->
+            </StackPanel>
+            <Image HorizontalAlignment="Left" Name="imgSearch" Height="44" Margin="165,8,0,8"  Width="48" Source="/images/png-clipart-bundle-icon-search-blue-search-button-thumbnail.png" RenderTransformOrigin="-0.138,-1.551"/>
+        </Grid>
+        <Grid Margin="0,185,0,0">
+
+
+            <TextBlock Text="Item Name :" Foreground="Black" FontSize="25" FontWeight="Medium" FontFamily="Montserrat" Margin="46,52,826,379" Height="32"/>
+            <TextBlock Text="Brand Type :" Foreground="Black" FontSize="25" FontWeight="Medium" FontFamily="Montserrat" Margin="47,100,822,331" Height="32"/>
+            <TextBlock Text="Model :" Foreground="Black" FontSize="25" FontWeight="Medium" FontFamily="Montserrat" Margin="46,152,826,279" Height="32"/>
+            <TextBlock Text="Special :" Foreground="Black" FontSize="25" FontWeight="Medium" FontFamily="Montserrat" Margin="47,202,824,229" Height="32"/>
+            <TextBlock Text="Supplier Name :" Foreground="Black" FontSize="25" FontWeight="Medium" FontFamily="Montserrat" Margin="46,252,819,179" Height="32"/>
+            <TextBlock Text="Address :" Foreground="Black" FontSize="25" FontWeight="Medium" FontFamily="Montserrat" Margin="47,302,822,129" Height="32"/>
+            <TextBlock Text="Email :" Foreground="Black" FontSize="25" FontWeight="Medium" FontFamily="Montserrat" Margin="46,352,820,79" Height="32"/>
+            <TextBlock Text="Phone Number :" Foreground="Black" FontSize="25" FontWeight="Medium" FontFamily="Montserrat" Margin="46,402,825,29" Height="32"/>
+
+            <TextBox 
+       Height="45"
+       x:Name="txtItemName" 
+       Margin="280,46,367,372"
+       FontSize="10" 
+       materialDesign:HintAssist.Hint="Enter Item Name" 
+       BorderThickness="1" 
+       BorderBrush="{DynamicResource MaterialDesignDivider}" 
+       Style="{StaticResource MaterialDesignOutlinedTextBox}"
+
+/>
+
+            <Border Background="DodgerBlue" CornerRadius="15" Padding="0" Margin="822,80,31,318"/>
+
+            <Border Background="black" CornerRadius="15" Padding="0" Margin="820,-92,33,395">
+                <Image Source="/images/suspension-assemblies.jpg" Name="imgItem" Margin="10,10,10,10"/>
+
+            </Border>
+            <TextBox  BorderThickness="0,0,0,0" Name="txtQTY" Background="Transparent" FontSize="45" FontWeight="Heavy" FontFamily="Montserrat" Foreground="White" Margin="820,85,35,0" TextWrapping="Wrap" TextAlignment="Center" Text="QTY" VerticalAlignment="Top" Height="76" RenderTransformOrigin="0.691,0.824"/>
+            <Button Content="Update" Name="btnUpdate" FontFamily="Montserrat" FontSize="20" Background="SpringGreen" FontWeight="Medium" HorizontalAlignment="Right" Width="143" Height="40"  Margin="0,354,43,0" RenderTransformOrigin="0.466,-0.902"  VerticalAlignment="Top"/>
+            <TextBox 
+                Height="45"
+                x:Name="txtType" 
+                Margin="280,96,367,322"
+                FontSize="10" 
+                materialDesign:HintAssist.Hint="Enter Item Type" 
+                BorderThickness="1" 
+                BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+
+/>
+            <TextBox 
+                Height="45"
+                x:Name="txtModel" 
+                Margin="280,146,367,272"
+                FontSize="10" 
+                materialDesign:HintAssist.Hint="Enter Item Model" 
+                BorderThickness="1" 
+                BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+
+/>
+            <TextBox 
+                Height="45"
+                x:Name="txtSpecial" 
+                Margin="280,196,367,222"
+                FontSize="10" 
+                materialDesign:HintAssist.Hint="Enter Item Special" 
+                BorderThickness="1" 
+                BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+
+/>
+            <TextBox 
+                Height="45"
+                x:Name="txtSupplierName" 
+                Margin="280,246,367,172"
+                FontSize="10" 
+                materialDesign:HintAssist.Hint="Enter Supplier Name" 
+                BorderThickness="1" 
+                BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+
+/>
+            <TextBox 
+                Height="45"
+                x:Name="txtAddress" 
+                Margin="280,296,367,122"
+                FontSize="10" 
+                materialDesign:HintAssist.Hint="Enter Supplier Address" 
+                BorderThickness="1" 
+                BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+
+/>
+            <TextBox 
+                Height="45"
+                x:Name="txtEmail" 
+                Margin="280,346,367,72"
+                FontSize="10" 
+                materialDesign:HintAssist.Hint="Enter Supplier E-Mail" 
+                BorderThickness="1" 
+                BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+
+/>
+            <TextBox 
+                Width="450"
+                Height="45"
+                x:Name="txtNumber" 
+                Margin="280,396,367,22"
+                FontSize="10" 
+                materialDesign:HintAssist.Hint="Enter Supplier Number" 
+                BorderThickness="1" 
+                BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+
+/>
+
+
+        </Grid>
+        <Image HorizontalAlignment="Left" Name="imgQR" Margin="684,124,0,472"  Width="48" Source="/images/images.png" RenderTransformOrigin="-0.138,-1.551"/>
+        <Border Background="DodgerBlue" Margin="2,57,0,590"></Border>
+        <Frame Name="fContainer"  NavigationUIVisibility="Hidden" Margin="0,60,0,0" />
     </Grid>
 </UserControl>
