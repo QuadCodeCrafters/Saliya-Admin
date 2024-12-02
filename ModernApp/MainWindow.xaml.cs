@@ -36,7 +36,8 @@ namespace ModernApp
 
         }
 
-      
+       
+
 
         private void closeApp(object sender, MouseButtonEventArgs e)
         {

@@ -12,9 +12,19 @@
     <UserControl.Resources>
         <DropShadowEffect x:Key="ShadowEffect" ShadowDepth="1" BlurRadius="9" Color="#888" Opacity="0.3" />
     </UserControl.Resources>
+    
+    
 
     <ScrollViewer>
+        
+        
+        
         <Grid Background="#F4F6F9" Margin="10">
+
+           
+
+
+
             <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
                 <!-- Header -->
                 <TextBlock Text="Inventory Dashboard" FontSize="24" FontWeight="Bold" Foreground="#333" Margin="30,20,0,40" HorizontalAlignment="Left" />
@@ -23,7 +33,7 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <!-- Total Items -->
                     <Border Style="{StaticResource HoverableBorderStyle}" 
-            Background="White" CornerRadius="12" Width="230" Height="120" Padding="20" Margin="30,10,0,20" >
+            Background="White" CornerRadius="12" Width="230" Height="120" Padding="20" Margin="30,10,0,20" MouseLeftButtonDown="Border_MouseLeftButtonDown"  >
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock Text="Total Items" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
                             <TextBlock Name="TotalItemsTextBlock" Text="500" 
@@ -32,7 +42,7 @@
                     </Border>
 
                     <!-- Out of Stock -->
-                    <Border Style="{StaticResource HoverableBorderStyle}" 
+                    <Border Style="{StaticResource HoverableBorderStyle}"  
             Background="White" CornerRadius="12" Width="230" Height="120" Padding="20" Margin="30,10,0,20">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock Text="Out of Stock" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
@@ -115,22 +125,80 @@
                     </Grid>
                 </Border>
 
-                <!-- Inventory Details Section -->
-                <Border Background="White" CornerRadius="8" Margin="10" Padding="20" Effect="{StaticResource ShadowEffect}">
-                    <StackPanel>
-                        <TextBlock Text="Inventory Details" FontSize="16" FontWeight="Bold" Foreground="#333" Margin="0,0,0,10" />
-                        <DataGrid Name="InventoryDataGrid" AutoGenerateColumns="False" BorderThickness="0" HeadersVisibility="Column" GridLinesVisibility="None">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Item Name" Binding="{Binding ItemName}" Width="*" />
-                                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="200" />
-                                <DataGridTextColumn Header="Stock" Binding="{Binding StockCount}" Width="100" />
-                                <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice, StringFormat=C}" Width="150" />
-                                <DataGridTextColumn Header="Total Value" Binding="{Binding TotalValue, StringFormat=C}" Width="150" />
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </StackPanel>
-                </Border>
+
+
+
+                <!-- DataGrid -->
+                <DataGrid Name="InventoryDataGrid" AutoGenerateColumns="False" Margin="10,100,10,10" 
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  Background="White" BorderBrush="Transparent" RowBackground="#F5F5F5"
+                  AlternatingRowBackground="#FFFFFF" Foreground="#333" FontSize="14" 
+                  CanUserAddRows="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Item Name" Binding="{Binding ItemName}" Width="*"/>
+                        <DataGridTextColumn Header="SKU" Binding="{Binding SKU}" Width="100"/>
+                        <DataGridTextColumn Header="Stock Level" Binding="{Binding StockLevel}" Width="120"/>
+                        <DataGridTextColumn Header="Supplier" Binding="{Binding Supplier}" Width="150"/>
+                        <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="150"/>
+                        <DataGridTextColumn Header="Reorder Level" Binding="{Binding ReorderLevel}" Width="120"/>
+                        <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="80"/>
+                        <DataGridTemplateColumn Header="Actions" Width="150">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <!-- Edit Button -->
+                                        <Button Content="Edit" Width="50" Height="30" Margin="5,0" 
+                                        Background="#FFD700" Foreground="Black" FontSize="12" 
+                                        FontWeight="Bold" BorderBrush="Transparent">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="{TemplateBinding Background}" 
+                                                                CornerRadius="5" Padding="5">
+                                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                              VerticalAlignment="Center"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+
+                                        <!-- Delete Button -->
+                                        <Button Content="Delete" Width="50" Height="30" Margin="5,0" 
+                                        Background="#FF6347" Foreground="White" FontSize="12" 
+                                        FontWeight="Bold" BorderBrush="Transparent">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="{TemplateBinding Background}" 
+                                                                CornerRadius="5" Padding="5">
+                                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                              VerticalAlignment="Center"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </StackPanel>
+
+            <!-- Border with a Frame for loading UserControls -->
+            <Border Grid.Row="2" Grid.Column="2" Margin="8" CornerRadius="10" BorderThickness="1">
+                <Frame Name="fInventoryContainer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            </Border>
         </Grid>
     </ScrollViewer>
 </UserControl>

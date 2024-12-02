@@ -20,51 +20,52 @@
                 <TextBlock Text="Sales Dashboard" FontSize="24" FontWeight="Bold" Foreground="#333" Margin="30,20,0,40" HorizontalAlignment="Left" />
 
                 <!-- Sales Metrics Section -->
-                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" Margin="0,0,0,20">
-                    <Border Background="White" CornerRadius="8" Width="150" Height="100" Margin="0,0,70,0" Padding="10"
-                            VerticalAlignment="Center" HorizontalAlignment="Center" Effect="{StaticResource ShadowEffect}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+                    <Border Style="{StaticResource HoverableBorderStyle}" 
+            Background="White" CornerRadius="12" Width="190" Height="120" Padding="20" Margin="30,10,0,20">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock Text="Total Sales" FontSize="14" Foreground="#888" HorizontalAlignment="Center" />
                             <TextBlock Name="TotalSalesTextBlock" Text="{Binding TotalSalesDisplay, Mode=OneWay}"
-                                       FontSize="24" FontWeight="Bold" Foreground="#007bff" 
-                                       HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0" />
+                       FontSize="32" FontWeight="Bold" Foreground="#007bff" 
+                       HorizontalAlignment="Center" VerticalAlignment="Top" />
                         </StackPanel>
                     </Border>
 
-                    <Border Background="White" CornerRadius="8" Width="150" Height="100" Margin="0,0,70,0" Padding="10" 
-                            Effect="{StaticResource ShadowEffect}">
+                    <Border Style="{StaticResource HoverableBorderStyle}" 
+            Background="White" CornerRadius="12" Width="190" Height="120" Padding="20" Margin="30,10,0,20">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock Text="New Customers" FontSize="14" Foreground="#888" HorizontalAlignment="Center" />
                             <TextBlock Text="{Binding TotalCustomerDisplay, Mode=OneWay}" 
-                                       FontSize="24" FontWeight="Bold" Foreground="#007bff" HorizontalAlignment="Center" />
+                       FontSize="32" FontWeight="Bold" Foreground="#007bff" HorizontalAlignment="Center" />
                         </StackPanel>
                     </Border>
 
-                    <Border Background="White" CornerRadius="8" Width="150" Height="100" Margin="0,0,70,0" Padding="10" 
-                            Effect="{StaticResource ShadowEffect}">
+                    <Border Style="{StaticResource HoverableBorderStyle}" 
+            Background="White" CornerRadius="12" Width="190" Height="120" Padding="20" Margin="30,10,0,20">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock Text="Sales Today" FontSize="14" Foreground="#888" HorizontalAlignment="Center" />
                             <TextBlock Text="{Binding TodaySalesDisplay, Mode=OneWay}" 
-                                       FontSize="24" FontWeight="Bold" Foreground="#007bff" HorizontalAlignment="Center" />
+                       FontSize="32" FontWeight="Bold" Foreground="#007bff" HorizontalAlignment="Center" />
                         </StackPanel>
                     </Border>
 
-                    <Border Background="White" CornerRadius="8" Width="150" Height="100" Margin="0,0,70,0" Padding="10" 
-                            Effect="{StaticResource ShadowEffect}">
+                    <Border Style="{StaticResource HoverableBorderStyle}" 
+            Background="White" CornerRadius="12" Width="190" Height="120" Padding="20" Margin="30,10,0,20">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock Text="Profit" FontSize="14" Foreground="#888" HorizontalAlignment="Center" />
-                            <TextBlock Text="+$20000" FontSize="24" FontWeight="Bold" Foreground="LightGreen" HorizontalAlignment="Center" />
+                            <TextBlock Text="+$20000" FontSize="32" FontWeight="Bold" Foreground="LightGreen" HorizontalAlignment="Center" />
                         </StackPanel>
                     </Border>
 
-                    <Border Background="White" CornerRadius="8" Width="150" Height="100" Margin="0,0,70,0" Padding="10" 
-         Effect="{StaticResource ShadowEffect}">
+                    <Border Style="{StaticResource HoverableBorderStyle}" 
+            Background="White" CornerRadius="12" Width="190" Height="120" Padding="20" Margin="30,10,0,20">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock Text="Top product" FontSize="14" Foreground="#888" HorizontalAlignment="Center" />
-                            <TextBlock Name="txtTopProduct"  FontSize="16" FontWeight="Bold" Foreground="#007bff" HorizontalAlignment="Center" />
+                            <TextBlock Text="Top Product" FontSize="14" Foreground="#888" HorizontalAlignment="Center" />
+                            <TextBlock Name="txtTopProduct" FontSize="16" FontWeight="Bold" Foreground="#007bff" HorizontalAlignment="Center" />
                         </StackPanel>
                     </Border>
                 </StackPanel>
+
 
                 <!-- Sales Performance Chart Section -->
                 <Border Background="White" CornerRadius="8" Margin="10" Padding="20" Height="892" Effect="{StaticResource ShadowEffect}">
