@@ -1,12 +1,123 @@
 ﻿<UserControl x:Class="ModernApp.MVVM.View.EmployeeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ModernApp.MVVM.View"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="Aqua">
-    <Grid>
-        <TextBlock Text="Employee(HR) Page" FontSize="30" Foreground="Black"/>
-    </Grid>
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             Background="#F8F8F8"  >
+    <ScrollViewer>
+        <Grid Margin="0,20,0,10">
+            <!-- Top Statistics Section -->
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                <TextBlock Text="Employee Dashboard" FontSize="24" FontWeight="Bold" Foreground="#007AFF" Margin="0,0,0,20" />
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,30">
+                    <!-- Total Employees -->
+                    <Border Background="#FFFFFF" CornerRadius="15" Width="230" Height="120" Padding="20" Margin="30,10,0,20"
+                      BorderBrush="#E0E0E0" BorderThickness="1" Style="{StaticResource HoverableBorderStyle}" >
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="15" ShadowDepth="5" Opacity="0.3" />
+                        </Border.Effect>
+                        <StackPanel>
+                            <TextBlock Text="Total Employees" FontSize="16" FontWeight="Bold" Foreground="#555" />
+                            <TextBlock Text="50" FontSize="26" FontWeight="Bold" Foreground="#007AFF" Margin="0,10,0,0" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- On Leave -->
+                    <Border Background="#FFFFFF" CornerRadius="15"   Width="230" Height="120" Padding="20" Margin="30,10,0,20"
+                      BorderBrush="#E0E0E0" BorderThickness="1" Style="{StaticResource HoverableBorderStyle}">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="15" ShadowDepth="5" Opacity="0.3" />
+                        </Border.Effect>
+                        <StackPanel>
+                            <TextBlock Text="On Leave" FontSize="16" FontWeight="Bold" Foreground="#555" />
+                            <TextBlock Text="5" FontSize="26" FontWeight="Bold" Foreground="#FF9800" Margin="0,10,0,0" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- New Requests -->
+                    <Border Background="#FFFFFF" CornerRadius="15"  Width="230" Height="120" Padding="20" Margin="30,10,0,20"
+                      BorderBrush="#E0E0E0" BorderThickness="1" Style="{StaticResource HoverableBorderStyle}">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="15" ShadowDepth="5" Opacity="0.3" />
+                        </Border.Effect>
+                        <StackPanel>
+                            <TextBlock Text="New Requests" FontSize="16" FontWeight="Bold" Foreground="#555" />
+                            <TextBlock Text="3" FontSize="26" FontWeight="Bold" Foreground="#4CAF50" Margin="0,10,0,0" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Attention Needed -->
+                    <Border Background="#FFFFFF" CornerRadius="15"  Width="230" Height="120" Padding="20" Margin="30,10,0,20"
+                      BorderBrush="#E0E0E0" BorderThickness="1" Style="{StaticResource HoverableBorderStyle}">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="15" ShadowDepth="5" Opacity="0.3" />
+                        </Border.Effect>
+                        <StackPanel>
+                            <TextBlock Text="Attention Needed" FontSize="16" FontWeight="Bold" Foreground="#555" />
+                            <TextBlock Text="2" FontSize="26" FontWeight="Bold" Foreground="#F44336" Margin="0,10,0,0" />
+                        </StackPanel >
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Main Content Area -->
+            <Grid Margin="0,200,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Salary Overview Graph -->
+                <Border Grid.Column="0" Background="#FFFFFF" CornerRadius="15" BorderBrush="#E0E0E0" BorderThickness="1"
+                  Margin="10,10,10,161" Padding="20">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="15" ShadowDepth="5" Opacity="0.3" />
+                    </Border.Effect>
+                    <StackPanel>
+                        <TextBlock Text="Salary Overview" FontSize="18" FontWeight="Bold" Margin="0,0,0,20" />
+                        <!-- Placeholder for Graph -->
+                        <TextBlock Text="Graph Placeholder" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"
+                             Foreground="#A0A0A0" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Employees Needing Attention -->
+                <Border Grid.Column="1" Background="#FFFFFF" CornerRadius="15" BorderBrush="#E0E0E0" BorderThickness="1"
+                  Margin="10,10,10,161" Padding="20">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="15" ShadowDepth="5" Opacity="0.3" />
+                    </Border.Effect>
+                    <StackPanel>
+                        <TextBlock Text="Attention Needed Employees" FontSize="18" FontWeight="Bold" Margin="0,0,0,20" />
+                        <ListView>
+                            <ListViewItem Content="Employee #1: Low Attendance" />
+                            <ListViewItem Content="Employee #2: Missing Documents" />
+                            <ListViewItem Content="Employee #3: Salary Adjustment Pending" />
+                        </ListView>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Employee List Section -->
+            <Border Background="#FFFFFF" CornerRadius="15" BorderBrush="#E0E0E0" BorderThickness="1"
+              Margin="10,489,10,0" Padding="20" VerticalAlignment="Top">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="15" ShadowDepth="5" Opacity="0.3" />
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="Employee List" FontSize="18" FontWeight="Bold" Margin="0,0,0,20" />
+                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                            <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="*" />
+                            <DataGridTextColumn Header="Salary" Binding="{Binding Salary}" Width="*" />
+                            <DataGridTextColumn Header="Attendance" Binding="{Binding Attendance}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
 </UserControl>
