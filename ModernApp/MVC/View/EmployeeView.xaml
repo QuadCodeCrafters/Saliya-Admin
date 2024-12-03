@@ -12,52 +12,43 @@
                 <TextBlock Text="Employee Dashboard" FontSize="24" FontWeight="Bold" Foreground="#007AFF" Margin="0,0,0,20" />
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,30">
-                    <!-- Total Employees -->
-                    <Border Background="#FFFFFF" CornerRadius="15" Width="230" Height="120" Padding="20" Margin="30,10,0,20"
-                      BorderBrush="#E0E0E0" BorderThickness="1" Style="{StaticResource HoverableBorderStyle}" >
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="15" ShadowDepth="5" Opacity="0.3" />
-                        </Border.Effect>
-                        <StackPanel>
-                            <TextBlock Text="Total Employees" FontSize="16" FontWeight="Bold" Foreground="#555" />
-                            <TextBlock Text="50" FontSize="26" FontWeight="Bold" Foreground="#007AFF" Margin="0,10,0,0" />
+                    <Border Style="{StaticResource HoverableBorderStyle}" 
+                        Background="White" CornerRadius="12" Width="230" Height="120" Padding="20" Margin="30,10,0,20" MouseLeftButtonDown="Border_MouseLeftButtonDown"  >
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="Total Employees" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
+                            <TextBlock Name="TotalEmployeesBlock" Text="500" 
+                                FontSize="32" FontWeight="Bold" Foreground="#333333" HorizontalAlignment="Center" />
                         </StackPanel>
                     </Border>
 
                     <!-- On Leave -->
-                    <Border Background="#FFFFFF" CornerRadius="15"   Width="230" Height="120" Padding="20" Margin="30,10,0,20"
-                      BorderBrush="#E0E0E0" BorderThickness="1" Style="{StaticResource HoverableBorderStyle}">
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="15" ShadowDepth="5" Opacity="0.3" />
-                        </Border.Effect>
-                        <StackPanel>
-                            <TextBlock Text="On Leave" FontSize="16" FontWeight="Bold" Foreground="#555" />
-                            <TextBlock Text="5" FontSize="26" FontWeight="Bold" Foreground="#FF9800" Margin="0,10,0,0" />
+                    <Border Style="{StaticResource HoverableBorderStyle}" 
+                        Background="White" CornerRadius="12" Width="230" Height="120" Padding="20" Margin="30,10,0,20" MouseLeftButtonDown="Border_MouseLeftButtonDown"  >
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="On Leave" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
+                            <TextBlock Name="TotalOnleaveBlock" Text="500" 
+                            FontSize="32" FontWeight="Bold" Foreground="#333333" HorizontalAlignment="Center" />
                         </StackPanel>
                     </Border>
 
                     <!-- New Requests -->
-                    <Border Background="#FFFFFF" CornerRadius="15"  Width="230" Height="120" Padding="20" Margin="30,10,0,20"
-                      BorderBrush="#E0E0E0" BorderThickness="1" Style="{StaticResource HoverableBorderStyle}">
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="15" ShadowDepth="5" Opacity="0.3" />
-                        </Border.Effect>
-                        <StackPanel>
-                            <TextBlock Text="New Requests" FontSize="16" FontWeight="Bold" Foreground="#555" />
-                            <TextBlock Text="3" FontSize="26" FontWeight="Bold" Foreground="#4CAF50" Margin="0,10,0,0" />
+                    <Border Style="{StaticResource HoverableBorderStyle}" 
+                           Background="White" CornerRadius="12" Width="230" Height="120" Padding="20" Margin="30,10,0,20" MouseLeftButtonDown="Border_MouseLeftButtonDown"  >
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="New Employees" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
+                            <TextBlock Name="totalNewEmployeesBlock" Text="+500" 
+                            FontSize="32" FontWeight="Bold" Foreground="LightGreen" HorizontalAlignment="Center" />
                         </StackPanel>
                     </Border>
 
                     <!-- Attention Needed -->
-                    <Border Background="#FFFFFF" CornerRadius="15"  Width="230" Height="120" Padding="20" Margin="30,10,0,20"
-                      BorderBrush="#E0E0E0" BorderThickness="1" Style="{StaticResource HoverableBorderStyle}">
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="15" ShadowDepth="5" Opacity="0.3" />
-                        </Border.Effect>
-                        <StackPanel>
-                            <TextBlock Text="Attention Needed" FontSize="16" FontWeight="Bold" Foreground="#555" />
-                            <TextBlock Text="2" FontSize="26" FontWeight="Bold" Foreground="#F44336" Margin="0,10,0,0" />
-                        </StackPanel >
+                    <Border Style="{StaticResource HoverableBorderStyle}" 
+                        Background="White" CornerRadius="12" Width="230" Height="120" Padding="20" Margin="30,10,0,20" MouseLeftButtonDown="Border_MouseLeftButtonDown"  >
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="Attention needed" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
+                            <TextBlock Name="TotalAttentionBlock" Text="500" 
+                             FontSize="32" FontWeight="Bold" Foreground="#333333" HorizontalAlignment="Center" />
+                        </StackPanel>
                     </Border>
                 </StackPanel>
             </StackPanel>
