@@ -2,130 +2,277 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-             Background="#F8F8F8"  >
-    <ScrollViewer>
-        <Grid Margin="0,20,0,10">
-            <!-- Top Statistics Section -->
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                <TextBlock Text="Employee Dashboard" FontSize="24" FontWeight="Bold" Foreground="#007AFF" Margin="0,0,0,20" />
-
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,30">
-                    <Border Style="{StaticResource HoverableBorderStyle}" 
-                        Background="White" CornerRadius="12" Width="230" Height="120" Padding="20" Margin="30,10,0,20" MouseLeftButtonDown="Border_MouseLeftButtonDown"  >
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock Text="Total Employees" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
-                            <TextBlock Name="TotalEmployeesBlock" Text="500" 
-                                FontSize="32" FontWeight="Bold" Foreground="#333333" HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-
-                    <!-- On Leave -->
-                    <Border Style="{StaticResource HoverableBorderStyle}" 
-                        Background="White" CornerRadius="12" Width="230" Height="120" Padding="20" Margin="30,10,0,20" MouseLeftButtonDown="Border_MouseLeftButtonDown"  >
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock Text="On Leave" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
-                            <TextBlock Name="TotalOnleaveBlock" Text="500" 
-                            FontSize="32" FontWeight="Bold" Foreground="#333333" HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-
-                    <Border x:Name="newEmployeeBorder" Style="{StaticResource HoverableBorderStyle}" 
-        Background="White" CornerRadius="12" Width="230" Height="120" Padding="20" Margin="30,10,0,20" MouseLeftButtonDown="Border_MouseLeftButtonDown"  >
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock Text="New Employees" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
-                            <TextBlock Name="totalNewEmployeesBlock" Text="+500" 
-                   FontSize="32" FontWeight="Bold" Foreground="LightGreen" HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
+             Background="#F8F8F8">
+    <Grid>
+        <ScrollViewer>
 
 
-                    <!-- Attention Needed -->
-                    <Border Style="{StaticResource HoverableBorderStyle}" 
-                        Background="White" CornerRadius="12" Width="230" Height="120" Padding="20" Margin="30,10,0,20" MouseLeftButtonDown="Border_MouseLeftButtonDown"  >
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock Text="Attention needed" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
-                            <TextBlock Name="TotalAttentionBlock" Text="500" 
-                             FontSize="32" FontWeight="Bold" Foreground="#333333" HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
-            </StackPanel>
+            <materialDesign:DialogHost x:Name="PermissionDialogHost" BorderBrush="{DynamicResource MaterialDesignDivider}">
+                <materialDesign:DialogHost.DialogContent>
+                    <Grid Width="700" Height="600" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
-            <!-- Main Content Area -->
-            <Grid Margin="0,200,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="1*" />
-                </Grid.ColumnDefinitions>
+                        <!-- Title -->
+                        <TextBlock Text="Employee Registration" FontSize="20" FontWeight="Bold" 
+                   Foreground="{DynamicResource MaterialDesignBody}" HorizontalAlignment="Center" Margin="0,20,0,20" />
 
-                <!-- Salary Overview Graph -->
-                <Border Grid.Column="0" Background="#FFFFFF" CornerRadius="15" BorderBrush="#E0E0E0" BorderThickness="1"
-        Margin="10,10,10,161" Padding="20">
-                    <Border.Effect>
-                        <DropShadowEffect BlurRadius="15" ShadowDepth="5" Opacity="0.3" />
-                    </Border.Effect>
-                    <StackPanel>
-                        <TextBlock Text="Salary Overview" FontSize="18" FontWeight="Bold" Margin="0,0,0,20" />
+                        <!-- Form Content -->
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="1">
+                            <StackPanel Margin="20">
+                                <!-- Name -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Name" />
+                                </StackPanel>
 
-                        <!-- Donut Chart for Salary Distribution -->
-                        <lvc:PieChart Name="CategoryPieChart" Margin="10" Height="296" InnerRadius="50">
-                            <lvc:PieChart.Series>
-                                <lvc:PieSeries Title="Salaries" Values="5" Fill="#4CAF50"  />
-                                <lvc:PieSeries Title="Income" Values="3" Fill="Yellow"  />
-                            </lvc:PieChart.Series>
-                        </lvc:PieChart>
+                                <!-- Email -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Email" />
+                                </StackPanel>
 
-                        <!-- Color Identification -->
-                        <StackPanel Orientation="Vertical" Margin="10,10,0,0">
-                            <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20" Fill="#4CAF50" Margin="0,0,10,0" />
-                                <TextBlock Text="Salaries" FontSize="14" VerticalAlignment="Center" />
+                                <!-- Phone Number -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Phone Number" />
+                                </StackPanel>
+
+                                <!-- Date of Birth -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <DatePicker Width="500" Height="48" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Date of Birth" />
+                                </StackPanel>
+
+                                <!-- Address -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Address" />
+                                </StackPanel>
+
+                                <!-- Position -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <ComboBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Position">
+                                        <ComboBoxItem Content="Manager" />
+                                        <ComboBoxItem Content="Developer" />
+                                        <ComboBoxItem Content="Designer" />
+                                        <ComboBoxItem Content="Sales" />
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <!-- Department -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <ComboBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Department">
+                                        <ComboBoxItem Content="HR" />
+                                        <ComboBoxItem Content="IT" />
+                                        <ComboBoxItem Content="Marketing" />
+                                        <ComboBoxItem Content="Finance" />
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <!-- Employee ID -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Employee ID" />
+                                </StackPanel>
+
+                                <!-- Joining Date -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <DatePicker Width="500" Height="48" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Joining Date" />
+                                </StackPanel>
+
+                                <!-- Salary -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Salary" />
+                                </StackPanel>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5">
-                                <Rectangle Width="20" Height="20" Fill="Yellow" Margin="0,0,10,0" />
-                                <TextBlock Text="Income" FontSize="14" VerticalAlignment="Center" />
-                            </StackPanel>
+                        </ScrollViewer>
+
+                        <!-- Buttons -->
+                        <!-- Buttons -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20" Grid.Row="2">
+                            <Button Content="Submit"
+            Style="{DynamicResource MaterialDesignRaisedButton}"
+            Background="#4CAF50" 
+            Foreground="White" 
+            Margin="4" />
+                            <Button Content="Cancel"
+            Style="{DynamicResource MaterialDesignRaisedButton}"
+            Background="Red"
+            Foreground="White" 
+            Margin="4" />
+                        </StackPanel>
+
+                    </Grid>
+                </materialDesign:DialogHost.DialogContent>
+
+
+
+
+
+
+                <Grid Margin="20">
+                    <!-- Define Row and Column Structure -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <!-- Header -->
+                        <RowDefinition Height="Auto" MinHeight="150" />
+                        <!-- Top Stats -->
+                        <RowDefinition Height="Auto" MinHeight="389.47" />
+                        <!-- Main Content -->
+                        <RowDefinition />
+                        <!-- Employee List -->
+                    </Grid.RowDefinitions>
+
+                    <!-- Header Section -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Text="Employee Dashboard" 
+                   FontSize="24" 
+                   FontWeight="Bold" 
+                   Foreground="#007AFF" 
+                   VerticalAlignment="Center"  />
+                        <StackPanel Orientation="Horizontal" Margin="476,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right" Width="398">
+                            <Button Content="Attendance" 
+                Width="110" Height="40" 
+                Style="{StaticResource MaterialDesignRaisedButton}" 
+                Background="#007AFF" 
+                Foreground="White" 
+                Margin="10" Click="Button_Click_2" />
+
+                            <Button Content="Employee" Name="btnEmployeeDetails"
+                Width="110" Height="40" 
+                Style="{StaticResource MaterialDesignRaisedButton}" 
+                Background="#4CAF50" 
+                Foreground="White" 
+                Margin="10" Click="Button_Click_1" />
+
+                            <Button Content="Add" 
+                Width="110" Height="40" 
+                Style="{StaticResource MaterialDesignRaisedButton}" 
+                Background="#FF3B30" 
+                Foreground="White" 
+                Margin="10" Click="Button_Click" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" CommandTarget="{Binding ElementName=PermissionDialogHost}" />
+
                         </StackPanel>
                     </StackPanel>
-                </Border>
 
-                <!-- Employees Needing Attention -->
-                <Border Grid.Column="1" Background="#FFFFFF" CornerRadius="15" BorderBrush="#E0E0E0" BorderThickness="1"
-                  Margin="10,10,10,161" Padding="20">
-                    <Border.Effect>
-                        <DropShadowEffect BlurRadius="15" ShadowDepth="5" Opacity="0.3" />
-                    </Border.Effect>
-                    <StackPanel>
-                        <TextBlock Text="Attention Needed Employees" FontSize="18" FontWeight="Bold" Margin="0,0,0,20" />
-                        <ListView>
-                            <ListViewItem Content="Employee #1: Low Attendance" />
-                            <ListViewItem Content="Employee #2: Missing Documents" />
-                            <ListViewItem Content="Employee #3: Salary Adjustment Pending" />
-                        </ListView>
-                    </StackPanel>
-                </Border>
-            </Grid>
+                    <!-- Top Statistics Section -->
+                    <Grid Grid.Row="1" Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-            <!-- Employee List Section -->
-            <Border Background="#FFFFFF" CornerRadius="15" BorderBrush="#E0E0E0" BorderThickness="1"
-              Margin="10,709,10,0" Padding="20" VerticalAlignment="Top">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="15" ShadowDepth="5" Opacity="0.3" />
-                </Border.Effect>
-                <StackPanel>
-                    <TextBlock Text="Employee List" FontSize="18" FontWeight="Bold" Margin="0,0,0,20" />
-                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
-                            <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="*" />
-                            <DataGridTextColumn Header="Salary" Binding="{Binding Salary}" Width="*" />
-                            <DataGridTextColumn Header="Attendance" Binding="{Binding Attendance}" Width="*" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-            </Border>
-        </Grid>
-    </ScrollViewer>
+                        <Border Style="{StaticResource HoverableBorderStyle}" 
+                Background="White" CornerRadius="12" Padding="20" 
+                Margin="10" Grid.Column="0">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="Total Employees" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
+                                <TextBlock Name="TotalEmployeesBlock" Text="500" 
+                           FontSize="32" FontWeight="Bold" Foreground="#333333" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource HoverableBorderStyle}" 
+                Background="White" CornerRadius="12" Padding="20" 
+                Margin="10" Grid.Column="1">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="On Leave" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
+                                <TextBlock Name="TotalOnLeaveBlock" Text="50" 
+                           FontSize="32" FontWeight="Bold" Foreground="#333333" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource HoverableBorderStyle}" 
+                Background="White" CornerRadius="12" Padding="20" 
+                Margin="10" Grid.Column="2">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="New Employees" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
+                                <TextBlock Name="TotalNewEmployeesBlock" Text="+50" 
+                           FontSize="32" FontWeight="Bold" Foreground="LightGreen" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource HoverableBorderStyle}" 
+                Background="White" CornerRadius="12" Padding="20" 
+                Margin="10" Grid.Column="3">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="Attention Needed" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
+                                <TextBlock Name="TotalAttentionBlock" Text="10" 
+                           FontSize="32" FontWeight="Bold" Foreground="#333333" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <!-- Main Content Section -->
+                    <Grid Grid.Row="1" Margin="0,131,0,142" Grid.RowSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="430*" />
+                            <ColumnDefinition Width="307*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Salary Overview -->
+                        <Border Grid.Column="0"  Style="{StaticResource ShadowEffectBoxes}" Background="White" CornerRadius="12" Padding="20" Margin="10,10,30,10">
+                            <StackPanel>
+                                <TextBlock Text="Salary Overview" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" />
+                                <lvc:PieChart Name="CategoryPieChart" Height="285" InnerRadius="50" Width="326">
+                                    <lvc:PieChart.Series>
+                                        <lvc:PieSeries Title="Salaries" Values="5" Fill="#4CAF50" />
+                                        <lvc:PieSeries Title="Income" Values="3" Fill="Yellow" />
+                                    </lvc:PieChart.Series>
+                                </lvc:PieChart>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Attendance Overview -->
+                        <Border Grid.Column="1"  Style="{StaticResource ShadowEffectBoxes}" Background="White" CornerRadius="12" Padding="20" Margin="0,10,10,10">
+                            <StackPanel>
+                                <TextBlock Text="Attendance Overview" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" />
+                                <lvc:CartesianChart Height="300">
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis Title="Days" Labels="{Binding Days}" />
+                                    </lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis Title="Attendance" LabelFormatter="{Binding YFormatter}" />
+                                    </lvc:CartesianChart.AxisY>
+                                    <lvc:CartesianChart.Series>
+                                        <lvc:ColumnSeries Title="Attendance" Values="{Binding AttendanceValues[0].Values}" />
+                                    </lvc:CartesianChart.Series>
+                                </lvc:CartesianChart>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <!-- Employee List Section -->
+                    <Border Grid.Row="3"  Style="{StaticResource ShadowEffectBoxes}" Background="White" CornerRadius="12" Padding="20" Margin="10,10,10,10">
+                        <StackPanel>
+                            <TextBlock Text="Employee List" FontSize="18" FontWeight="Bold" Margin="0,0,0,20" />
+                            <DataGrid AutoGenerateColumns="False" IsReadOnly="True" 
+                      Style="{StaticResource MaterialDesignDataGrid}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                                    <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="*" />
+                                    <DataGridTextColumn Header="Salary" Binding="{Binding Salary}" Width="*" />
+                                    <DataGridTextColumn Header="Attendance" Binding="{Binding Attendance}" Width="*" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </Border>
+                    <!-- Border with a Frame for loading UserControls -->
+                    <Border  Margin="0,0,0,-18" CornerRadius="10" BorderThickness="1" Grid.RowSpan="4">
+                        <Frame Name="fEmployeeDetailsContainer" Margin="0,0,0,-1"/>
+                    </Border>
+
+
+                </Grid>
+
+
+            </materialDesign:DialogHost>
+
+
+        </ScrollViewer>
+    </Grid>
 </UserControl>

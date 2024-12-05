@@ -14,6 +14,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ModernApp;
+using Saliya_auto_care_Cashier.Notifications;
+using ModernApp.MVC.View.InventorySubviews;
+using ModernApp.MVC.View.EmployeeSubviews;
 
 
 namespace ModernApp.MVVM.View
@@ -26,8 +30,9 @@ namespace ModernApp.MVVM.View
         public EmployeeView()
         {
             InitializeComponent();
-            DataContext = this;
-           
+      
+            DataContext = new EmployeeController();
+
         }
 
 
@@ -41,16 +46,16 @@ namespace ModernApp.MVVM.View
         private void UpdateEmployeeCount(int newCount)
         {
             // Determine if the value is increasing or decreasing
-            var isIncreasing = newCount > currentNewEmployees;
+            //var isIncreasing = newCount > currentNewEmployees;
 
-            // Update the TextBlock's value with the correct sign
-            totalNewEmployeesBlock.Text = (isIncreasing ? "+" : "-") + newCount;
+            //// Update the TextBlock's value with the correct sign
+            //totalNewEmployeesBlock.Text = (isIncreasing ? "+" : "-") + newCount;
 
-            // Change color based on the change
-            totalNewEmployeesBlock.Foreground = new SolidColorBrush(isIncreasing ? Colors.LightGreen : Colors.Red);
+            //// Change color based on the change
+            //totalNewEmployeesBlock.Foreground = new SolidColorBrush(isIncreasing ? Colors.LightGreen : Colors.Red);
 
-            // Update the current value
-            currentNewEmployees = newCount;
+            //// Update the current value
+            //currentNewEmployees = newCount;
         }
 
 
@@ -62,6 +67,37 @@ namespace ModernApp.MVVM.View
             UpdateEmployeeCount(newCount);
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Notificationbox.ShowSuccess();
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Notificationbox.ShowError();
+            try
+            {
+                // Ensure fInventoryContainer is a Frame control
+                if (fEmployeeDetailsContainer != null)
+                {
+                    // Navigate to the InventoryDetailedView UserControl
+                    fEmployeeDetailsContainer.Navigate(new EmployeeDetails());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            Notificationbox.ShowInfo();
+        }
+
         
+
+
     }
 }
