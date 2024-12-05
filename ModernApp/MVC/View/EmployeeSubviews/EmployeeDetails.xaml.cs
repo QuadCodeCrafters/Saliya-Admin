@@ -1,4 +1,5 @@
-﻿using ModernApp.MVC.View.InventorySubviews;
+﻿using ModernApp.MVC.Controller;
+using ModernApp.MVC.View.InventorySubviews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,30 +22,27 @@ namespace ModernApp.MVC.View.EmployeeSubviews
     /// </summary>
     public partial class EmployeeDetails : UserControl
     {
-
+        private readonly EmployeeController _employeeController;
         private List<Employee> _employees;
         public EmployeeDetails()
         {
             InitializeComponent();
+            _employeeController = new EmployeeController();
             LoadEmployeeData();
+           
+           
         }
         private void LoadEmployeeData()
         {
-            _employees = new List<Employee>
-            {
-                new Employee { Id = 1, Name = "John Doe", Department = "HR", Position = "Manager", Status = "Active" },
-                new Employee { Id = 2, Name = "Jane Smith", Department = "IT", Position = "Developer", Status = "Active" },
-                new Employee { Id = 3, Name = "Tom Brown", Department = "Finance", Position = "Analyst", Status = "On Leave", Mail = "virawhuafhddjfsdfksdjf" }
-            };
-
-            EmployeeDataGrid.ItemsSource = _employees;
+            _employeeController.BindEmployeesToDataGrid(EmployeeDataGrid);
         }
+
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            string searchQuery = SearchBox.Text.ToLower();
-            var filteredEmployees = _employees.Where(emp => emp.Name.ToLower().Contains(searchQuery)).ToList();
-            EmployeeDataGrid.ItemsSource = filteredEmployees;
+            //string searchQuery = SearchBox.Text.ToLower();
+            //var filteredEmployees = _employees.Where(emp => emp.Name.ToLower().Contains(searchQuery)).ToList();
+            //EmployeeDataGrid.ItemsSource = filteredEmployees;
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
@@ -92,11 +90,17 @@ namespace ModernApp.MVC.View.EmployeeSubviews
 
     public class Employee
     {
-        public int Id { get; set; }
         public string Name { get; set; }
-        public string Department { get; set; }
         public string Position { get; set; }
+        public decimal Salary { get; set; }
+   
+        public DateTime DOB { get; set; }
         public string Status { get; set; }
         public string Mail { get; set; }
+        public string Address { get; set; }
+        public string Phone { get; set; }
+        public int EmployeeID { get; set; }
+        public DateTime HireDate { get; set; }
+        public string NationalIdentificationNumber { get; set; }
     }
 }

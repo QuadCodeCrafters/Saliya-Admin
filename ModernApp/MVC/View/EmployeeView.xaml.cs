@@ -18,6 +18,7 @@ using ModernApp;
 using Saliya_auto_care_Cashier.Notifications;
 using ModernApp.MVC.View.InventorySubviews;
 using ModernApp.MVC.View.EmployeeSubviews;
+using ModernApp.MVC;
 
 
 namespace ModernApp.MVVM.View
@@ -31,7 +32,7 @@ namespace ModernApp.MVVM.View
         {
             InitializeComponent();
       
-            DataContext = new EmployeeController();
+          
 
         }
 
