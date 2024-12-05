@@ -70,6 +70,21 @@ namespace ModernApp.MVVM.View
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Notificationbox.ShowSuccess();
+            try
+            {
+                // Ensure fInventoryContainer is a Frame control
+                if (fEmployeeDetailsContainer != null)
+                {
+                    // Navigate to the InventoryDetailedView UserControl
+                    fEmployeeDetailsContainer.Navigate(new AddNewEmployeeView());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+
+
 
         }
 
@@ -96,8 +111,9 @@ namespace ModernApp.MVVM.View
             Notificationbox.ShowInfo();
         }
 
-        
+        private void fEmployeeDetailsContainer_Navigated(object sender, NavigationEventArgs e)
+        {
 
-
+        }
     }
 }

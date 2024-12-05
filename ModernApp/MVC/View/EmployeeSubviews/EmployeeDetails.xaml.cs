@@ -34,7 +34,7 @@ namespace ModernApp.MVC.View.EmployeeSubviews
             {
                 new Employee { Id = 1, Name = "John Doe", Department = "HR", Position = "Manager", Status = "Active" },
                 new Employee { Id = 2, Name = "Jane Smith", Department = "IT", Position = "Developer", Status = "Active" },
-                new Employee { Id = 3, Name = "Tom Brown", Department = "Finance", Position = "Analyst", Status = "On Leave" }
+                new Employee { Id = 3, Name = "Tom Brown", Department = "Finance", Position = "Analyst", Status = "On Leave", Mail = "virawhuafhddjfsdfksdjf" }
             };
 
             EmployeeDataGrid.ItemsSource = _employees;
@@ -97,5 +97,6 @@ namespace ModernApp.MVC.View.EmployeeSubviews
         public string Department { get; set; }
         public string Position { get; set; }
         public string Status { get; set; }
+        public string Mail { get; set; }
     }
 }

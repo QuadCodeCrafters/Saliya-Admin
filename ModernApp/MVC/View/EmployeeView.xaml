@@ -6,107 +6,12 @@
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-             Background="#F8F8F8">
+             Background="#F8F8F8" >
     <Grid>
         <ScrollViewer>
 
 
-            <materialDesign:DialogHost x:Name="PermissionDialogHost" BorderBrush="{DynamicResource MaterialDesignDivider}">
-                <materialDesign:DialogHost.DialogContent>
-                    <Grid Width="700" Height="600" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <!-- Title -->
-                        <TextBlock Text="Employee Registration" FontSize="20" FontWeight="Bold" 
-                   Foreground="{DynamicResource MaterialDesignBody}" HorizontalAlignment="Center" Margin="0,20,0,20" />
-
-                        <!-- Form Content -->
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="1">
-                            <StackPanel Margin="20">
-                                <!-- Name -->
-                                <StackPanel Margin="0,0,0,15">
-                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Name" />
-                                </StackPanel>
-
-                                <!-- Email -->
-                                <StackPanel Margin="0,0,0,15">
-                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Email" />
-                                </StackPanel>
-
-                                <!-- Phone Number -->
-                                <StackPanel Margin="0,0,0,15">
-                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Phone Number" />
-                                </StackPanel>
-
-                                <!-- Date of Birth -->
-                                <StackPanel Margin="0,0,0,15">
-                                    <DatePicker Width="500" Height="48" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Date of Birth" />
-                                </StackPanel>
-
-                                <!-- Address -->
-                                <StackPanel Margin="0,0,0,15">
-                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Address" />
-                                </StackPanel>
-
-                                <!-- Position -->
-                                <StackPanel Margin="0,0,0,15">
-                                    <ComboBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Position">
-                                        <ComboBoxItem Content="Manager" />
-                                        <ComboBoxItem Content="Developer" />
-                                        <ComboBoxItem Content="Designer" />
-                                        <ComboBoxItem Content="Sales" />
-                                    </ComboBox>
-                                </StackPanel>
-
-                                <!-- Department -->
-                                <StackPanel Margin="0,0,0,15">
-                                    <ComboBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Department">
-                                        <ComboBoxItem Content="HR" />
-                                        <ComboBoxItem Content="IT" />
-                                        <ComboBoxItem Content="Marketing" />
-                                        <ComboBoxItem Content="Finance" />
-                                    </ComboBox>
-                                </StackPanel>
-
-                                <!-- Employee ID -->
-                                <StackPanel Margin="0,0,0,15">
-                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Employee ID" />
-                                </StackPanel>
-
-                                <!-- Joining Date -->
-                                <StackPanel Margin="0,0,0,15">
-                                    <DatePicker Width="500" Height="48" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Joining Date" />
-                                </StackPanel>
-
-                                <!-- Salary -->
-                                <StackPanel Margin="0,0,0,15">
-                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Salary" />
-                                </StackPanel>
-                            </StackPanel>
-                        </ScrollViewer>
-
-                        <!-- Buttons -->
-                        <!-- Buttons -->
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20" Grid.Row="2">
-                            <Button Content="Submit"
-            Style="{DynamicResource MaterialDesignRaisedButton}"
-            Background="#4CAF50" 
-            Foreground="White" 
-            Margin="4" />
-                            <Button Content="Cancel"
-            Style="{DynamicResource MaterialDesignRaisedButton}"
-            Background="Red"
-            Foreground="White" 
-            Margin="4" />
-                        </StackPanel>
-
-                    </Grid>
-                </materialDesign:DialogHost.DialogContent>
-
+       
 
 
 
@@ -115,44 +20,44 @@
                 <Grid Margin="20">
                     <!-- Define Row and Column Structure -->
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" MinHeight="30.817" />
                         <!-- Header -->
-                        <RowDefinition Height="Auto" MinHeight="150" />
+                        <RowDefinition Height="Auto" MinHeight="141.183" />
                         <!-- Top Stats -->
                         <RowDefinition Height="Auto" MinHeight="389.47" />
                         <!-- Main Content -->
-                        <RowDefinition />
+                        <RowDefinition Height="0*" />
                         <!-- Employee List -->
                     </Grid.RowDefinitions>
 
                     <!-- Header Section -->
-                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,-18,0,141" Grid.RowSpan="2">
                         <TextBlock Text="Employee Dashboard" 
                    FontSize="24" 
                    FontWeight="Bold" 
                    Foreground="#007AFF" 
-                   VerticalAlignment="Center"  />
-                        <StackPanel Orientation="Horizontal" Margin="476,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right" Width="398">
+                   />
+                        <StackPanel Orientation="Horizontal" Margin="476,0,0,0" VerticalAlignment="Center" Width="360" Height="52">
                             <Button Content="Attendance" 
                 Width="110" Height="40" 
                 Style="{StaticResource MaterialDesignRaisedButton}" 
                 Background="#007AFF" 
                 Foreground="White" 
-                Margin="10" Click="Button_Click_2" />
+                Margin="0,0,12,0" Click="Button_Click_2" />
 
-                            <Button Content="Employee" Name="btnEmployeeDetails"
+                            <Button Content="Employee" x:Name="btnEmployeeDetails"
                 Width="110" Height="40" 
                 Style="{StaticResource MaterialDesignRaisedButton}" 
                 Background="#4CAF50" 
                 Foreground="White" 
-                Margin="10" Click="Button_Click_1" />
+                Margin="0,0,12,0" Click="Button_Click_1" />
 
                             <Button Content="Add" 
                 Width="110" Height="40" 
                 Style="{StaticResource MaterialDesignRaisedButton}" 
                 Background="#FF3B30" 
                 Foreground="White" 
-                Margin="10" Click="Button_Click" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" CommandTarget="{Binding ElementName=PermissionDialogHost}" />
+               Margin="0,0,12,0" Click="Button_Click"  />
 
                         </StackPanel>
                     </StackPanel>
@@ -208,7 +113,7 @@
                     </Grid>
 
                     <!-- Main Content Section -->
-                    <Grid Grid.Row="1" Margin="0,131,0,142" Grid.RowSpan="3">
+                    <Grid Grid.Row="1" Margin="0,131,0,5" Grid.RowSpan="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="430*" />
                             <ColumnDefinition Width="307*" />
@@ -246,31 +151,21 @@
                         </Border>
                     </Grid>
 
-                    <!-- Employee List Section -->
-                    <Border Grid.Row="3"  Style="{StaticResource ShadowEffectBoxes}" Background="White" CornerRadius="12" Padding="20" Margin="10,10,10,10">
-                        <StackPanel>
-                            <TextBlock Text="Employee List" FontSize="18" FontWeight="Bold" Margin="0,0,0,20" />
-                            <DataGrid AutoGenerateColumns="False" IsReadOnly="True" 
-                      Style="{StaticResource MaterialDesignDataGrid}">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
-                                    <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="*" />
-                                    <DataGridTextColumn Header="Salary" Binding="{Binding Salary}" Width="*" />
-                                    <DataGridTextColumn Header="Attendance" Binding="{Binding Attendance}" Width="*" />
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </StackPanel>
-                    </Border>
+
                     <!-- Border with a Frame for loading UserControls -->
-                    <Border  Margin="0,0,0,-18" CornerRadius="10" BorderThickness="1" Grid.RowSpan="4">
-                        <Frame Name="fEmployeeDetailsContainer" Margin="0,0,0,-1"/>
+                    <Border  Margin="0,2,0,-18" CornerRadius="10" BorderThickness="1" Grid.RowSpan="3" Grid.Row="1">
+                        <Frame Name="fEmployeeDetailsContainer" Margin="-20,-1,-30,-1" Navigated="fEmployeeDetailsContainer_Navigated"/>
                     </Border>
 
+                <!-- Border with a Frame for loading UserControls -->
+                <Border  Margin="0,2,0,-18" CornerRadius="10" BorderThickness="1" Grid.RowSpan="3" Grid.Row="1">
+                    <Frame Name="fEmployeeAddContainer" Margin="-20,-1,-30,-1" />
+                </Border>
 
-                </Grid>
+            </Grid>
 
 
-            </materialDesign:DialogHost>
+           
 
 
         </ScrollViewer>
