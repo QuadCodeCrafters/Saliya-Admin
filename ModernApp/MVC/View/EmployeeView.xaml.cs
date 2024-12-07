@@ -70,7 +70,7 @@ namespace ModernApp.MVVM.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Notificationbox.ShowSuccess();
+            //Notificationbox.ShowSuccess();
             try
             {
                 // Ensure fInventoryContainer is a Frame control

@@ -3,6 +3,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Windows;
 
 namespace ModernApp.MVC.Model
 {
@@ -60,6 +61,12 @@ namespace ModernApp.MVC.Model
                 Console.WriteLine($"Error in GetAllEmployees: {ex.Message}");
             }
 
+            if (employees == null || employees.Count == 0)
+            {
+                MessageBox.Show("No employee data Database found.");
+               
+            }
+
             return employees;
         }
 
@@ -67,8 +74,8 @@ namespace ModernApp.MVC.Model
         {
             try
             {
-                string query = "INSERT INTO Employee (Name, Mail, DOB, Address, NationalIdentificationNumber, Position, Salary, Status, HireDate) " +
-                               "VALUES (@Name, @Mail, @DOB, @Address, @NationalIdentificationNumber, @Position, @Salary, @Status, @HireDate)";
+                string query = "INSERT INTO Employee (Name, Mail, DOB, Address, NationalIdentificationNumber, Position, Salary, Phone ,HireDate, ImagePath) " +
+                               "VALUES (@Name, @Mail, @DOB, @Address, @NationalIdentificationNumber, @Position, @Salary, @Phone, @HireDate,@ImagePath)";
 
                 using (var connection = _dbConnection.GetConnection())
                 {
@@ -81,8 +88,9 @@ namespace ModernApp.MVC.Model
                     command.Parameters.AddWithValue("@NationalIdentificationNumber", employee.NationalIdentificationNumber);
                     command.Parameters.AddWithValue("@Position", employee.Position);
                     command.Parameters.AddWithValue("@Salary", employee.Salary);
-                    command.Parameters.AddWithValue("@Status", employee.Status);
                     command.Parameters.AddWithValue("@HireDate", employee.HireDate);
+                    command.Parameters.AddWithValue("@Phone", employee.Phone);
+                    command.Parameters.AddWithValue("@ImagePath", employee.ProfilePicPath);
 
                     int rowsAffected = command.ExecuteNonQuery();
                     return rowsAffected > 0; // Return true if rows were inserted

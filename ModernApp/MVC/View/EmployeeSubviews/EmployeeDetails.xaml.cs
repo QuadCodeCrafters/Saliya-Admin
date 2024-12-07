@@ -22,19 +22,21 @@ namespace ModernApp.MVC.View.EmployeeSubviews
     /// </summary>
     public partial class EmployeeDetails : UserControl
     {
-        private readonly EmployeeController _employeeController;
-        private List<Employee> _employees;
+        private readonly EmployeeController employeeController;
+        private List<Employee> employees;
         public EmployeeDetails()
         {
             InitializeComponent();
-            _employeeController = new EmployeeController();
+            employeeController = new EmployeeController();
+           
             LoadEmployeeData();
            
            
         }
         private void LoadEmployeeData()
         {
-            _employeeController.BindEmployeesToDataGrid(EmployeeDataGrid);
+            
+            employeeController.BindEmployeesToDataGrid(EmployeeDataGrid);
         }
 
 
@@ -93,7 +95,7 @@ namespace ModernApp.MVC.View.EmployeeSubviews
         public string Name { get; set; }
         public string Position { get; set; }
         public decimal Salary { get; set; }
-   
+        
         public DateTime DOB { get; set; }
         public string Status { get; set; }
         public string Mail { get; set; }
@@ -102,5 +104,6 @@ namespace ModernApp.MVC.View.EmployeeSubviews
         public int EmployeeID { get; set; }
         public DateTime HireDate { get; set; }
         public string NationalIdentificationNumber { get; set; }
+        public string ProfilePicPath { get; set; }
     }
 }

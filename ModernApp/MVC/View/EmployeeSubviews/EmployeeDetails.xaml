@@ -218,9 +218,7 @@ VerticalAlignment="Center"  Click="btnBackEmployeeDashboard_click"
                                 <!-- Salary -->
                                 <DataGridTextColumn Header="Salary" Binding="{Binding Salary}" Width="*" />
 
-                                <!-- Attendance -->
-                                <DataGridTextColumn Header="Attendance" Binding="{Binding Attendance}" Width="*" />
-
+                               
                                 <!-- Date of Birth -->
                                 <DataGridTextColumn Header="DOB" Binding="{Binding DOB}" Width="*" />
 

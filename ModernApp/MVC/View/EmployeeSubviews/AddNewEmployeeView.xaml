@@ -6,7 +6,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="av"
     x:Class="ModernApp.MVC.View.EmployeeSubviews.AddNewEmployeeView"
-    Background="White">
+    Background="White"
+    AllowDrop="True"
+             DragEnter="ProfileImage_DragEnter"
+             Drop="ProfileImage_Drop">
 
     <Grid >
         <!-- Main Layout -->
@@ -42,16 +45,26 @@
                        Margin="20,0,0,0" />
         </StackPanel>
 
-        <!-- Profile Image Section -->
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Height="206" Width="176">
-            <!-- Placeholder for Profile Image -->
-            <Border Width="150" Height="150" CornerRadius="75" BorderBrush="#E0E0E0" BorderThickness="2" VerticalAlignment="Center" Margin="10">
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Height="247" Width="176">
+            <!-- Circular Profile Image with Drag-and-Drop -->
+            <Border Width="150" Height="150" CornerRadius="10" BorderBrush="#E0E0E0" BorderThickness="2" VerticalAlignment="Center" Margin="10"
+                AllowDrop="True"
+                Drop="ProfileImage_Drop"
+                DragEnter="ProfileImage_DragEnter"
+                ClipToBounds="True">
                 <Image Name="imgEmployee" Stretch="UniformToFill" />
             </Border>
-            <Button Content="Upload Image"
-                    Style="{StaticResource MaterialDesignFlatButton}" />
+
             <!-- Upload Button -->
+            <Button Content="Upload Image"
+                Click="UploadImage_Click"
+                Style="{StaticResource MaterialDesignFlatButton}" />
+            <!-- Upload Button -->
+            <Button  Content="Change"
+                     Click="ChangeImage_Click"
+                 Style="{StaticResource MaterialDesignFlatButton}"  />
         </StackPanel>
+
 
         <!-- Form Section -->
         <Grid Grid.Row="1" Grid.Column="1" Margin="0,0,0,0">
@@ -68,55 +81,55 @@
             </Grid.ColumnDefinitions>
 
             <!-- Full Name -->
-            <TextBox Grid.Row="0" Grid.Column="0"
-                      Height="48"
+            <TextBox Grid.Row="0" Grid.ColumnSpan="2"
+                      Height="49"
                      Style="{DynamicResource MaterialDesignOutlinedTextBox}"
                      materialDesign:HintAssist.Hint="Full Name"
-                     Margin="0,0,28,10"
-                     Name="txtFullname" />
+                     Margin="0,0,18,0"
+                     Name="txtFullname" Padding="10" FontSize="15" />
 
             <!-- phone-->
-            <TextBox Grid.Row="2" Grid.Column="1"
-           Height="48"
+            <TextBox Grid.Row="3" Grid.Column="1"
+           Height="49"
           Style="{DynamicResource MaterialDesignOutlinedTextBox}"
           materialDesign:HintAssist.Hint="Phone"
           Margin="11,0,17,10"
-          Name="txtPhone" />
+          Name="txtPhone"  Padding="10" FontSize="15"  />
 
             <!-- Email -->
-            <TextBox Grid.Row="1" Grid.Column="0" Height="48"
+            <TextBox Grid.Row="3" Grid.Column="0" Height="49"
                      Style="{DynamicResource MaterialDesignOutlinedTextBox}"
                      materialDesign:HintAssist.Hint="Email"
                      Margin="0,0,28,10"
-                     Name="txtEmail" />
+                     Name="txtEmail"  Padding="10" FontSize="15"  />
 
             <!-- Date of Birth -->
-            <DatePicker Name="DPDOB" Grid.Row="1" Grid.Column="1" Height="48"
+            <DatePicker Name="DPDOB" Grid.Row="1" Grid.Column="1" Height="49"
                         Style="{DynamicResource MaterialDesignDatePicker}"
                         materialDesign:HintAssist.Hint="Date of Birth"
                         DisplayDateStart="1940-01-01"
                         DisplayDateEnd="2000-12-31"
                         DisplayDate="1940-01-01"
                         SelectedDateFormat="Short"
-                        Margin="10,0,17,0" VerticalAlignment="Top" />
+                        Margin="10,0,17,0" VerticalAlignment="Top"  Padding="10" FontSize="15"  />
 
             <!-- Address -->
-            <TextBox x:Name="txtAddress" Grid.Row="2" Grid.Column="0" Height="48"
+            <TextBox x:Name="txtAddress" Grid.Row="2" Grid.ColumnSpan="2" Height="49"
                      Style="{DynamicResource MaterialDesignOutlinedTextBox}"
                      materialDesign:HintAssist.Hint="Address"
-                     Margin="0,0,28,10" />
+                     Margin="0,0,18,10"  Padding="10" FontSize="15"  />
 
             <!-- NIC Number -->
-            <TextBox Name="txtNICnumber" Grid.Row="0" Grid.Column="1" Height="48"
+            <TextBox Name="txtNICnumber" Grid.Row="1" Grid.Column="0" Height="49"
                      Style="{DynamicResource MaterialDesignOutlinedTextBox}"
                      materialDesign:HintAssist.Hint="NIC Number"
-                     Margin="10,0,17,10"/>
+                    Margin="0,0,28,10"  Padding="10" FontSize="15" />
 
             <!-- Position -->
-            <ComboBox Name="CBXPosition" Grid.Row="3" Grid.Column="0" Height="48"
+            <ComboBox Name="CBXPosition" Grid.Row="4" Grid.Column="0" Height="49"
                       Style="{DynamicResource MaterialDesignFloatingHintComboBox}"
                       materialDesign:HintAssist.Hint="Position"
-                      Margin="0,0,28,0" VerticalAlignment="Top">
+                      Margin="0,0,28,0" VerticalAlignment="Top"    FontSize="15" >
                 <ComboBoxItem Content="Manager" />
                 <ComboBoxItem Content="Developer" />
                 <ComboBoxItem Content="Designer" />
@@ -124,10 +137,10 @@
             </ComboBox>
 
             <!-- Salary -->
-            <TextBox x:Name="txtSalary" Grid.Row="3" Grid.Column="1" Height="48"
+            <TextBox x:Name="txtSalary" Grid.Row="4" Grid.Column="1" Height="49"
                      Style="{DynamicResource MaterialDesignOutlinedTextBox}"
                      materialDesign:HintAssist.Hint="Salary"
-                     Margin="10,0,17,10" />
+                     Margin="10,0,17,10"  Padding="10" FontSize="15"  />
         </Grid>
 
         <!-- Footer Buttons -->

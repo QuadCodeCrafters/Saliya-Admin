@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
+
 namespace ModernApp.MVC.View.EmployeeSubviews
 {
     /// <summary>
@@ -21,11 +23,31 @@ namespace ModernApp.MVC.View.EmployeeSubviews
     /// </summary>
     public partial class AddNewEmployeeView : UserControl
     {
-        private readonly EmployeeController _employeeController;
+        private readonly EmployeeController employeeController;
         public AddNewEmployeeView()
         {
             InitializeComponent();
-            _employeeController = new EmployeeController(); // Initialize the controller
+            employeeController = new EmployeeController(); // Initialize the controller
+            employeeController.ImageUpdated += UpdateProfileImage;
+        }
+        private void UpdateProfileImage(BitmapImage image)
+        {
+            imgEmployee.Source = image; // Assuming imgEmployee is your Image control
+        }
+
+        private void ProfileImage_DragEnter(object sender, DragEventArgs e)
+        {
+            employeeController.HandleDragEnter(e);
+        }
+
+        private void ProfileImage_Drop(object sender, DragEventArgs e)
+        {
+            employeeController.HandleDrop(e);
+        }
+
+        private void UploadImage_Click(object sender, RoutedEventArgs e)
+        {
+            employeeController.OpenFileDialog();
         }
 
         private void btnBackEmployeeDashboard_click(object sender, RoutedEventArgs e)
@@ -63,30 +85,47 @@ namespace ModernApp.MVC.View.EmployeeSubviews
             string nic = txtNICnumber.Text;
             string position = (CBXPosition.SelectedItem as ComboBoxItem)?.Content as string; // Safely get position
             decimal salary;
+            string phone = txtPhone.Text;
 
             // Try parsing the salary value
             if (!decimal.TryParse(txtSalary.Text, out salary))
             {
                 MessageBox.Show("Please enter a valid salary.");
+
                 return;
             }
 
             // Check if all fields are filled
-            if (string.IsNullOrWhiteSpace(fullName) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(nic) ||
+            if (string.IsNullOrWhiteSpace(fullName) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(nic) || string.IsNullOrWhiteSpace(nic) ||
                 string.IsNullOrWhiteSpace(position) || salary <= 0 || dob == DateTime.MinValue)
             {
                 MessageBox.Show("Please ensure all fields are filled correctly.");
                 return;
             }
 
+
             // Call the controller's method to add the employee
-            _employeeController.AddEmployee(fullName, email, dob, address, nic, position, salary);
+            employeeController.AddEmployee(fullName, email, dob, address, nic, position, salary, phone, this);
+
+
         }
 
         private void txtNICnumber_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
+
+
+        private void ChangeImage_Click(object sender, RoutedEventArgs e)
+        {
+            employeeController.OpenFileDialog();
+            employeeController.DeleteImage();
+        }
+       
+
+
+
+
 
 
         //public class EmployeeDetails
