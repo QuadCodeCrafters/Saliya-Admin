@@ -118,8 +118,9 @@ namespace ModernApp.MVC.View.EmployeeSubviews
 
         private void ChangeImage_Click(object sender, RoutedEventArgs e)
         {
-            employeeController.OpenFileDialog();
+           
             employeeController.DeleteImage();
+            employeeController.OpenFileDialog();
         }
        
 

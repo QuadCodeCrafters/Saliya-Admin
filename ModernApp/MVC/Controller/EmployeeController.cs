@@ -16,8 +16,9 @@ namespace ModernApp.MVC.Controller
 {
     internal class EmployeeController
     {
+        //Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MVC" , "View" , "EmployeeSubviews" , "EmployeePictures" );
         // Folder path inside the project (Image/profilepics)
-        private readonly string ImageFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MVC" , "View" , "EmployeeSubviews" , "EmployeePictures" );
+        private readonly string ImageFolderPath = "D:\\personal\\Coding\\C#\\ModernApp\\ModernApp\\MVC\\View\\EmployeeSubviews\\EmployeePictures\\";
         private string relativePath;
         private readonly EmployeeModel employeeModel;
         public event Action<BitmapImage> ImageUpdated;
@@ -77,7 +78,6 @@ namespace ModernApp.MVC.Controller
 
 
 
-       
 
 
         public void SaveImageAndStorePath(string filePath)
@@ -102,11 +102,10 @@ namespace ModernApp.MVC.Controller
                 // Copy the image to the folder
                 File.Copy(filePath, destinationPath, overwrite: true);
 
-                // Store the relative path in the database
-                string relativePath = $"MVC/View/EmployeeSubviews/EmployeePictures/{fileName}";
-
-                // Optionally, you could save the relativePath to the database here
-                // StoreImagePathInDatabase(relativePath);
+                // Calculate the relative path
+                 relativePath = destinationPath;
+              
+              
 
                 MessageBox.Show("Image saved successfully!");
             }
@@ -116,24 +115,28 @@ namespace ModernApp.MVC.Controller
             }
         }
 
+       
+
         public void DeleteImage()
         {
-
             try
             {
-                // Construct the full path of the image in the folder
+                // Ensure that relativePath and ImageFolderPath are not null or empty
+                if (string.IsNullOrEmpty(relativePath) || string.IsNullOrEmpty(ImageFolderPath))
+                {
+                    MessageBox.Show("Invalid file path.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Combine ImageFolderPath and the file name from relativePath
                 string imagePath = relativePath;
 
                 // Check if the image exists
                 if (File.Exists(imagePath))
                 {
                     // Delete the image
-                    //File.Delete(imagePath);
-
+                    File.Delete(imagePath);
                     MessageBox.Show("Image deleted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-
-
-
                 }
                 else
                 {
@@ -145,6 +148,7 @@ namespace ModernApp.MVC.Controller
                 MessageBox.Show($"Error deleting image: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
 
         //// Example database storage logic

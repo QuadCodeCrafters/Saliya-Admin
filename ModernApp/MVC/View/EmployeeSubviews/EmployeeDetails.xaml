@@ -30,62 +30,57 @@
                             <StackPanel Margin="20">
                                 <!-- Name -->
                                 <StackPanel Margin="0,0,0,15">
-                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Name" />
+                                <TextBox Name="txtname" Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Name" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"   />
                                 </StackPanel>
 
                                 <!-- Email -->
                                 <StackPanel Margin="0,0,0,15">
-                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Email" />
+                                <TextBox Name="txtEmail" Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Mail" Text="{Binding Mail, UpdateSourceTrigger=PropertyChanged}"  />
                                 </StackPanel>
 
                                 <!-- Phone Number -->
                                 <StackPanel Margin="0,0,0,15">
-                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Phone Number" />
+                                <TextBox Name="txtPhoneNum" Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Phone "  Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
 
                                 <!-- Date of Birth -->
                                 <StackPanel Margin="0,0,0,15">
-                                    <DatePicker Width="500" Height="48" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Date of Birth" />
+                                <DatePicker Name="datepickerDOB" Width="500" Height="48" Margin="0,0,0,5" materialDesign:HintAssist.Hint="DOB" Text="{Binding DOB, UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
 
                                 <!-- Address -->
                                 <StackPanel Margin="0,0,0,15">
-                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Address" />
+                                <TextBox Name="txtAddress" Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Address" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
 
                                 <!-- Position -->
                                 <StackPanel Margin="0,0,0,15">
-                                    <ComboBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Position">
-                                        <ComboBoxItem Content="Manager" />
+                                <ComboBox Name="ComboBoxPosiiton" Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Position"  SelectedValuePath="Content" SelectedValue="{Binding Position, UpdateSourceTrigger=PropertyChanged}" >
                                         <ComboBoxItem Content="Developer" />
                                         <ComboBoxItem Content="Designer" />
                                         <ComboBoxItem Content="Sales" />
                                     </ComboBox>
                                 </StackPanel>
 
-                                <!-- Department -->
-                                <StackPanel Margin="0,0,0,15">
-                                    <ComboBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Department">
-                                        <ComboBoxItem Content="HR" />
-                                        <ComboBoxItem Content="IT" />
-                                        <ComboBoxItem Content="Marketing" />
-                                        <ComboBoxItem Content="Finance" />
-                                    </ComboBox>
-                                </StackPanel>
+                               
 
                                 <!-- Employee ID -->
-                                <StackPanel Margin="0,0,0,15">
-                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Employee ID" />
+                                <StackPanel  Margin="0,0,0,15">
+                                <TextBox Name="txtEmployeeID" Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="EmployeeID" Text="{Binding EmployeeID , UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
 
-                                <!-- Joining Date -->
+                            <StackPanel Margin="0,0,0,15">
+                                <TextBox Name="txtNIC" Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="NIC" Text="{Binding NationalIdentificationNumber  , UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+
+                            <!-- Joining Date -->
                                 <StackPanel Margin="0,0,0,15">
                                     <DatePicker Width="500" Height="48" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Joining Date" />
                                 </StackPanel>
 
                                 <!-- Salary -->
                                 <StackPanel Margin="0,0,0,15">
-                                    <TextBox Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Salary" />
+                                <TextBox Name="txtSalary" Width="500" Height="48" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,5" materialDesign:HintAssist.Hint="Salary"  Text="{Binding Salary  , UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
                             </StackPanel>
                         </ScrollViewer>
@@ -204,6 +199,8 @@ VerticalAlignment="Center"  Click="btnBackEmployeeDashboard_click"
           AutoGenerateColumns="False"
           CanUserAddRows="False"
           Style="{StaticResource MaterialDesignDataGrid}"
+          ItemsSource="{Binding Employees}"
+          SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
           RowHeight="50"
           ColumnHeaderHeight="40"
           SelectionMode="Single"
