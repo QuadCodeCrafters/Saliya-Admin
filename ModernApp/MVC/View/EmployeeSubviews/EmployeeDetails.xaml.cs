@@ -1,8 +1,10 @@
 ﻿using MaterialDesignThemes.Wpf;
 using ModernApp.MVC.Controller;
 using ModernApp.MVC.View.InventorySubviews;
+using ModernApp.MVVM.View;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +33,7 @@ namespace ModernApp.MVC.View.EmployeeSubviews
             employeeController = new EmployeeController();
            
             LoadEmployeeData();
+
            
            
         }
@@ -48,50 +51,202 @@ namespace ModernApp.MVC.View.EmployeeSubviews
             //EmployeeDataGrid.ItemsSource = filteredEmployees;
         }
 
+        //private void EditButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    string profilepic = Employee.ProfielPicPath;
+        //    imgEmployee.Source = Employee.profilepic;
+        //    if (EmployeeDataGrid.SelectedItem is Employee selectedEmployee)
+        //    {
+        //        PermissionDialogHost.DataContext = selectedEmployee;
+
+        //        // Debug: Ensure Position matches ComboBoxItem.Content
+        //        MessageBox.Show($"Selected Employee Position: {selectedEmployee.Position}");
+        //        // Explicitly set ComboBox selection after setting DataContext
+        //        var position = selectedEmployee.Position;
+        //        foreach (ComboBoxItem item in ComboBoxPosiiton.Items)
+        //        {
+        //            if (item.Content.ToString() == position)
+        //            {
+        //                ComboBoxPosiiton.SelectedItem = item;
+        //                break;
+        //            }
+        //        }
+
+        //        // Open the dialog
+        //        DialogHost.OpenDialogCommand.Execute(null, PermissionDialogHost);
+        //    }   
+        //    //if (EmployeeDataGrid.SelectedItem is Employee selectedEmployee)
+        //    //{
+
+        //    //    // Assign the selected employee to the dialog host's data context
+        //    //    //PermissionDialogHost.DataContext = selectedEmployee;
+
+        //    //    //ComboBoxPosiiton.SelectedIndex = EmployeeDataGrid.SelectedIndex;
+        //    //    //// Pre-fill text fields directly (assuming they are inside the DialogHost)
+        //    //    txtname.Text = selectedEmployee.Name;
+        //    //    txtSalary.Text = selectedEmployee.Salary.ToString();
+        //    //    txtEmail.Text = selectedEmployee.Mail;
+        //    //    txtAddress.Text = selectedEmployee.Address;
+        //    //    txtPhoneNum.Text = selectedEmployee.Phone;
+        //    //    txtNIC.Text = selectedEmployee.NationalIdentificationNumber;
+        //    //    ComboBoxPosiiton.SelectedItem = selectedEmployee.Position;
+        //    //    MessageBox.Show(selectedEmployee.Position);
+
+        //    //    // Open the dialog (if using MaterialDesign's DialogHost.ShowDialog method)
+        //    //    DialogHost.OpenDialogCommand.Execute(null, PermissionDialogHost);
+        //    //}
+        //}
+
+
+        //        public static class VisualTreeHelperExtensions
+        //{
+        //    // Method to find a child control of a specific type
+        //    //public static T FindChild<T>(DependencyObject parent) where T : DependencyObject
+        //    //{
+        //    //    if (parent == null) return null;
+
+        //    //    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+        //    //    {
+        //    //        var child = VisualTreeHelper.GetChild(parent, i);
+        //    //        if (child is T t) return t;
+
+        //    //        // Recursively search for the child in the tree
+        //    //        var childOfChild = FindChild<T>(child);
+        //    //        if (childOfChild != null) return childOfChild;
+        //    //    }
+
+        //    //    return null;
+        //    //}
+
+        //    //// Method to find a parent control of a specific type
+        //    //public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        //    //{
+        //    //    DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+        //    //    if (parentObject == null) return null;
+        //    //    if (parentObject is T parent) return parent;
+        //    //    return FindParent<T>(parentObject);
+        //    //}
+        //}
+
+        public ObservableCollection<Employee> Employees { get; set; } = new ObservableCollection<Employee>();
+
+        // Property to hold the parent reference
+       
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
+            
+                // Ensure you have a DataGrid named "EmployeeDataGrid"
+                var selectedEmployee = EmployeeDataGrid.SelectedItem as Employee;
 
-            if (EmployeeDataGrid.SelectedItem is Employee selectedEmployee)
-            {
-                PermissionDialogHost.DataContext = selectedEmployee;
-
-                // Debug: Ensure Position matches ComboBoxItem.Content
-                MessageBox.Show($"Selected Employee Position: {selectedEmployee.Position}");
-                // Explicitly set ComboBox selection after setting DataContext
-                var position = selectedEmployee.Position;
-                foreach (ComboBoxItem item in ComboBoxPosiiton.Items)
+                if (selectedEmployee == null)
                 {
-                    if (item.Content.ToString() == position)
-                    {
-                        ComboBoxPosiiton.SelectedItem = item;
-                        break;
-                    }
+                    MessageBox.Show("No employee selected!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
                 }
 
-                // Open the dialog
-                DialogHost.OpenDialogCommand.Execute(null, PermissionDialogHost);
-            }   
+                // Find the EmployeeView parent
+                var parentEmployeeView = FindParent<EmployeeView>(this);
+
+                if (parentEmployeeView != null)
+                {
+                    // Pass the selected employee to EmployeeView
+                    parentEmployeeView.OpenEditEmployeeView(selectedEmployee);
+               
+            }
+                else
+                {
+                    MessageBox.Show("Parent view not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            
+
+
+            //// Find the EmployeeView parent
+            //var parentEmployeeView = FindParent<EmployeeView>(this);
+
+            //if (parentEmployeeView != null)
+            //{
+            //    parentEmployeeView.OpenEditEmployeeView(); // Call a method in EmployeeView
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Parent view not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
+
+
+
             //if (EmployeeDataGrid.SelectedItem is Employee selectedEmployee)
             //{
+            //    // Locate the parent EmployeeView UserControl
+            //    var parent = FindParent<EmployeeView>(this);
+            //    if (parent != null)
+            //    {
+            //        parent.SelectedEmployee = selectedEmployee;
+            //        DialogHost.OpenDialogCommand.Execute(null, parent.PermissionDialogHost);
 
-            //    // Assign the selected employee to the dialog host's data context
-            //    //PermissionDialogHost.DataContext = selectedEmployee;
 
-            //    //ComboBoxPosiiton.SelectedIndex = EmployeeDataGrid.SelectedIndex;
-            //    //// Pre-fill text fields directly (assuming they are inside the DialogHost)
-            //    txtname.Text = selectedEmployee.Name;
-            //    txtSalary.Text = selectedEmployee.Salary.ToString();
-            //    txtEmail.Text = selectedEmployee.Mail;
-            //    txtAddress.Text = selectedEmployee.Address;
-            //    txtPhoneNum.Text = selectedEmployee.Phone;
-            //    txtNIC.Text = selectedEmployee.NationalIdentificationNumber;
-            //    ComboBoxPosiiton.SelectedItem = selectedEmployee.Position;
-            //    MessageBox.Show(selectedEmployee.Position);
+            //    }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("No employee selected!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //}
+            //if (EmployeeDataGrid.SelectedItem is Employee selectedEmployee)
+            //{
+            //    EditEmployeeRequested?.Invoke(this, selectedEmployee);
+            //}
+            //else
+            //{
+            //    MessageBox.Show("No employee selected!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //}
+            //if (EmployeeDataGrid.SelectedItem is Employee selectedEmployee)
+            //{
+            //    // Set the DataContext for the dialog
+            //    PermissionDialogHost.DataContext = selectedEmployee;
 
-            //    // Open the dialog (if using MaterialDesign's DialogHost.ShowDialog method)
+            //    // Load the profile picture
+            //    if (!string.IsNullOrEmpty(selectedEmployee.ProfilePicPath))
+            //    {
+            //        try
+            //        {
+            //            var bitmap = new BitmapImage();
+            //            bitmap.BeginInit();
+            //            bitmap.UriSource = new Uri(selectedEmployee.ProfilePicPath, UriKind.Absolute);
+            //            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            //            bitmap.EndInit();
+            //            imgEmployee.Source = bitmap;
+
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            MessageBox.Show($"Error loading profile picture: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //            //imgEmployee.Source = null; // Reset to default or blank
+            //        }
+            //    }
+            //    else
+            //    {
+            //        imgEmployee.Source = null; // Reset if no profile picture is available
+            //    }
+
+            //    // Pre-fill other fields
+            //    var position = selectedEmployee.Position;
+            //    foreach (ComboBoxItem item in ComboBoxPosiiton.Items)
+            //    {
+            //        if (item.Content.ToString() == position)
+            //        {
+            //            ComboBoxPosiiton.SelectedItem = item;
+            //            break;
+            //        }
+            //    }
+
+            //    // Open the dialog
             //    DialogHost.OpenDialogCommand.Execute(null, PermissionDialogHost);
             //}
+            //else
+            //{
+            //    MessageBox.Show("No employee selected!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //}
         }
+
 
         private void TerminateButton_Click(object sender, RoutedEventArgs e)
         {

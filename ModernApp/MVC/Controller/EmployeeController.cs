@@ -148,6 +148,37 @@ namespace ModernApp.MVC.Controller
                 MessageBox.Show($"Error deleting image: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        public void DeleteUpdateImage()
+        {
+            try
+            {
+                // Ensure that relativePath and ImageFolderPath are not null or empty
+                if (string.IsNullOrEmpty(relativePath) || string.IsNullOrEmpty(ImageFolderPath))
+                {
+                    MessageBox.Show("Invalid file path.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Combine ImageFolderPath and the file name from relativePath
+                string imagePath = relativePath;
+
+                // Check if the image exists
+                if (File.Exists(imagePath))
+                {
+                    // Delete the image
+                    File.Delete(imagePath);
+                    MessageBox.Show("Image deleted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Image not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting image: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
 
 
@@ -213,6 +244,10 @@ namespace ModernApp.MVC.Controller
         }
 
 
+        public bool UpdateEmployee(Employee employee)
+        {
+            return employeeModel.UpdateEmployee(employee);
+        }
 
         /// <summary>
         /// Binds the list of employees to the DataGrid.

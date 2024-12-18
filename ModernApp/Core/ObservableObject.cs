@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 
 namespace ModernApp.Core
@@ -16,10 +17,21 @@ namespace ModernApp.Core
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        public ObservableCollection<Employee> Employees { get; set; }
-        public Employee SelectedEmployee { get; set; }
-       
+        //public ObservableCollection<Employee> Employees { get; set; }
+        //public Employee SelectedEmployee { get; set; }
 
+        private Employee selectedEmployee;
+        public Employee SelectedEmployee
+        {
+            get => selectedEmployee;
+            set
+            {
+
+               
+                selectedEmployee = value;
+                OnPropertyChanged(); // Implement INotifyPropertyChanged
+            }
+        }
 
     }
 }

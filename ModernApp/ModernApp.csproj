@@ -110,6 +110,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MVC\View\EmployeeSubviews\EditEmployeeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVC\View\EmployeeSubviews\EmployeeDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -189,6 +193,9 @@
     </Compile>
     <Compile Include="MVC\View\EmployeeSubviews\AddNewEmployeeView.xaml.cs">
       <DependentUpon>AddNewEmployeeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVC\View\EmployeeSubviews\EditEmployeeView.xaml.cs">
+      <DependentUpon>EditEmployeeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVC\View\EmployeeSubviews\EmployeeDetails.xaml.cs">
       <DependentUpon>EmployeeDetails.xaml</DependentUpon>

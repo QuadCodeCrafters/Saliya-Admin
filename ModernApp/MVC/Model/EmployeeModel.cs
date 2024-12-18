@@ -3,6 +3,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Windows;
 
 namespace ModernApp.MVC.Model
@@ -49,7 +50,10 @@ namespace ModernApp.MVC.Model
                                     Mail = reader.GetString("Mail"),
                                     Address = reader.GetString("Address"),
                                     Phone = reader.GetString("Phone"),
-                                    HireDate = reader.GetDateTime("HireDate")
+                                    HireDate = reader.GetDateTime("HireDate"),
+                                    ProfilePicPath = reader["ImagePath"].ToString()
+
+
                                 });
                             }
                         }
@@ -99,6 +103,46 @@ namespace ModernApp.MVC.Model
             catch (Exception)
             {
                 return false; // Return false if any exception occurs
+            }
+        }
+
+
+        public bool UpdateEmployee(Employee employee)
+        {
+            string query = @"
+            UPDATE Employees
+            SET Name = @Name,
+                Position = @Position,
+                Salary = @Salary,
+                DOB = @DOB,
+                Status = @Status,
+                Mail = @Mail,
+                Address = @Address,
+                Phone = @Phone,
+                HireDate = @HireDate,
+                NationalIdentificationNumber = @NationalIdentificationNumber,
+                ProfilePicPath = @ProfilePicPath
+            WHERE EmployeeID = @EmployeeID";
+
+            using (var connection = new SqlConnection("YourConnectionString"))
+            using (var command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Name", employee.Name);
+                command.Parameters.AddWithValue("@Position", employee.Position);
+                command.Parameters.AddWithValue("@Salary", employee.Salary);
+                command.Parameters.AddWithValue("@DOB", employee.DOB);
+                command.Parameters.AddWithValue("@Status", employee.Status);
+                command.Parameters.AddWithValue("@Mail", employee.Mail);
+                command.Parameters.AddWithValue("@Address", employee.Address);
+                command.Parameters.AddWithValue("@Phone", employee.Phone);
+                command.Parameters.AddWithValue("@HireDate", employee.HireDate);
+                command.Parameters.AddWithValue("@NationalIdentificationNumber", employee.NationalIdentificationNumber);
+                command.Parameters.AddWithValue("@ProfilePicPath", employee.ProfilePicPath);
+                command.Parameters.AddWithValue("@EmployeeID", employee.EmployeeID);
+
+                connection.Open();
+                int rowsAffected = command.ExecuteNonQuery();
+                return rowsAffected > 0;
             }
         }
 

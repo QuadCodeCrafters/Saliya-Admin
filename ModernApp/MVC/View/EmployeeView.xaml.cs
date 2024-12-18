@@ -19,6 +19,8 @@ using Saliya_auto_care_Cashier.Notifications;
 using ModernApp.MVC.View.InventorySubviews;
 using ModernApp.MVC.View.EmployeeSubviews;
 using ModernApp.MVC;
+using MaterialDesignThemes.Wpf;
+using Mysqlx.Notice;
 
 
 namespace ModernApp.MVVM.View
@@ -31,17 +33,70 @@ namespace ModernApp.MVVM.View
         public EmployeeView()
         {
             InitializeComponent();
-      
-          
+            DataContext = this;
 
+            // Find the EmployeeDetails UserControl
+            //EmployeeDetails employeeDetails = VisualTreeHelperExtensions.FindChild<EmployeeDetails>(this);
+            //if (employeeDetails != null)
+            //{
+            //    // Subscribe to the EditEmployeeRequested event
+            //    employeeDetails.EditEmployeeRequested += OnEditEmployeeRequested;
+            //}
+
+        }
+
+        //public static class VisualTreeHelperExtensions
+        //{
+        //    // Method to find a child control of a specific type
+        //    public static T FindChild<T>(DependencyObject parent) where T : DependencyObject
+        //    {
+        //        if (parent == null) return null;
+
+        //        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+        //        {
+        //            var child = VisualTreeHelper.GetChild(parent, i);
+        //            if (child is T t) return t;
+
+        //            // Recursively search for the child in the tree
+        //            var childOfChild = FindChild<T>(child);
+        //            if (childOfChild != null) return childOfChild;
+        //        }
+
+        //        return null;
+        //    }
+        //}
+
+        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            if (parentObject == null) return null;
+            if (parentObject is T parent) return parent;
+            return FindParent<T>(parentObject);
+        }
+
+        public static T FindChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            if (parent == null) return null;
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T t) return t;
+                var childOfChild = FindChild<T>(child);
+                if (childOfChild != null) return childOfChild;
+            }
+            return null;
         }
 
 
 
+
         private int currentNewEmployees = 500;
+
+ 
+
        
 
-        
+
 
         //Change colors in the mployeeCount accordign to increment and decrement 
         private void UpdateEmployeeCount(int newCount)
@@ -116,5 +171,17 @@ namespace ModernApp.MVVM.View
         {
 
         }
+
+
+
+        public void OpenEditEmployeeView(Employee employee)
+        {
+            var editEmployeeView = new EditEmployeeView();
+            editEmployeeView.LoadEmployeeData(employee);
+
+            // Assuming MyFrame is the navigation frame
+            fEmployeeEditContainer.Content = editEmployeeView;
+        }
+
     }
 }
