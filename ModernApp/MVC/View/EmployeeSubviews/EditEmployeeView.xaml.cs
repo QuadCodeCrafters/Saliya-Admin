@@ -75,24 +75,40 @@ namespace ModernApp.MVC.View.EmployeeSubviews
             }
         }
 
+
+
         private void BtnchangePhoto_Click(object sender, RoutedEventArgs e)
         {
+            // Ensure the image source is released before deletion
+            ReleaseImageLock();
+
+            // Delete the old image
             DeleteUpdateImage();
+
+            // Open the file dialog to select a new image
             employeeController.OpenFileDialog();
+        }
+
+        private void ReleaseImageLock()
+        {
+            // Check if the image is loaded in an Image control and release the lock
+            if (imgEmployee.Source != null)
+            {
+                // Set the source to null to release the file lock
+                imgEmployee.Source = null;
+
+                // Force garbage collection to close the file handle
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
         }
 
         public void DeleteUpdateImage()
         {
             try
             {
-                
-
-                // Combine ImageFolderPath and the file name from relativePath
-
-                // Check if the image exists
                 if (File.Exists(imagePath))
                 {
-                    // Delete the image
                     File.Delete(imagePath);
                     MessageBox.Show("Image deleted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -101,11 +117,16 @@ namespace ModernApp.MVC.View.EmployeeSubviews
                     MessageBox.Show("Image not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+            catch (IOException ioEx)
+            {
+                MessageBox.Show($"Error deleting image: {ioEx.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error deleting image: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         private void btnEmployeeUpdate_Click(object sender, RoutedEventArgs e)
         {

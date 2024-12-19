@@ -5,6 +5,7 @@ using ModernApp.MVVM.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -132,6 +133,9 @@ namespace ModernApp.MVC.View.EmployeeSubviews
 
         // Property to hold the parent reference
        
+
+
+
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             
@@ -149,8 +153,12 @@ namespace ModernApp.MVC.View.EmployeeSubviews
 
                 if (parentEmployeeView != null)
                 {
-                    // Pass the selected employee to EmployeeView
-                    parentEmployeeView.OpenEditEmployeeView(selectedEmployee);
+                EmployeeDataGrid.ItemsSource = null;
+
+
+                // Pass the selected employee to EmployeeView
+                parentEmployeeView.OpenEditEmployeeView(selectedEmployee);
+
                
             }
                 else

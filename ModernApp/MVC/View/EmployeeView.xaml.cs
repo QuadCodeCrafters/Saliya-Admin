@@ -176,11 +176,18 @@ namespace ModernApp.MVVM.View
 
         public void OpenEditEmployeeView(Employee employee)
         {
+
+            MessageBox.Show("OpeneditEmployeViwe");
+
+            fEmployeeDetailsContainer.Navigate(new AddNewEmployeeView());
+
+            MessageBox.Show("OpeneditEmployeViwe");
             var editEmployeeView = new EditEmployeeView();
             editEmployeeView.LoadEmployeeData(employee);
 
             // Assuming MyFrame is the navigation frame
             fEmployeeEditContainer.Content = editEmployeeView;
+            editEmployeeView.LoadEmployeeData(null);
         }
 
     }
