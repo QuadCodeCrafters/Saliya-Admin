@@ -47,6 +47,28 @@ namespace ModernApp.MVC.View.EmployeeSubviews
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
+
+            string searchText = SearchBox.Text;
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                // Filter the employee list based on NIC number
+                var filteredEmployees = Employees.Where(emp => emp.NationalIdentificationNumber.Contains(searchText)).ToList();
+
+                // Update the DataGrid with filtered employees
+                EmployeeDataGrid.ItemsSource = filteredEmployees;
+
+                // If no employees match, show a message
+                if (filteredEmployees.Count == 0)
+                {
+                    MessageBox.Show("No matching records found.", "Search Results", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                // If no NIC number is entered, show a warning
+                MessageBox.Show("Please enter a NIC Number to search.", "Input Required", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
             //string searchQuery = SearchBox.Text.ToLower();
             //var filteredEmployees = _employees.Where(emp => emp.Name.ToLower().Contains(searchQuery)).ToList();
             //EmployeeDataGrid.ItemsSource = filteredEmployees;
@@ -291,6 +313,31 @@ namespace ModernApp.MVC.View.EmployeeSubviews
             else
             {
                 return FindParent<T>(parentObject);
+            }
+        }
+
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchText = SearchBox.Text;
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                // Filter the employee list based on NIC number dynamically as the user types
+                var filteredEmployees = Employees.Where(emp => emp.NationalIdentificationNumber.Contains(searchText)).ToList();
+
+                // Update the DataGrid with filtered employees
+                EmployeeDataGrid.ItemsSource = filteredEmployees;
+
+                // If no employees match, show a message
+                if (filteredEmployees.Count == 0)
+                {
+                    MessageBox.Show("No matching records found.", "Search Results", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                // If search box is cleared, show all employees
+                EmployeeDataGrid.ItemsSource = Employees;
             }
         }
     }

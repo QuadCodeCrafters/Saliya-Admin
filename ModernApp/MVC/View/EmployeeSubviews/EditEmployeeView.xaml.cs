@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MaterialDesignThemes.Wpf;
 
 namespace ModernApp.MVC.View.EmployeeSubviews
 {
@@ -266,6 +267,12 @@ namespace ModernApp.MVC.View.EmployeeSubviews
             {
                 return FindParent<T>(parentObject);
             }
+        }
+
+        private void btnEmployeeCancel_Click(object sender, RoutedEventArgs e)
+        {
+
+          
         }
 
         //// Collect updated data from the UI

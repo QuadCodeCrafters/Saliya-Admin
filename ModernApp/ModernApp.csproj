@@ -154,6 +154,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Notifications\CustomMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Notifications\NotificationBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -226,6 +230,9 @@
     </Compile>
     <Compile Include="MVC\View\SystemDiagnosisView.xaml.cs">
       <DependentUpon>SystemDiagnosisView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Notifications\CustomMessageBox.xaml.cs">
+      <DependentUpon>CustomMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Notifications\NotificationBox.xaml.cs">
       <DependentUpon>NotificationBox.xaml</DependentUpon>

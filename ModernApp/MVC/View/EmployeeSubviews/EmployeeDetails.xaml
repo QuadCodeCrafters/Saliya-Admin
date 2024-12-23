@@ -94,7 +94,7 @@ VerticalAlignment="Center"  Click="btnBackEmployeeDashboard_click"
              Padding="8"
              Height="40"
              VerticalContentAlignment="Center"
-             Margin="0,0,8,0"/>
+             Margin="0,0,8,0" TextChanged="SearchBox_TextChanged"/>
 
                             <Button Grid.Column="1"
             Content="Search"

@@ -316,11 +316,37 @@ namespace ModernApp
 
         public void LoadEmployeeDetailsView()
         {
+            //var employeeView = FindChild<EmployeeView>(this);
+            //if (employeeView != null)
+            //{
+            //    MessageBox.Show("EmployeeView found!");
+            //    fEmployeeEditContainer.Content = null;
+            //    employeeView.OpenEmployeeDetailsView(); // Assuming this method exists in EmployeeView
+            //}
+            //else
+            //{
+            //    MessageBox.Show("EmployeeView not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
+
             var employeeView = FindChild<EmployeeView>(this);
             if (employeeView != null)
             {
                 MessageBox.Show("EmployeeView found!");
+
+                // Hide navigation bar if fEmployeeEditContainer is a Frame
+                if (fEmployeeEditContainer is Frame frame)
+                {
+                    frame.NavigationUIVisibility = NavigationUIVisibility.Hidden; // Hide navigation bar
+                    while (frame.CanGoBack) // Clear history
+                    {
+                        frame.RemoveBackEntry();
+                    }
+                }
+
+                // Clear the content of the container
                 fEmployeeEditContainer.Content = null;
+
+                // Open the employee details view
                 employeeView.OpenEmployeeDetailsView(); // Assuming this method exists in EmployeeView
             }
             else
