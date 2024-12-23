@@ -258,7 +258,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Fonts\" />
-    <Folder Include="MVC\View\EmployeeSubviews\EmployeePictures\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\man.png" />

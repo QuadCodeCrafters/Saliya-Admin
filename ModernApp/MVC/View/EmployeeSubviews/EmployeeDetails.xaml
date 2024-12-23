@@ -157,7 +157,7 @@ VerticalAlignment="Center"  Click="btnBackEmployeeDashboard_click"
                                 <DataGridTemplateColumn Header="Profile Picture">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Image Source="{Binding ProfilePicPath}" Width="50" Height="50" />
+                                            <TextBlock Text="{Binding ProfilePicPath}" Width="50" Height="50" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>

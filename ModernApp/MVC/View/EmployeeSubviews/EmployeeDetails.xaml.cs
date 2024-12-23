@@ -149,11 +149,13 @@ namespace ModernApp.MVC.View.EmployeeSubviews
                 }
 
                 // Find the EmployeeView parent
-                var parentEmployeeView = FindParent<EmployeeView>(this);
+                var parentEmployeeView = FindParent<MainWindow>(this);
 
                 if (parentEmployeeView != null)
                 {
                 EmployeeDataGrid.ItemsSource = null;
+
+                
 
 
                 // Pass the selected employee to EmployeeView

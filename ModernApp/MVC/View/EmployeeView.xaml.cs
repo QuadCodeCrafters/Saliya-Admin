@@ -66,26 +66,26 @@ namespace ModernApp.MVVM.View
         //    }
         //}
 
-        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
-        {
-            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
-            if (parentObject == null) return null;
-            if (parentObject is T parent) return parent;
-            return FindParent<T>(parentObject);
-        }
+        //public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        //{
+        //    DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+        //    if (parentObject == null) return null;
+        //    if (parentObject is T parent) return parent;
+        //    return FindParent<T>(parentObject);
+        //}
 
-        public static T FindChild<T>(DependencyObject parent) where T : DependencyObject
-        {
-            if (parent == null) return null;
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-            {
-                var child = VisualTreeHelper.GetChild(parent, i);
-                if (child is T t) return t;
-                var childOfChild = FindChild<T>(child);
-                if (childOfChild != null) return childOfChild;
-            }
-            return null;
-        }
+        //public static T FindChild<T>(DependencyObject parent) where T : DependencyObject
+        //{
+        //    if (parent == null) return null;
+        //    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+        //    {
+        //        var child = VisualTreeHelper.GetChild(parent, i);
+        //        if (child is T t) return t;
+        //        var childOfChild = FindChild<T>(child);
+        //        if (childOfChild != null) return childOfChild;
+        //    }
+        //    return null;
+        //}
 
 
 
@@ -172,23 +172,52 @@ namespace ModernApp.MVVM.View
 
         }
 
+        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            if (parentObject == null) return null;
+            if (parentObject is T parent) return parent;
+            return FindParent<T>(parentObject);
+        }
 
+        public static T FindChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            if (parent == null) return null;
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T t) return t;
+                var childOfChild = FindChild<T>(child);
+                if (childOfChild != null) return childOfChild;
+            }
+            return null;
+        }
 
-        public void OpenEditEmployeeView(Employee employee)
+        public void OpenEmployeeDetailsView()
         {
 
-            MessageBox.Show("OpeneditEmployeViwe");
+            MessageBox.Show("OpeloyeViwe");
 
-            fEmployeeDetailsContainer.Navigate(new AddNewEmployeeView());
-
-            MessageBox.Show("OpeneditEmployeViwe");
-            var editEmployeeView = new EditEmployeeView();
-            editEmployeeView.LoadEmployeeData(employee);
-
-            // Assuming MyFrame is the navigation frame
-            fEmployeeEditContainer.Content = editEmployeeView;
-            editEmployeeView.LoadEmployeeData(null);
+            fEmployeeDetailsContainer.Navigate(new EmployeeDetails());
         }
+
+
+
+        //public void OpenEditEmployeeView(Employee employee)
+        //{
+
+        //    MessageBox.Show("OpeneditEmployeViwe");
+
+        //    fEmployeeDetailsContainer.Navigate(new AddNewEmployeeView());
+
+        //    MessageBox.Show("OpeneditEmployeViwe");
+        //    var editEmployeeView = new EditEmployeeView();
+        //    editEmployeeView.LoadEmployeeData(employee);
+
+        //    // Assuming MyFrame is the navigation frame
+        //    fEmployeeEditContainer.Content = editEmployeeView;
+        //    editEmployeeView.LoadEmployeeData(null);
+        //}
 
     }
 }

@@ -36,6 +36,7 @@
             </Border>
 
 
+
             <Grid Opacity="0.9" Margin="0,0,0,5" Grid.ColumnSpan="2">
                 <Grid.Background>
                     <LinearGradientBrush StartPoint="0,1" EndPoint="1,0.5">
@@ -148,7 +149,7 @@
                  FontSize="10"
                  Style="{StaticResource MenuButtonTheme}"
                  Margin="10,10,6,3" Checked="RDBHelp_Checked"/>
-                
+
             </StackPanel>
 
 
@@ -223,7 +224,14 @@
                     </TransformGroup>
                 </Rectangle.RenderTransform>
             </Rectangle>
+            <!-- Border with a Frame for loading UserControls -->
+            <Border  Margin="0,93,0,0" CornerRadius="10" BorderThickness="1" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                <Frame Name="fEmployeeEditContainer" Margin="-1,-1,-1,-1" />
+            </Border>
+
         </Grid>
 
+
     </Border>
+
 </Window>

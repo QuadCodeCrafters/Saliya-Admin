@@ -106,43 +106,72 @@ namespace ModernApp.MVC.Model
             }
         }
 
+        //MessageBox.Show($"Name: {updateEmployee.Name}\n" +
+        //        $"Position: {updateEmployee.Position}\n" +
+        //        $"Salary: {updateEmployee.Salary:C}\n" +
+        //        $"DOB: {updateEmployee.DOB.ToShortDateString()}\n" +
+        //        $"Mail: {updateEmployee.Mail}\n" +
+        //        $"Address: {updateEmployee.Address}\n" +
+        //        $"Phone: {updateEmployee.Phone}\n" +
+        //        $"National ID: {updateEmployee.NationalIdentificationNumber}\n" +
+        //        $"Image Path: {updateEmployee.ProfilePicPath}\n" +
+        //        $"Employee ID: {updateEmployee.EmployeeID}",
+        //        "Employee Update Information", MessageBoxButton.OK, MessageBoxImage.Information);
 
-        public bool UpdateEmployee(Employee employee)
+
+        public bool UpdateEmployee(Employee updateEmployee)
         {
-            string query = @"
-            UPDATE Employees
-            SET Name = @Name,
-                Position = @Position,
-                Salary = @Salary,
-                DOB = @DOB,
-                Status = @Status,
-                Mail = @Mail,
-                Address = @Address,
-                Phone = @Phone,
-                HireDate = @HireDate,
-                NationalIdentificationNumber = @NationalIdentificationNumber,
-                ProfilePicPath = @ProfilePicPath
-            WHERE EmployeeID = @EmployeeID";
-
-            using (var connection = new SqlConnection("YourConnectionString"))
-            using (var command = new SqlCommand(query, connection))
+            try
             {
-                command.Parameters.AddWithValue("@Name", employee.Name);
-                command.Parameters.AddWithValue("@Position", employee.Position);
-                command.Parameters.AddWithValue("@Salary", employee.Salary);
-                command.Parameters.AddWithValue("@DOB", employee.DOB);
-                command.Parameters.AddWithValue("@Status", employee.Status);
-                command.Parameters.AddWithValue("@Mail", employee.Mail);
-                command.Parameters.AddWithValue("@Address", employee.Address);
-                command.Parameters.AddWithValue("@Phone", employee.Phone);
-                command.Parameters.AddWithValue("@HireDate", employee.HireDate);
-                command.Parameters.AddWithValue("@NationalIdentificationNumber", employee.NationalIdentificationNumber);
-                command.Parameters.AddWithValue("@ProfilePicPath", employee.ProfilePicPath);
-                command.Parameters.AddWithValue("@EmployeeID", employee.EmployeeID);
+                string query = @"
+UPDATE Employee
+SET 
+    Name = @Name,
+    Position = @Position,
+    Salary = @Salary,
+    DOB = @DOB,
+    Mail = @Mail,
+    Address = @Address,
+    Phone = @Phone,
+    NationalIdentificationNumber = @NationalIdentificationNumber,
+    ImagePath = @ImagePath
+WHERE EmployeeID = @EmployeeID";
 
-                connection.Open();
-                int rowsAffected = command.ExecuteNonQuery();
-                return rowsAffected > 0;
+                using (var connection = _dbConnection.GetConnection())
+                {
+                    connection.Open();  
+                    MySqlCommand command = new MySqlCommand(query, connection);
+
+                    // Add parameters to the command
+                    command.Parameters.AddWithValue("@Name", updateEmployee.Name);
+                    command.Parameters.AddWithValue("@Position", updateEmployee.Position);
+                    command.Parameters.AddWithValue("@Salary", updateEmployee.Salary);
+                    command.Parameters.AddWithValue("@DOB", updateEmployee.DOB);
+                    command.Parameters.AddWithValue("@Mail", updateEmployee.Mail);
+                    command.Parameters.AddWithValue("@Address", updateEmployee.Address);
+                    command.Parameters.AddWithValue("@Phone", updateEmployee.Phone);
+                    command.Parameters.AddWithValue("@NationalIdentificationNumber", updateEmployee.NationalIdentificationNumber);
+                    command.Parameters.AddWithValue("@ImagePath", updateEmployee.ProfilePicPath);
+                    command.Parameters.AddWithValue("@EmployeeID", updateEmployee.EmployeeID);
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    // Debugging output
+                    if (rowsAffected == 0)
+                    {
+                        MessageBox.Show("No rows were updated. Please check the EmployeeID.",
+                            "Update Failed", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return false;
+                    }
+
+                    return true; // Successfully updated
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}", "Update Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                Console.WriteLine(ex.StackTrace);
+                return false;
             }
         }
 

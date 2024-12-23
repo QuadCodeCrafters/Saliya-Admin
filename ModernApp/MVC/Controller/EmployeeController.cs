@@ -18,7 +18,7 @@ namespace ModernApp.MVC.Controller
     {
         //Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MVC" , "View" , "EmployeeSubviews" , "EmployeePictures" );
         // Folder path inside the project (Image/profilepics)
-        private readonly string ImageFolderPath = "D:\\personal\\Coding\\C#\\ModernApp\\ModernApp\\MVC\\View\\EmployeeSubviews\\EmployeePictures\\";
+        private readonly string ImageFolderPath = "D:\\personal\\EmployeePictures";
         private string relativePath;
         private readonly EmployeeModel employeeModel;
         public event Action<BitmapImage> ImageUpdated;
@@ -271,6 +271,13 @@ namespace ModernApp.MVC.Controller
             dataGrid.ItemsSource = employees;
         }
 
+        public void ClearBindEmployeesToDataGrid(DataGrid dataGrid)
+        {
+           
+            dataGrid.ItemsSource = "";
+        }
+
+
 
         public void AddEmployee(string fullname, string email, DateTime dob, string address, string nic, string position, decimal salary, string phone, DependencyObject container)
         {
@@ -325,6 +332,64 @@ namespace ModernApp.MVC.Controller
             }
         }
 
+
+        public void updateEmployee(int employeeID, string fullname, string email, DateTime dob, string address, string nic, string position, decimal salary, string phone, DependencyObject container)
+        {
+            MessageBox.Show($"Employee ID: {employeeID}\nFull Name: {fullname}\nEmail: {email}\nDOB: {dob.ToShortDateString()}\nAddress: {address}\nNational ID: {nic}\nPosition: {position}\nSalary: {salary:C}\nPhone: {phone}",
+                    "Employee Update Information", MessageBoxButton.OK, MessageBoxImage.Information);
+
+
+            try
+            {
+                // Validate the input data before passing to the model
+                if (string.IsNullOrWhiteSpace(fullname) || string.IsNullOrWhiteSpace(email) ||
+                    string.IsNullOrWhiteSpace(nic) || string.IsNullOrWhiteSpace(position) || salary <= 0 || string.IsNullOrWhiteSpace(phone))
+                {
+                    MessageBox.Show("Please ensure all fields are filled correctly.");
+                    return;
+                }
+
+                // Create an Employee object from the data
+                Employee updateEmployee = new Employee
+                {
+                    EmployeeID = employeeID,
+                    Name = fullname,
+                    Mail = email,
+                    DOB = dob,
+                    Address = address,
+                    NationalIdentificationNumber = nic,
+                    Position = position,
+                    Salary = salary,
+                    Phone = phone,
+                    ProfilePicPath = relativePath
+
+                };
+
+                // Pass the Employee object to the model to add to the database
+                bool isAdded = employeeModel.UpdateEmployee(updateEmployee);
+
+                if (isAdded)
+                {
+                    Notificationbox.ShowSuccess();
+
+                    // Show success message
+                    MessageBox.Show("Employee updated successfully!");
+                    //ClearHelper.ClearTextBoxesAndComboBoxes(container);
+
+                }
+                else
+                {
+                    Notificationbox.ShowError();
+                    // If something went wrong with the database insertion
+                    MessageBox.Show("Failed to update employee.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors that might occur
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
 
     }
 }

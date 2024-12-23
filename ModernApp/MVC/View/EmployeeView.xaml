@@ -167,10 +167,10 @@
 
 
         </Grid>
-        <!-- Border with a Frame for loading UserControls -->
+        <!-- Border with a Frame for loading UserControls 
         <Border  Margin="0,2,0,10" CornerRadius="10" BorderThickness="1">
             <Frame Name="fEmployeeEditContainer" Margin="-1,-1,-1,-1" />
-        </Border>
+        </Border> -->
 
 
 

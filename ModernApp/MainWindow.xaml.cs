@@ -17,6 +17,8 @@ using LiveCharts.Wpf;
 using LiveCharts;
 using System.Windows.Markup;
 using ModernApp.MVVM.Model;
+using ModernApp.MVC.View.EmployeeSubviews;
+using ModernApp.MVVM.View;
 
 
 namespace ModernApp
@@ -263,6 +265,70 @@ namespace ModernApp
             {
                 MessageBox.Show($"Error navigating to page: {ex.Message}");
             }
+        }
+
+
+
+
+
+
+
+
+
+
+
+        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            if (parentObject == null) return null;
+            if (parentObject is T parent) return parent;
+            return FindParent<T>(parentObject);
+        }
+
+        public static T FindChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            if (parent == null) return null;
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T t) return t;
+                var childOfChild = FindChild<T>(child);
+                if (childOfChild != null) return childOfChild;
+            }
+            return null;
+        }
+
+        public void OpenEditEmployeeView(Employee employee)
+        {
+
+            MessageBox.Show("OpeneditEmployeViwe");
+
+            //fEmployeeDetailsContainer.Navigate(new AddNewEmployeeView());
+
+            MessageBox.Show("OpeneditEmployeViwe");
+            var editEmployeeView = new EditEmployeeView();
+            editEmployeeView.LoadEmployeeData(employee);
+
+            // Assuming MyFrame is the navigation frame
+            fEmployeeEditContainer.Content = editEmployeeView;
+            editEmployeeView.LoadEmployeeData(null);
+        }
+
+        public void LoadEmployeeDetailsView()
+        {
+            var employeeView = FindChild<EmployeeView>(this);
+            if (employeeView != null)
+            {
+                MessageBox.Show("EmployeeView found!");
+                fEmployeeEditContainer.Content = null;
+                employeeView.OpenEmployeeDetailsView(); // Assuming this method exists in EmployeeView
+            }
+            else
+            {
+                MessageBox.Show("EmployeeView not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+
         }
     }
 }

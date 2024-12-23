@@ -31,8 +31,12 @@ namespace ModernApp.MVC.View.EmployeeSubviews
         {
             InitializeComponent();
             employeeController = new EmployeeController(); // Initialize the controller
-           
+            employeeController.ImageUpdated += UpdateProfileImage;
 
+        }
+        private void UpdateProfileImage(BitmapImage image)
+        {
+            imgEmployee.Source = image; // Assuming imgEmployee is your Image control
         }
 
 
@@ -47,11 +51,14 @@ namespace ModernApp.MVC.View.EmployeeSubviews
             }
         }
 
+        int employeeID;
+
         public void LoadEmployeeData(Employee employee)
         {
             if (employee == null) return;
 
             // Set the values of controls
+            employeeID=employee.EmployeeID;
             txtFullname.Text = employee.Name;
             txtPhone.Text = employee.Phone;
             txtEmail.Text = employee.Mail;
@@ -64,10 +71,22 @@ namespace ModernApp.MVC.View.EmployeeSubviews
             DPDOB.SelectedDate = employee.DOB;
             imagePath = employee.ProfilePicPath;
 
+            
+
             // Load profile picture
             if (!string.IsNullOrEmpty(employee.ProfilePicPath) && File.Exists(employee.ProfilePicPath))
             {
-                imgEmployee.Source = new BitmapImage(new Uri(employee.ProfilePicPath));
+                using (var stream = new FileStream(employee.ProfilePicPath, FileMode.Open, FileAccess.Read))
+                {
+                    var bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.StreamSource = stream;
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad; // Fully load the image into memory
+                    bitmap.EndInit();
+                    imgEmployee.Source = bitmap;
+
+                }
+
             }
             else
             {
@@ -79,27 +98,26 @@ namespace ModernApp.MVC.View.EmployeeSubviews
 
         private void BtnchangePhoto_Click(object sender, RoutedEventArgs e)
         {
-            // Ensure the image source is released before deletion
+            // Ensure the image source is released before moving
             ReleaseImageLock();
 
-            // Delete the old image
+            // Move the old image to the target folder
+           // MoveUpdateImage();
             DeleteUpdateImage();
 
             // Open the file dialog to select a new image
             employeeController.OpenFileDialog();
         }
 
+
         private void ReleaseImageLock()
         {
             // Check if the image is loaded in an Image control and release the lock
             if (imgEmployee.Source != null)
             {
-                // Set the source to null to release the file lock
-                imgEmployee.Source = null;
-
-                // Force garbage collection to close the file handle
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
+                imgEmployee.Source = null; // Set source to null to release any file locks
+                GC.Collect(); // Force garbage collection
+                GC.WaitForPendingFinalizers(); // Ensure finalizers have run
             }
         }
 
@@ -107,6 +125,8 @@ namespace ModernApp.MVC.View.EmployeeSubviews
         {
             try
             {
+
+
                 if (File.Exists(imagePath))
                 {
                     File.Delete(imagePath);
@@ -128,42 +148,159 @@ namespace ModernApp.MVC.View.EmployeeSubviews
         }
 
 
+        //public void MoveUpdateImage()
+        //{
+        //    try
+        //    {
+        //        if (File.Exists(imagePath))
+        //        {
+        //            // Define the target folder path
+        //            string targetFolder = "D:\\VM OS";
+
+        //            // Ensure the target folder exists
+        //            if (!Directory.Exists(targetFolder))
+        //            {
+        //                Directory.CreateDirectory(targetFolder);
+        //            }
+
+        //            // Generate a unique file name to avoid conflicts
+        //            string newFileName = System.IO.Path.Combine(targetFolder, System.IO.Path.GetFileName(imagePath));
+
+        //            // Move the file to the target folder
+        //            File.Move(imagePath, newFileName);
+
+        //            MessageBox.Show($"Image moved successfully to {newFileName}!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+        //            // Update the image path to reflect the new location
+        //            imagePath = newFileName;
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show("Image not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //        }
+        //    }
+        //    catch (IOException ioEx)
+        //    {
+        //        MessageBox.Show($"Error moving image: {ioEx.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"Error moving image: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //}
+
+
+
+       
+
         private void btnEmployeeUpdate_Click(object sender, RoutedEventArgs e)
         {
+            // Collect data from UI controls
+
+            string fullName = txtFullname.Text;
+            string email = txtEmail.Text;
+            DateTime dob = DPDOB.SelectedDate ?? DateTime.MinValue; // Fallback if no date is selected
+            string address = txtAddress.Text;
+            string nic = txtNICnumber.Text;
+            string position = (CBXPosition.SelectedItem as ComboBoxItem)?.Content as string; // Safely get position
+            decimal salary;
+            string phone = txtPhone.Text;
+
+            // Try parsing the salary value
+            if (!decimal.TryParse(txtSalary.Text, out salary))
+            {
+                MessageBox.Show("Please enter a valid salary.");
+
+                return;
+            }
+
+            // Check if all fields are filled
+            if (string.IsNullOrWhiteSpace(fullName) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(nic) || string.IsNullOrWhiteSpace(nic) ||
+                string.IsNullOrWhiteSpace(position) || salary <= 0 || dob == DateTime.MinValue)
+            {
+                MessageBox.Show("Please ensure all fields are filled correctly.");
+                return;
+            }
+
+            //MessageBox.Show(Convert.ToString(employeeID));
+            // Call the controller's method to add the employee
+            employeeController.updateEmployee(employeeID, fullName, email, dob, address, nic, position, salary, phone, this);
+        }
+
+        private void btnBackEmployeeDashboard_Click_1(object sender, RoutedEventArgs e)
+        {
            
-                // Collect updated data from the UI
-                var updatedEmployee = new Employee
-                {
-                    EmployeeID = int.Parse(txtNICnumber.Text), // Assuming EmployeeID is entered or already populated
-                    Name = txtFullname.Text,
-                    Phone = txtPhone.Text,
-                    Mail = txtEmail.Text,
-                    Address = txtAddress.Text,
-                    NationalIdentificationNumber = txtNICnumber.Text,
-                    Position = (CBXPosition.SelectedItem as ComboBoxItem)?.Content.ToString(),
-                    Salary = decimal.TryParse(txtSalary.Text, out var salary) ? salary : 0,
-                    DOB = DPDOB.SelectedDate ?? DateTime.MinValue,
-                    ProfilePicPath = imgEmployee.Source is BitmapImage bitmapImage ? bitmapImage.UriSource.ToString() : null
-                };
+           
+          
 
-                // Call the EmployeeController to update the employee
-                var employeeController = new EmployeeController();
-                bool isUpdated = employeeController.UpdateEmployee(updatedEmployee);
+            // Find the EmployeeView parent
+            var parentEmployeeView = FindParent<MainWindow>(this);
 
-                if (isUpdated)
-                {
-                    MessageBox.Show("Employee details updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                    // Navigate back to Employee Dashboard or previous view
-                    var parentFrame = Window.GetWindow(this)?.FindName("MyFrame") as Frame;
-                    parentFrame?.GoBack();
-                }
-                else
-                {
-                    MessageBox.Show("Failed to update employee details. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+            if (parentEmployeeView != null)
+            {
             
+                // Pass the selected employee to EmployeeView
+                parentEmployeeView.LoadEmployeeDetailsView();
+
+
+            }
+            else
+            {
+                MessageBox.Show("Parent view not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
         }
+
+        // Helper function to find the parent Frame of the UserControl
+        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) return null;
+
+            if (parentObject is T parent)
+            {
+                return parent;
+            }
+            else
+            {
+                return FindParent<T>(parentObject);
+            }
+        }
+
+        //// Collect updated data from the UI
+        //var updatedEmployee = new Employee
+        //{
+        //    EmployeeID = employee.EmployeeID, // Assuming EmployeeID is entered or already populated
+        //    Name = txtFullname.Text,
+        //    Phone = txtPhone.Text,
+        //    Mail = txtEmail.Text,
+        //    Address = txtAddress.Text,
+        //    NationalIdentificationNumber = txtNICnumber.Text,
+        //    Position = (CBXPosition.SelectedItem as ComboBoxItem)?.Content.ToString(),
+        //    Salary = decimal.TryParse(txtSalary.Text, out var salary) ? salary : 0,
+        //    DOB = DPDOB.SelectedDate ?? DateTime.MinValue,
+        //    ProfilePicPath = imgEmployee.Source is BitmapImage bitmapImage ? bitmapImage.UriSource.ToString() : null
+        //};
+
+        //// Call the EmployeeController to update the employee
+        //var employeeController = new EmployeeController();
+        //bool isUpdated = employeeController.UpdateEmployee(updatedEmployee);
+
+        //if (isUpdated)
+        //{
+        //    MessageBox.Show("Employee details updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+        //    // Navigate back to Employee Dashboard or previous view
+        //    var parentFrame = Window.GetWindow(this)?.FindName("MyFrame") as Frame;
+        //    parentFrame?.GoBack();
+        //}
+        //else
+        //{
+        //    MessageBox.Show("Failed to update employee details. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //}
+
+
     }
     }
+    
