@@ -24,5 +24,31 @@ namespace ModernApp.MVVM.View
         {
             InitializeComponent();
         }
+
+        private void freportpreviewContainer_Navigated(object sender, NavigationEventArgs e)
+        {
+
+        }
+
+       
+
+        private void btnSalesReportGenerate_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (freportpreviewContainer != null)
+                {
+                    freportpreviewContainer.Navigate(new Uri("pack://application:,,,/MVC/View/ReportSubviews/SalesReportPreviewView.xaml", UriKind.Absolute));
+                }
+                else
+                {
+                    MessageBox.Show("Frame container is not initialized.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+        }
     }
 }
