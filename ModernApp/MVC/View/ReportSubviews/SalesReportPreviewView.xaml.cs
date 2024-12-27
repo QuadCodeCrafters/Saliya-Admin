@@ -70,20 +70,30 @@ namespace ModernApp.MVC.View.ReportSubviews
 
                 if (printDialog.ShowDialog() == true)
                 {
-                    // Create a copy of the UserControl for exporting
+                    // Get A4 dimensions in device-independent units (1/96 inch per unit)
+                    const double A4Width = 8.27 * 96; // A4 width in inches (8.27 inches * 96 DPI)
+                    const double A4Height = 11.69 * 96; // A4 height in inches (11.69 inches * 96 DPI)
+
+                    // Create a copy of the UserControl for printing
                     UserControl exportContent = new UserControl
                     {
                         Content = this.Content
                     };
 
-                    // Measure and arrange the content
-                    exportContent.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                    exportContent.Arrange(new Rect(new Point(0, 0), exportContent.DesiredSize));
+                    // Measure and arrange the content to fit A4 dimensions
+                    exportContent.Measure(new Size(A4Width, A4Height));
+                    exportContent.Arrange(new Rect(new Point(0, 0), new Size(A4Width, A4Height)));
 
-                    // Export the content to PDF
+                    // Scale the content to fit the page size
+                    double scaleX = A4Width / exportContent.ActualWidth;
+                    double scaleY = A4Height / exportContent.ActualHeight;
+                    exportContent.LayoutTransform = new ScaleTransform(scaleX, scaleY);
+
+                    // Print the content
                     printDialog.PrintVisual(exportContent, "Saliya Auto Care Sales Report");
 
                     MessageBox.Show("PDF exported successfully.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Notificationbox.ShowSuccess();
                 }
                 else
                 {
@@ -102,6 +112,8 @@ namespace ModernApp.MVC.View.ReportSubviews
                 // Reload the UserControl
                 ShowAgain();
             }
+
+
         }
 
         public void Buttonprint_Click(object sender, RoutedEventArgs e)
@@ -130,6 +142,7 @@ namespace ModernApp.MVC.View.ReportSubviews
                     printDialog.PrintVisual(printContent, "Saliya Auto Care Sales Report");
 
                     MessageBox.Show("Printed successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Notificationbox.ShowSuccess();
                 }
                 else
                 {
@@ -154,7 +167,7 @@ namespace ModernApp.MVC.View.ReportSubviews
 
         public void ShowAgain()
         {
-            Notificationbox.ShowSuccess();
+           
             UserControl newUser = new ReportSubviews.SalesReportPreviewView();
             this.Content = newUser;
         }
