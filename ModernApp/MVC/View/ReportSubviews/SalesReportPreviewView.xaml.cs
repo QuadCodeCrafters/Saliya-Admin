@@ -400,10 +400,15 @@ namespace ModernApp.MVC.View.ReportSubviews
 
                 // Generate PDF
                 string pdfFilePath = "SalesReport_WithHeaderFooter.pdf"; // Update with the desired path
-                GeneratePdf(pdfFilePath);
+                Sales = GetSampleData();
+                // Get the sales data as a list from your observable collection
+                List<SalesData> salesDataList = Sales.ToList();
 
-                // Open the PDF and trigger print dialog
-                OpenAndPrintPdf(pdfFilePath);
+                // Call the ExportPdfWithHeaderFooter method with the sales data
+                GeneratePrintableDocument(salesDataList, pdfFilePath);
+
+                // Show the print dialog for the generated PDF
+                PrintPdf(pdfFilePath);
 
                 MessageBox.Show("Printed successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Notificationbox.ShowSuccess();
@@ -424,64 +429,134 @@ namespace ModernApp.MVC.View.ReportSubviews
             }
         }
 
-        private void GeneratePdf(string pdfFilePath)
-        {
-            // Example: PDF creation using PDFsharp (same as your existing code)
-            PdfDocument document = new PdfDocument();
-            document.Info.Title = "Saliya Auto Care Sales Report";
+       
 
-            // Create a page
-            PdfPage page = document.AddPage();
-            XGraphics gfx = XGraphics.FromPdfPage(page);
-            XFont font = new XFont("Arial", 12, XFontStyle.Regular);
 
-            // Draw content (same as your code)
-            gfx.DrawString("Sales Report", font, XBrushes.Black, new XPoint(100, 100));
-
-            // Save the document to a file
-            document.Save(pdfFilePath);
-        }
-
-        private void OpenAndPrintPdf(string pdfFilePath)
+        public void GeneratePrintableDocument(List<SalesData> salesData, string pdfFilePath)
         {
             try
             {
-                // Use the default PDF viewer to open the PDF and invoke the print dialog
-                string viewerPath = GetDefaultPdfViewerPath();
+                // Create PDF document
+                PdfDocument document = new PdfDocument();
+                document.Info.Title = "Saliya Auto Care Sales Report";
 
-                // Run the PDF viewer with the /p argument to print the file
-                ProcessStartInfo printProcess = new ProcessStartInfo(viewerPath, $"/p \"{pdfFilePath}\"")
+                const double pageWidth = 8.27 * 72; // A4 width in points (72 DPI)
+                const double pageHeight = 11.69 * 72; // A4 height in points (72 DPI)
+                const double margin = 40; // Margin for content
+
+                double yOffset = margin + 100; // Leave space for header
+                double footerHeight = 50;
+
+                // Load the logo image
+                string logoPath = "D:\\personal\\Coding\\C#\\ModernApp\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
+                XImage logo = XImage.FromFile(logoPath);
+
+                // Add pages and content
+                PdfPage page = document.AddPage();
+                page.Size = PdfSharp.PageSize.A4;
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+                XFont font = new XFont("Arial", 12, XFontStyle.Regular);
+
+                bool isHeaderDrawn = false; // Flag to track if the header has been drawn
+
+                // Define column headers
+                string[] headers = { "Sale ID", "Product Name", "Product Type", "Sales Amount", "Sale Date" };
+                double[] columnWidths = { 50, 150, 100, 100, 100 };
+
+                // Draw table header and header only on the first page
+                foreach (var sale in salesData)
                 {
-                    UseShellExecute = true,
-                    CreateNoWindow = true
-                };
+                    if (!isHeaderDrawn)
+                    {
+                        // Draw header on the first page
+                        DrawHeader(gfx, logo, margin, pageWidth);
+                        // Draw table header
+                        DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
+                        yOffset += 20;
+                        isHeaderDrawn = true; // Set flag to true after drawing the header
+                    }
 
-                Process.Start(printProcess);
+                    if (yOffset > pageHeight - margin - footerHeight) // Check if page is full
+                    {
+                        DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
+
+                        // Add new page
+                        page = document.AddPage();
+                        page.Size = PdfSharp.PageSize.A4;
+                        gfx = XGraphics.FromPdfPage(page);
+                        yOffset = margin + 100;
+
+                        // Redraw header and table header on the new page
+                        DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
+                        yOffset += 20;
+                    }
+
+                    string[] rowData =
+                    {
+                sale.SaleID.ToString(),
+                sale.ProductName,
+                sale.ProductType,
+                sale.SalesAmount.ToString("C"),
+                sale.SaleDate.ToShortDateString()
+            };
+
+                    DrawTableRow(gfx, font, rowData, columnWidths, margin, yOffset, false);
+                    yOffset += 20;
+                }
+
+                // Draw footer on the last page
+                DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
+
+                // Save the document
+                string filename = "SalesReport_WithHeaderFooter.pdf";
+                document.Save(pdfFilePath);
+                MessageBox.Show("PDF exported successfully.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+               
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred while opening the PDF: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private string GetDefaultPdfViewerPath()
+        private void PrintPdf(string pdfFilePath)
         {
-            // This method finds the default PDF viewer on the system
-            string programFilesPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
-            string[] possiblePaths = {
-        Path.Combine(programFilesPath, @"Adobe\Acrobat Reader DC\Reader\AcroRd32.exe"),
-        Path.Combine(programFilesPath, @"Microsoft\Edge\Application\msedge.exe")
-    };
-
-            foreach (var path in possiblePaths)
+            try
             {
-                if (File.Exists(path))
-                {
-                    return path;
-                }
-            }
+                // Determine the path to Microsoft Edge or Acrobat Reader
+                string edgePath = @"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"; // Adjust for your system
+                string acrobatReaderPath = @"C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe"; // Adjust for your system
 
-            throw new Exception("No valid PDF viewer found.");
+                //// Set the command to open the PDF in Microsoft Edge and print it
+                ProcessStartInfo processInfo = new ProcessStartInfo
+                {
+                    FileName = acrobatReaderPath,
+                    Arguments = $"/t \"{pdfFilePath}\"",
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+                //{
+                //    FileName = edgePath,
+                //    Arguments = $"/print \"{pdfFilePath}\"", // Print the PDF without opening the UI
+                //    UseShellExecute = false,
+                //    CreateNoWindow = true
+                //};
+
+                //// If Edge is not available, fallback to Adobe Acrobat Reader
+                //if (!File.Exists(acrobatReaderPath) && File.Exists(edgePath))
+                //{
+                    //processInfo = new ProcessStartInfo 
+                    //{
+                        
+                    //};
+                //}
+
+                Process.Start(processInfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while printing the PDF: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
 
