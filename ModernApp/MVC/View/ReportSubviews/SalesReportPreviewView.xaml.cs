@@ -9,6 +9,8 @@ using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using System.Security.Cryptography;
 using System.Linq;
+using System.Diagnostics;
+using System.IO;
 
 namespace ModernApp.MVC.View.ReportSubviews
 {
@@ -61,6 +63,25 @@ namespace ModernApp.MVC.View.ReportSubviews
                                         new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
                                new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
                                new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                 new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                   new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                     new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                       new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                         new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                           new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                             new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                               new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                                 new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                                   new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                                     new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                                       new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                                         new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                                           new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                                             new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                                               new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                                                 new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                                                   new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+                                                                     new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
             };
         }
 
@@ -164,65 +185,67 @@ namespace ModernApp.MVC.View.ReportSubviews
 
 
 
-        public void ExportPdfWithHeaderFooter(List<SalesData> salesData)
+   public void ExportPdfWithHeaderFooter(List<SalesData> salesData)
+{
+    try
+    {
+        // Create PDF document
+        PdfDocument document = new PdfDocument();
+        document.Info.Title = "Saliya Auto Care Sales Report";
+
+        const double pageWidth = 8.27 * 72; // A4 width in points (72 DPI)
+        const double pageHeight = 11.69 * 72; // A4 height in points (72 DPI)
+        const double margin = 40; // Margin for content
+
+        double yOffset = margin + 100; // Leave space for header
+        double footerHeight = 50;
+
+        // Load the logo image
+        string logoPath = "D:\\personal\\Coding\\C#\\ModernApp\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
+        XImage logo = XImage.FromFile(logoPath);
+
+        // Add pages and content
+        PdfPage page = document.AddPage();
+        page.Size = PdfSharp.PageSize.A4;
+        XGraphics gfx = XGraphics.FromPdfPage(page);
+        XFont font = new XFont("Arial", 12, XFontStyle.Regular);
+
+        bool isHeaderDrawn = false; // Flag to track if the header has been drawn
+
+        // Define column headers
+        string[] headers = { "Sale ID", "Product Name", "Product Type", "Sales Amount", "Sale Date" };
+        double[] columnWidths = { 50, 150, 100, 100, 100 };
+
+        // Draw table header and header only on the first page
+        foreach (var sale in salesData)
         {
-           
-
-            try
+            if (!isHeaderDrawn)
             {
-                // Create PDF document
-                PdfDocument document = new PdfDocument();
-                document.Info.Title = "Saliya Auto Care Sales Report";
-
-                const double pageWidth = 8.27 * 72; // A4 width in points (72 DPI)
-                const double pageHeight = 11.69 * 72; // A4 height in points (72 DPI)
-                const double margin = 40; // Margin for content
-
-                double yOffset = margin + 100; // Leave space for header
-                double footerHeight = 50;
-
-                // Load the logo image
-                string logoPath = "D:\\personal\\Coding\\C#\\ModernApp\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
-                XImage logo = XImage.FromFile(logoPath);
-
-                // Add pages and content
-                PdfPage page = document.AddPage();
-                page.Size = PdfSharp.PageSize.A4;
-                XGraphics gfx = XGraphics.FromPdfPage(page);
-                XFont font = new XFont("Arial", 12, XFontStyle.Regular);
-
-                // Draw header
+                // Draw header on the first page
                 DrawHeader(gfx, logo, margin, pageWidth);
-
-                // Define column headers
-                string[] headers = { "Sale ID", "Product Name", "Product Type", "Sales Amount", "Sale Date" };
-                double[] columnWidths = { 50, 150, 100, 100, 100 };
-
                 // Draw table header
                 DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
                 yOffset += 20;
+                isHeaderDrawn = true; // Set flag to true after drawing the header
+            }
 
-                // Draw data rows
-                foreach (var sale in salesData)
-                {
-                    if (yOffset > pageHeight - margin - footerHeight) // Check if page is full
-                    {
-                        DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
+            if (yOffset > pageHeight - margin - footerHeight) // Check if page is full
+            {
+                DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
 
-                        // Add new page
-                        page = document.AddPage();
-                        page.Size = PdfSharp.PageSize.A4;
-                        gfx = XGraphics.FromPdfPage(page);
-                        yOffset = margin + 100;
+                // Add new page
+                page = document.AddPage();
+                page.Size = PdfSharp.PageSize.A4;
+                gfx = XGraphics.FromPdfPage(page);
+                yOffset = margin + 100;
 
-                        // Redraw header and table header
-                        DrawHeader(gfx, logo, margin, pageWidth);
-                        DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
-                        yOffset += 20;
-                    }
+                // Redraw header and table header on the new page
+                DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
+                yOffset += 20;
+            }
 
-                    string[] rowData =
-                    {
+            string[] rowData =
+            {
                 sale.SaleID.ToString(),
                 sale.ProductName,
                 sale.ProductType,
@@ -230,24 +253,25 @@ namespace ModernApp.MVC.View.ReportSubviews
                 sale.SaleDate.ToShortDateString()
             };
 
-                    DrawTableRow(gfx, font, rowData, columnWidths, margin, yOffset, false);
-                    yOffset += 20;
-                }
-
-                // Draw footer on the last page
-                DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
-
-                // Save the document
-                string filename = "SalesReport_WithHeaderFooter.pdf";
-                document.Save(filename);
-                MessageBox.Show("PDF exported successfully.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
-                System.Diagnostics.Process.Start(filename);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            DrawTableRow(gfx, font, rowData, columnWidths, margin, yOffset, false);
+            yOffset += 20;
         }
+
+        // Draw footer on the last page
+        DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
+
+        // Save the document
+        string filename = "SalesReport_WithHeaderFooter.pdf";
+        document.Save(filename);
+        MessageBox.Show("PDF exported successfully.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+        System.Diagnostics.Process.Start(filename);
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+    }
+}
+
 
         // Helper method to draw the header
         private void DrawHeader(XGraphics gfx, XImage logo, double margin, double pageWidth)
@@ -267,17 +291,46 @@ namespace ModernApp.MVC.View.ReportSubviews
                 XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 60));
         }
 
+        //// Helper method to draw a table row
+        //private void DrawTableRow(XGraphics gfx, XFont font, string[] data, double[] columnWidths, double xOffset, double yOffset, bool isHeader)
+        //{
+        //    XBrush brush = isHeader ? XBrushes.LightGray : XBrushes.Black;
+        //    for (int i = 0; i < data.Length; i++)
+        //    {
+        //        gfx.DrawRectangle(XPens.LightGray, new XRect(xOffset, yOffset, columnWidths[i], 20));
+        //        gfx.DrawString(data[i], font, brush, new XPoint(xOffset + 5, yOffset + 15));
+
+        //        xOffset += columnWidths[i];
+        //    }
+        //}
+
         // Helper method to draw a table row
         private void DrawTableRow(XGraphics gfx, XFont font, string[] data, double[] columnWidths, double xOffset, double yOffset, bool isHeader)
         {
-            XBrush brush = isHeader ? XBrushes.LightGray : XBrushes.Black;
+            // Set the brush for the text color (black for both header and data)
+            XBrush textBrush = isHeader ? XBrushes.Black : XBrushes.Black;
+
+            // Set the background color for the header row (light gray) or no background for data rows
+            if (isHeader)
+            {
+                // Fill the header row with light gray
+                gfx.DrawRectangle(XBrushes.LightGray, new XRect(xOffset, yOffset, columnWidths.Sum(), 20));
+            }
+
+            // Draw the table cells (with text) for both header and data rows
             for (int i = 0; i < data.Length; i++)
             {
-                gfx.DrawRectangle(XPens.Black, new XRect(xOffset, yOffset, columnWidths[i], 20));
-                gfx.DrawString(data[i], font, brush, new XPoint(xOffset + 5, yOffset + 15));
+                // Draw the cell borders
+                gfx.DrawRectangle(XPens.LightGray, new XRect(xOffset, yOffset, columnWidths[i], 20));
+
+                // Draw the text inside the cell
+                gfx.DrawString(data[i], font, textBrush, new XPoint(xOffset + 5, yOffset + 15));
+
+                // Move to the next column
                 xOffset += columnWidths[i];
             }
         }
+
 
         // Helper method to draw the footer
         private void DrawFooter(XGraphics gfx, double pageWidth, double pageHeight, double footerHeight)
@@ -286,6 +339,55 @@ namespace ModernApp.MVC.View.ReportSubviews
             gfx.DrawString(footerText, new XFont("Arial", 10, XFontStyle.Regular),
                 XBrushes.Gray, new XPoint(pageWidth / 2, pageHeight - footerHeight), XStringFormats.Center);
         }
+
+        //public void Buttonprint_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        this.IsEnabled = false;
+
+        //        // Temporarily hide the footer
+        //        HideFooter();
+
+        //        PrintDialog printDialog = new PrintDialog();
+        //        if (printDialog.ShowDialog() == true)
+        //        {
+        //            // Create a copy of the UserControl for printing
+        //            UserControl printContent = new UserControl
+        //            {
+        //                Content = this.Content
+        //            };
+
+        //            // Measure and arrange the content
+        //            printContent.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+        //            printContent.Arrange(new Rect(new Point(0, 0), printContent.DesiredSize));
+
+        //            // Print the content
+        //            printDialog.PrintVisual(printContent, "Saliya Auto Care Sales Report");
+
+        //            MessageBox.Show("Printed successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        //            Notificationbox.ShowSuccess();
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show("Print canceled.", "Canceled", MessageBoxButton.OK, MessageBoxImage.Warning);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //    finally
+        //    {
+        //        // Restore the footer
+        //        ShowFooter();
+
+        //        // Reload the UserControl
+        //        ShowAgain();
+
+        //        this.IsEnabled = true;
+        //    }
+        //}
 
         public void Buttonprint_Click(object sender, RoutedEventArgs e)
         {
@@ -296,29 +398,15 @@ namespace ModernApp.MVC.View.ReportSubviews
                 // Temporarily hide the footer
                 HideFooter();
 
-                PrintDialog printDialog = new PrintDialog();
-                if (printDialog.ShowDialog() == true)
-                {
-                    // Create a copy of the UserControl for printing
-                    UserControl printContent = new UserControl
-                    {
-                        Content = this.Content
-                    };
+                // Generate PDF
+                string pdfFilePath = "SalesReport_WithHeaderFooter.pdf"; // Update with the desired path
+                GeneratePdf(pdfFilePath);
 
-                    // Measure and arrange the content
-                    printContent.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                    printContent.Arrange(new Rect(new Point(0, 0), printContent.DesiredSize));
+                // Open the PDF and trigger print dialog
+                OpenAndPrintPdf(pdfFilePath);
 
-                    // Print the content
-                    printDialog.PrintVisual(printContent, "Saliya Auto Care Sales Report");
-
-                    MessageBox.Show("Printed successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    Notificationbox.ShowSuccess();
-                }
-                else
-                {
-                    MessageBox.Show("Print canceled.", "Canceled", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
+                MessageBox.Show("Printed successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                Notificationbox.ShowSuccess();
             }
             catch (Exception ex)
             {
@@ -335,6 +423,67 @@ namespace ModernApp.MVC.View.ReportSubviews
                 this.IsEnabled = true;
             }
         }
+
+        private void GeneratePdf(string pdfFilePath)
+        {
+            // Example: PDF creation using PDFsharp (same as your existing code)
+            PdfDocument document = new PdfDocument();
+            document.Info.Title = "Saliya Auto Care Sales Report";
+
+            // Create a page
+            PdfPage page = document.AddPage();
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+            XFont font = new XFont("Arial", 12, XFontStyle.Regular);
+
+            // Draw content (same as your code)
+            gfx.DrawString("Sales Report", font, XBrushes.Black, new XPoint(100, 100));
+
+            // Save the document to a file
+            document.Save(pdfFilePath);
+        }
+
+        private void OpenAndPrintPdf(string pdfFilePath)
+        {
+            try
+            {
+                // Use the default PDF viewer to open the PDF and invoke the print dialog
+                string viewerPath = GetDefaultPdfViewerPath();
+
+                // Run the PDF viewer with the /p argument to print the file
+                ProcessStartInfo printProcess = new ProcessStartInfo(viewerPath, $"/p \"{pdfFilePath}\"")
+                {
+                    UseShellExecute = true,
+                    CreateNoWindow = true
+                };
+
+                Process.Start(printProcess);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while opening the PDF: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private string GetDefaultPdfViewerPath()
+        {
+            // This method finds the default PDF viewer on the system
+            string programFilesPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+            string[] possiblePaths = {
+        Path.Combine(programFilesPath, @"Adobe\Acrobat Reader DC\Reader\AcroRd32.exe"),
+        Path.Combine(programFilesPath, @"Microsoft\Edge\Application\msedge.exe")
+    };
+
+            foreach (var path in possiblePaths)
+            {
+                if (File.Exists(path))
+                {
+                    return path;
+                }
+            }
+
+            throw new Exception("No valid PDF viewer found.");
+        }
+
 
         public void ShowAgain()
         {
