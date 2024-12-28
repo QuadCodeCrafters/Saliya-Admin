@@ -4,6 +4,11 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Collections.Generic;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using System.Security.Cryptography;
+using System.Linq;
 
 namespace ModernApp.MVC.View.ReportSubviews
 {
@@ -85,61 +90,201 @@ namespace ModernApp.MVC.View.ReportSubviews
             }
         }
 
-        public void ExportPdfButton_Click(object sender, RoutedEventArgs e)
+        //public void ExportPdfButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        // Temporarily hide the footer
+        //        HideFooter();
+
+        //        PrintDialog printDialog = new PrintDialog();
+
+        //        if (printDialog.ShowDialog() == true)
+        //        {
+        //            // Get A4 dimensions in device-independent units (1/96 inch per unit)
+        //            const double A4Width = 8.27 * 96; // A4 width in inches (8.27 inches * 96 DPI)
+        //            const double A4Height = 11.69 * 96; // A4 height in inches (11.69 inches * 96 DPI)
+
+        //            // Create a copy of the UserControl for printing
+        //            UserControl exportContent = new UserControl
+        //            {
+        //                Content = this.Content
+        //            };
+
+        //            // Measure and arrange the content to fit A4 dimensions
+        //            exportContent.Measure(new Size(A4Width, A4Height));
+        //            exportContent.Arrange(new Rect(new Point(0, 0), new Size(A4Width, A4Height)));
+
+        //            // Scale the content to fit the page size
+        //            double scaleX = A4Width / exportContent.ActualWidth;
+        //            double scaleY = A4Height / exportContent.ActualHeight;
+        //            exportContent.LayoutTransform = new ScaleTransform(scaleX, scaleY);
+
+        //            // Print the content
+        //            printDialog.PrintVisual(exportContent, "Saliya Auto Care Sales Report");
+
+        //            MessageBox.Show("PDF exported successfully.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+        //            Notificationbox.ShowSuccess();
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show("PDF export canceled.", "Export Canceled", MessageBoxButton.OK, MessageBoxImage.Warning);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //    finally
+        //    {
+        //        // Restore the footer
+        //        ShowFooter();
+
+        //        // Reload the UserControl
+        //        ShowAgain();
+        //    }
+
+
+        //}
+
+     
+
+        // Export button click event handler
+        private void ExportPdfButton_Click(object sender, RoutedEventArgs e)
         {
+            Sales = GetSampleData();
+            // Get the sales data as a list from your observable collection
+            List<SalesData> salesDataList = Sales.ToList();
+
+            // Call the ExportPdfWithHeaderFooter method with the sales data
+            ExportPdfWithHeaderFooter(salesDataList);
+        }
+
+
+
+
+
+        public void ExportPdfWithHeaderFooter(List<SalesData> salesData)
+        {
+           
+
             try
             {
-                // Temporarily hide the footer
-                HideFooter();
+                // Create PDF document
+                PdfDocument document = new PdfDocument();
+                document.Info.Title = "Saliya Auto Care Sales Report";
 
-                PrintDialog printDialog = new PrintDialog();
+                const double pageWidth = 8.27 * 72; // A4 width in points (72 DPI)
+                const double pageHeight = 11.69 * 72; // A4 height in points (72 DPI)
+                const double margin = 40; // Margin for content
 
-                if (printDialog.ShowDialog() == true)
+                double yOffset = margin + 100; // Leave space for header
+                double footerHeight = 50;
+
+                // Load the logo image
+                string logoPath = "D:\\personal\\Coding\\C#\\ModernApp\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
+                XImage logo = XImage.FromFile(logoPath);
+
+                // Add pages and content
+                PdfPage page = document.AddPage();
+                page.Size = PdfSharp.PageSize.A4;
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+                XFont font = new XFont("Arial", 12, XFontStyle.Regular);
+
+                // Draw header
+                DrawHeader(gfx, logo, margin, pageWidth);
+
+                // Define column headers
+                string[] headers = { "Sale ID", "Product Name", "Product Type", "Sales Amount", "Sale Date" };
+                double[] columnWidths = { 50, 150, 100, 100, 100 };
+
+                // Draw table header
+                DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
+                yOffset += 20;
+
+                // Draw data rows
+                foreach (var sale in salesData)
                 {
-                    // Get A4 dimensions in device-independent units (1/96 inch per unit)
-                    const double A4Width = 8.27 * 96; // A4 width in inches (8.27 inches * 96 DPI)
-                    const double A4Height = 11.69 * 96; // A4 height in inches (11.69 inches * 96 DPI)
-
-                    // Create a copy of the UserControl for printing
-                    UserControl exportContent = new UserControl
+                    if (yOffset > pageHeight - margin - footerHeight) // Check if page is full
                     {
-                        Content = this.Content
-                    };
+                        DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
 
-                    // Measure and arrange the content to fit A4 dimensions
-                    exportContent.Measure(new Size(A4Width, A4Height));
-                    exportContent.Arrange(new Rect(new Point(0, 0), new Size(A4Width, A4Height)));
+                        // Add new page
+                        page = document.AddPage();
+                        page.Size = PdfSharp.PageSize.A4;
+                        gfx = XGraphics.FromPdfPage(page);
+                        yOffset = margin + 100;
 
-                    // Scale the content to fit the page size
-                    double scaleX = A4Width / exportContent.ActualWidth;
-                    double scaleY = A4Height / exportContent.ActualHeight;
-                    exportContent.LayoutTransform = new ScaleTransform(scaleX, scaleY);
+                        // Redraw header and table header
+                        DrawHeader(gfx, logo, margin, pageWidth);
+                        DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
+                        yOffset += 20;
+                    }
 
-                    // Print the content
-                    printDialog.PrintVisual(exportContent, "Saliya Auto Care Sales Report");
+                    string[] rowData =
+                    {
+                sale.SaleID.ToString(),
+                sale.ProductName,
+                sale.ProductType,
+                sale.SalesAmount.ToString("C"),
+                sale.SaleDate.ToShortDateString()
+            };
 
-                    MessageBox.Show("PDF exported successfully.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
-                    Notificationbox.ShowSuccess();
+                    DrawTableRow(gfx, font, rowData, columnWidths, margin, yOffset, false);
+                    yOffset += 20;
                 }
-                else
-                {
-                    MessageBox.Show("PDF export canceled.", "Export Canceled", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
+
+                // Draw footer on the last page
+                DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
+
+                // Save the document
+                string filename = "SalesReport_WithHeaderFooter.pdf";
+                document.Save(filename);
+                MessageBox.Show("PDF exported successfully.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                System.Diagnostics.Process.Start(filename);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            finally
+        }
+
+        // Helper method to draw the header
+        private void DrawHeader(XGraphics gfx, XImage logo, double margin, double pageWidth)
+        {
+            double logoWidth = 80;
+            double logoHeight = 80;
+
+            // Draw logo
+            gfx.DrawImage(logo, margin, margin, logoWidth, logoHeight);
+
+            // Draw header text
+            gfx.DrawString("Saliya Auto Care", new XFont("Arial", 18, XFontStyle.Bold),
+                XBrushes.Black, new XPoint(margin + logoWidth + 10, margin + 20));
+            gfx.DrawString("Sales Report", new XFont("Arial", 14, XFontStyle.Regular),
+                XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 40));
+            gfx.DrawString($"Date: {DateTime.Now:MMMM dd, yyyy}", new XFont("Arial", 12, XFontStyle.Regular),
+                XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 60));
+        }
+
+        // Helper method to draw a table row
+        private void DrawTableRow(XGraphics gfx, XFont font, string[] data, double[] columnWidths, double xOffset, double yOffset, bool isHeader)
+        {
+            XBrush brush = isHeader ? XBrushes.LightGray : XBrushes.Black;
+            for (int i = 0; i < data.Length; i++)
             {
-                // Restore the footer
-                ShowFooter();
-
-                // Reload the UserControl
-                ShowAgain();
+                gfx.DrawRectangle(XPens.Black, new XRect(xOffset, yOffset, columnWidths[i], 20));
+                gfx.DrawString(data[i], font, brush, new XPoint(xOffset + 5, yOffset + 15));
+                xOffset += columnWidths[i];
             }
+        }
 
-
+        // Helper method to draw the footer
+        private void DrawFooter(XGraphics gfx, double pageWidth, double pageHeight, double footerHeight)
+        {
+            string footerText = "© 2024 Saliya Auto Care, All Rights Reserved | Contact: info@saliyaautocare.com";
+            gfx.DrawString(footerText, new XFont("Arial", 10, XFontStyle.Regular),
+                XBrushes.Gray, new XPoint(pageWidth / 2, pageHeight - footerHeight), XStringFormats.Center);
         }
 
         public void Buttonprint_Click(object sender, RoutedEventArgs e)
