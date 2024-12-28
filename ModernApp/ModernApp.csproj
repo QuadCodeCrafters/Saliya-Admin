@@ -245,6 +245,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MVC\Controller\EmployeeController.cs" />
+    <Compile Include="MVC\Controller\ReportController.cs" />
     <Compile Include="MVC\Controller\SalesController.cs" />
     <Compile Include="MVC\Model\DBconnection.cs" />
     <Compile Include="MVC\Model\EmployeeModel.cs" />
