@@ -159,7 +159,7 @@ namespace ModernApp.MVC.Controller
                 XBrushes.Gray, new XPoint(pageWidth / 2, pageHeight - footerHeight), XStringFormats.Center);
         }
 
-
+        //direcly it prints by opening the canon printer dialog box
         // Generate a printable document with header and footer
 
         public void GeneratePrintableDocument(List<SalesData> salesData, string pdfFilePath)
