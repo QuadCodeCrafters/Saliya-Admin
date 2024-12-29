@@ -295,7 +295,7 @@ namespace ModernApp.MVC.View.ReportSubviews
         //}
 
 
-        //        // Helper method to draw the header
+              // Helper method to draw the header
         //        private void DrawHeader(XGraphics gfx, XImage logo, double margin, double pageWidth)
         //        {
         //            double logoWidth = 80;
