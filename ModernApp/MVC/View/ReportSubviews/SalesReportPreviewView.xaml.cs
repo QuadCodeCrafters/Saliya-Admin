@@ -183,7 +183,7 @@ namespace ModernApp.MVC.View.ReportSubviews
             List<SalesData> salesDataList = Sales.ToList();
 
             // Call the ExportPdfWithHeaderFooter method with the sales data
-            reportController.ExportPdfWithHeaderFooter(salesDataList);
+            reportController.ExportPdfWithHeaderFooter(salesDataList,SalesReportDataGrid);
         }
 
 

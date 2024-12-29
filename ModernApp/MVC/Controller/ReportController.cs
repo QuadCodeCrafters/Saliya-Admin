@@ -41,7 +41,7 @@ namespace ModernApp.MVC.Controller
                     .ToArray();
 
                 // Calculate column widths based on number of headers
-                double[] columnWidths = headers.Select(_ => pageWidth / headers.Length - 10).ToArray();
+                double[] columnWidths =  { 50, 150, 100, 100, 100 };
 
                 // Add pages and content
                 PdfPage page = document.AddPage();
@@ -63,6 +63,7 @@ namespace ModernApp.MVC.Controller
                         DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
                         yOffset += 20;
                         isHeaderDrawn = true; // Set flag to true after drawing the header
+                        
                     }
 
                     if (yOffset > pageHeight - margin - footerHeight) // Check if page is full
