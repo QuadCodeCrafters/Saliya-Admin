@@ -12,6 +12,7 @@ using System.Linq;
 using System.Diagnostics;
 using System.IO;
 using ModernApp.MVC.Controller;
+using ModernApp.Core;
 
 namespace ModernApp.MVC.View.ReportSubviews
 {
@@ -19,6 +20,12 @@ namespace ModernApp.MVC.View.ReportSubviews
     {
         public DateTime CurrentDate { get; set; } = DateTime.Now;
         public ObservableCollection<SalesData> Sales { get; set; }
+
+
+        private ObservableObject dataProvider;
+        public ObservableCollection<SalesData> SalesData { get; private set; }
+      
+
 
 
         private readonly ReportController reportController;
@@ -29,66 +36,68 @@ namespace ModernApp.MVC.View.ReportSubviews
             DataContext = this;
             reportController = new ReportController();
 
+            dataProvider = new ObservableObject();
+            Sales = dataProvider.GetSampleData();
             // Load sample data
-            Sales = GetSampleData();
+            //Sales = GetSampleData();
             SalesReportDataGrid.ItemsSource = Sales;
         }
 
-        private ObservableCollection<SalesData> GetSampleData()
-        {
-            return new ObservableCollection<SalesData>
-            {
-                new SalesData { SaleID = 1, ProductName = "Oil Change", ProductType = "Service", SalesAmount = 1500.00M, SaleDate = DateTime.Today },
-                new SalesData { SaleID = 2, ProductName = "Car Wash", ProductType = "Service", SalesAmount = 800.00M, SaleDate = DateTime.Today },
-                new SalesData { SaleID = 3, ProductName = "Tire Replacement", ProductType = "Product", SalesAmount = 20000.00M, SaleDate = DateTime.Today },
-                new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                 new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                  new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                   new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                    new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                     new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                      new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                       new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                        new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                         new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                          new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                           new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                            new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                             new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                              new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                               new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                 new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                  new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                   new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                    new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                     new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                      new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                       new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                        new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                               new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                               new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                 new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                   new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                     new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                       new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                         new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                           new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                             new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                               new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                 new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                   new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                     new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                       new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                         new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                           new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                             new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                               new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                                 new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                                   new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                                     new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-            };
-        }
+        //private ObservableCollection<SalesData> GetSampleData()
+        //{
+        //    return new ObservableCollection<SalesData>
+        //    {
+        //        new SalesData { SaleID = 1, ProductName = "Oil Change", ProductType = "Service", SalesAmount = 1500.00M, SaleDate = DateTime.Today },
+        //        new SalesData { SaleID = 2, ProductName = "Car Wash", ProductType = "Service", SalesAmount = 800.00M, SaleDate = DateTime.Today },
+        //        new SalesData { SaleID = 3, ProductName = "Tire Replacement", ProductType = "Product", SalesAmount = 20000.00M, SaleDate = DateTime.Today },
+        //        new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //         new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //          new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //           new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //            new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //             new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //              new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //               new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                 new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                  new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                   new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                    new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                     new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                      new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                       new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                        new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                         new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                          new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                           new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                            new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                             new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                              new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                               new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                                new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                       new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                       new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                         new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                           new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                             new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                               new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                                 new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                                   new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                                     new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                                       new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                                         new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                                           new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                                             new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                                               new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                                                 new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                                                   new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                                                     new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                                                       new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                                                         new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                                                           new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //                                                             new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
+        //    };
+        //}
 
 
       
@@ -173,177 +182,185 @@ namespace ModernApp.MVC.View.ReportSubviews
 
         //}
 
-     
+
 
         // Export button click event handler
         private void ExportPdfButton_Click(object sender, RoutedEventArgs e)
         {
-            Sales = GetSampleData();
-            // Get the sales data as a list from your observable collection
-            List<SalesData> salesDataList = Sales.ToList();
+            // Get the sales data from the DataGrid (assuming each row contains SalesData objects)
+            List<SalesData> salesDataList = new List<SalesData>();
+
+            foreach (var row in SalesReportDataGrid.Items)
+            {
+                if (row is SalesData sale)
+                {
+                    salesDataList.Add(sale);
+                }
+            }
 
             // Call the ExportPdfWithHeaderFooter method with the sales data
-            reportController.ExportPdfWithHeaderFooter(salesDataList,SalesReportDataGrid);
+            reportController.ExportPdfWithHeaderFooter(salesDataList, SalesReportDataGrid);
         }
 
 
 
 
 
-//   public void ExportPdfWithHeaderFooter(List<SalesData> salesData)
-//{
-//    try
-//    {
-//        // Create PDF document
-//        PdfDocument document = new PdfDocument();
-//        document.Info.Title = "Saliya Auto Care Sales Report";
 
-//        const double pageWidth = 8.27 * 72; // A4 width in points (72 DPI)
-//        const double pageHeight = 11.69 * 72; // A4 height in points (72 DPI)
-//        const double margin = 40; // Margin for content
+        //   public void ExportPdfWithHeaderFooter(List<SalesData> salesData)
+        //{
+        //    try
+        //    {
+        //        // Create PDF document
+        //        PdfDocument document = new PdfDocument();
+        //        document.Info.Title = "Saliya Auto Care Sales Report";
 
-//        double yOffset = margin + 100; // Leave space for header
-//        double footerHeight = 50;
+        //        const double pageWidth = 8.27 * 72; // A4 width in points (72 DPI)
+        //        const double pageHeight = 11.69 * 72; // A4 height in points (72 DPI)
+        //        const double margin = 40; // Margin for content
 
-//        // Load the logo image
-//        string logoPath = "D:\\personal\\Coding\\C#\\ModernApp\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
-//        XImage logo = XImage.FromFile(logoPath);
+        //        double yOffset = margin + 100; // Leave space for header
+        //        double footerHeight = 50;
 
-//        // Add pages and content
-//        PdfPage page = document.AddPage();
-//        page.Size = PdfSharp.PageSize.A4;
-//        XGraphics gfx = XGraphics.FromPdfPage(page);
-//        XFont font = new XFont("Arial", 12, XFontStyle.Regular);
+        //        // Load the logo image
+        //        string logoPath = "D:\\personal\\Coding\\C#\\ModernApp\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
+        //        XImage logo = XImage.FromFile(logoPath);
 
-//        bool isHeaderDrawn = false; // Flag to track if the header has been drawn
+        //        // Add pages and content
+        //        PdfPage page = document.AddPage();
+        //        page.Size = PdfSharp.PageSize.A4;
+        //        XGraphics gfx = XGraphics.FromPdfPage(page);
+        //        XFont font = new XFont("Arial", 12, XFontStyle.Regular);
 
-//        // Define column headers
-//        string[] headers = { "Sale ID", "Product Name", "Product Type", "Sales Amount", "Sale Date" };
-//        double[] columnWidths = { 50, 150, 100, 100, 100 };
+        //        bool isHeaderDrawn = false; // Flag to track if the header has been drawn
 
-//        // Draw table header and header only on the first page
-//        foreach (var sale in salesData)
-//        {
-//            if (!isHeaderDrawn)
-//            {
-//                // Draw header on the first page
-//                DrawHeader(gfx, logo, margin, pageWidth);
-//                // Draw table header
-//                DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
-//                yOffset += 20;
-//                isHeaderDrawn = true; // Set flag to true after drawing the header
-//            }
+        //        // Define column headers
+        //        string[] headers = { "Sale ID", "Product Name", "Product Type", "Sales Amount", "Sale Date" };
+        //        double[] columnWidths = { 50, 150, 100, 100, 100 };
 
-//            if (yOffset > pageHeight - margin - footerHeight) // Check if page is full
-//            {
-//                DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
+        //        // Draw table header and header only on the first page
+        //        foreach (var sale in salesData)
+        //        {
+        //            if (!isHeaderDrawn)
+        //            {
+        //                // Draw header on the first page
+        //                DrawHeader(gfx, logo, margin, pageWidth);
+        //                // Draw table header
+        //                DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
+        //                yOffset += 20;
+        //                isHeaderDrawn = true; // Set flag to true after drawing the header
+        //            }
 
-//                // Add new page
-//                page = document.AddPage();
-//                page.Size = PdfSharp.PageSize.A4;
-//                gfx = XGraphics.FromPdfPage(page);
-//                yOffset = margin + 100;
+        //            if (yOffset > pageHeight - margin - footerHeight) // Check if page is full
+        //            {
+        //                DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
 
-//                // Redraw header and table header on the new page
-//                DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
-//                yOffset += 20;
-//            }
+        //                // Add new page
+        //                page = document.AddPage();
+        //                page.Size = PdfSharp.PageSize.A4;
+        //                gfx = XGraphics.FromPdfPage(page);
+        //                yOffset = margin + 100;
 
-//            string[] rowData =
-//            {
-//                sale.SaleID.ToString(),
-//                sale.ProductName,
-//                sale.ProductType,
-//                sale.SalesAmount.ToString("C"),
-//                sale.SaleDate.ToShortDateString()
-//            };
+        //                // Redraw header and table header on the new page
+        //                DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
+        //                yOffset += 20;
+        //            }
 
-//            DrawTableRow(gfx, font, rowData, columnWidths, margin, yOffset, false);
-//            yOffset += 20;
-//        }
+        //            string[] rowData =
+        //            {
+        //                sale.SaleID.ToString(),
+        //                sale.ProductName,
+        //                sale.ProductType,
+        //                sale.SalesAmount.ToString("C"),
+        //                sale.SaleDate.ToShortDateString()
+        //            };
 
-//        // Draw footer on the last page
-//        DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
+        //            DrawTableRow(gfx, font, rowData, columnWidths, margin, yOffset, false);
+        //            yOffset += 20;
+        //        }
 
-//        // Save the document
-//        string filename = "SalesReport_WithHeaderFooter.pdf";
-//        document.Save(filename);
-//        MessageBox.Show("PDF exported successfully.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
-//        System.Diagnostics.Process.Start(filename);
-//    }
-//    catch (Exception ex)
-//    {
-//        MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-//    }
-//}
+        //        // Draw footer on the last page
+        //        DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
 
-
-//        // Helper method to draw the header
-//        private void DrawHeader(XGraphics gfx, XImage logo, double margin, double pageWidth)
-//        {
-//            double logoWidth = 80;
-//            double logoHeight = 80;
-
-//            // Draw logo
-//            gfx.DrawImage(logo, margin, margin, logoWidth, logoHeight);
-
-//            // Draw header text
-//            gfx.DrawString("Saliya Auto Care", new XFont("Arial", 18, XFontStyle.Bold),
-//                XBrushes.Black, new XPoint(margin + logoWidth + 10, margin + 20));
-//            gfx.DrawString("Sales Report", new XFont("Arial", 14, XFontStyle.Regular),
-//                XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 40));
-//            gfx.DrawString($"Date: {DateTime.Now:MMMM dd, yyyy}", new XFont("Arial", 12, XFontStyle.Regular),
-//                XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 60));
-//        }
-
-//        //// Helper method to draw a table row
-//        //private void DrawTableRow(XGraphics gfx, XFont font, string[] data, double[] columnWidths, double xOffset, double yOffset, bool isHeader)
-//        //{
-//        //    XBrush brush = isHeader ? XBrushes.LightGray : XBrushes.Black;
-//        //    for (int i = 0; i < data.Length; i++)
-//        //    {
-//        //        gfx.DrawRectangle(XPens.LightGray, new XRect(xOffset, yOffset, columnWidths[i], 20));
-//        //        gfx.DrawString(data[i], font, brush, new XPoint(xOffset + 5, yOffset + 15));
-
-//        //        xOffset += columnWidths[i];
-//        //    }
-//        //}
-
-//        // Helper method to draw a table row
-//        private void DrawTableRow(XGraphics gfx, XFont font, string[] data, double[] columnWidths, double xOffset, double yOffset, bool isHeader)
-//        {
-//            // Set the brush for the text color (black for both header and data)
-//            XBrush textBrush = isHeader ? XBrushes.Black : XBrushes.Black;
-
-//            // Set the background color for the header row (light gray) or no background for data rows
-//            if (isHeader)
-//            {
-//                // Fill the header row with light gray
-//                gfx.DrawRectangle(XBrushes.LightGray, new XRect(xOffset, yOffset, columnWidths.Sum(), 20));
-//            }
-
-//            // Draw the table cells (with text) for both header and data rows
-//            for (int i = 0; i < data.Length; i++)
-//            {
-//                // Draw the cell borders
-//                gfx.DrawRectangle(XPens.LightGray, new XRect(xOffset, yOffset, columnWidths[i], 20));
-
-//                // Draw the text inside the cell
-//                gfx.DrawString(data[i], font, textBrush, new XPoint(xOffset + 5, yOffset + 15));
-
-//                // Move to the next column
-//                xOffset += columnWidths[i];
-//            }
-//        }
+        //        // Save the document
+        //        string filename = "SalesReport_WithHeaderFooter.pdf";
+        //        document.Save(filename);
+        //        MessageBox.Show("PDF exported successfully.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+        //        System.Diagnostics.Process.Start(filename);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //}
 
 
-//        // Helper method to draw the footer
-//        private void DrawFooter(XGraphics gfx, double pageWidth, double pageHeight, double footerHeight)
-//        {
-//            string footerText = "© 2024 Saliya Auto Care, All Rights Reserved | Contact: info@saliyaautocare.com";
-//            gfx.DrawString(footerText, new XFont("Arial", 10, XFontStyle.Regular),
-//                XBrushes.Gray, new XPoint(pageWidth / 2, pageHeight - footerHeight), XStringFormats.Center);
-//        }
+        //        // Helper method to draw the header
+        //        private void DrawHeader(XGraphics gfx, XImage logo, double margin, double pageWidth)
+        //        {
+        //            double logoWidth = 80;
+        //            double logoHeight = 80;
+
+        //            // Draw logo
+        //            gfx.DrawImage(logo, margin, margin, logoWidth, logoHeight);
+
+        //            // Draw header text
+        //            gfx.DrawString("Saliya Auto Care", new XFont("Arial", 18, XFontStyle.Bold),
+        //                XBrushes.Black, new XPoint(margin + logoWidth + 10, margin + 20));
+        //            gfx.DrawString("Sales Report", new XFont("Arial", 14, XFontStyle.Regular),
+        //                XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 40));
+        //            gfx.DrawString($"Date: {DateTime.Now:MMMM dd, yyyy}", new XFont("Arial", 12, XFontStyle.Regular),
+        //                XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 60));
+        //        }
+
+        //        //// Helper method to draw a table row
+        //        //private void DrawTableRow(XGraphics gfx, XFont font, string[] data, double[] columnWidths, double xOffset, double yOffset, bool isHeader)
+        //        //{
+        //        //    XBrush brush = isHeader ? XBrushes.LightGray : XBrushes.Black;
+        //        //    for (int i = 0; i < data.Length; i++)
+        //        //    {
+        //        //        gfx.DrawRectangle(XPens.LightGray, new XRect(xOffset, yOffset, columnWidths[i], 20));
+        //        //        gfx.DrawString(data[i], font, brush, new XPoint(xOffset + 5, yOffset + 15));
+
+        //        //        xOffset += columnWidths[i];
+        //        //    }
+        //        //}
+
+        //        // Helper method to draw a table row
+        //        private void DrawTableRow(XGraphics gfx, XFont font, string[] data, double[] columnWidths, double xOffset, double yOffset, bool isHeader)
+        //        {
+        //            // Set the brush for the text color (black for both header and data)
+        //            XBrush textBrush = isHeader ? XBrushes.Black : XBrushes.Black;
+
+        //            // Set the background color for the header row (light gray) or no background for data rows
+        //            if (isHeader)
+        //            {
+        //                // Fill the header row with light gray
+        //                gfx.DrawRectangle(XBrushes.LightGray, new XRect(xOffset, yOffset, columnWidths.Sum(), 20));
+        //            }
+
+        //            // Draw the table cells (with text) for both header and data rows
+        //            for (int i = 0; i < data.Length; i++)
+        //            {
+        //                // Draw the cell borders
+        //                gfx.DrawRectangle(XPens.LightGray, new XRect(xOffset, yOffset, columnWidths[i], 20));
+
+        //                // Draw the text inside the cell
+        //                gfx.DrawString(data[i], font, textBrush, new XPoint(xOffset + 5, yOffset + 15));
+
+        //                // Move to the next column
+        //                xOffset += columnWidths[i];
+        //            }
+        //        }
+
+
+        //        // Helper method to draw the footer
+        //        private void DrawFooter(XGraphics gfx, double pageWidth, double pageHeight, double footerHeight)
+        //        {
+        //            string footerText = "© 2024 Saliya Auto Care, All Rights Reserved | Contact: info@saliyaautocare.com";
+        //            gfx.DrawString(footerText, new XFont("Arial", 10, XFontStyle.Regular),
+        //                XBrushes.Gray, new XPoint(pageWidth / 2, pageHeight - footerHeight), XStringFormats.Center);
+        //        }
 
         //public void Buttonprint_Click(object sender, RoutedEventArgs e)
         //{
@@ -405,7 +422,7 @@ namespace ModernApp.MVC.View.ReportSubviews
 
                 // Generate PDF
                 string pdfFilePath = "SalesReport_WithHeaderFooter.pdf"; // Update with the desired path
-                Sales = GetSampleData();
+                Sales = dataProvider.GetSampleData();
                 // Get the sales data as a list from your observable collection
                 List<SalesData> salesDataList = Sales.ToList();
 

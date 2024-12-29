@@ -40,8 +40,22 @@ namespace ModernApp.MVC.Controller
                     .Select(col => col.Header?.ToString() ?? string.Empty)
                     .ToArray();
 
-                // Calculate column widths based on number of headers
-                double[] columnWidths = headers.Select(header => pageWidth / headers.Length - 0).ToArray();
+                // Reduce the width of the first column to 50
+                double firstColumnWidth = 50;
+                double remainingWidth = pageWidth - firstColumnWidth - (headers.Length - 1) * 5; // Subtract space for other columns
+
+                // Calculate the remaining column widths for other columns
+                double[] columnWidths = new double[headers.Length];
+
+                // Set the width of the first column
+                columnWidths[0] = firstColumnWidth;
+
+                // Calculate the width for the other columns
+                for (int i = 1; i < headers.Length; i++)
+                {
+                    columnWidths[i] = remainingWidth / (headers.Length - 1);
+                }
+
 
                 // Add pages and content
                 PdfPage page = document.AddPage();
