@@ -599,14 +599,14 @@ namespace ModernApp.MVC.View.ReportSubviews
             }
         }
 
-        private void ShowFooter()
-        {
-            DockPanel footer = LogicalTreeHelper.FindLogicalNode(this, "FooterDockPanel") as DockPanel;
-            if (footer != null)
-            {
-                footer.Visibility = Visibility.Visible;
-            }
-        }
+        //private void ShowFooter()
+        //{
+        //    DockPanel footer = LogicalTreeHelper.FindLogicalNode(this, "FooterDockPanel") as DockPanel;
+        //    if (footer != null)
+        //    {
+        //        footer.Visibility = Visibility.Visible;
+        //    }
+        //}
         private void ReloadUserControl()
         {
             // Find the parent container
