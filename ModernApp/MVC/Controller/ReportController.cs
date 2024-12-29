@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace ModernApp.MVC.Controller
 {
@@ -162,10 +163,15 @@ namespace ModernApp.MVC.Controller
         //direcly it prints by opening the canon printer dialog box
         // Generate a printable document with header and footer
 
-        public void GeneratePrintableDocument(List<SalesData> salesData, string pdfFilePath)
+        public void GeneratePrintableDocument(List<SalesData> salesData, string pdfFilePath, DataGrid dataGrid)
         {
             try
             {
+                // Extract headers from the DataGrid
+                string[] headers = dataGrid.Columns
+                    .Select(col => col.Header?.ToString() ?? string.Empty)
+                    .ToArray();
+
                 // Create PDF document
                 PdfDocument document = new PdfDocument();
                 document.Info.Title = "Saliya Auto Care Sales Report";
@@ -189,9 +195,8 @@ namespace ModernApp.MVC.Controller
 
                 bool isHeaderDrawn = false; // Flag to track if the header has been drawn
 
-                // Define column headers
-                string[] headers = { "Sale ID", "Product Name", "Product Type", "Sales Amount", "Sale Date" };
-                double[] columnWidths = { 50, 150, 100, 100, 100 };
+                // Define column widths dynamically based on DataGrid
+                double[] columnWidths = headers.Select(header => pageWidth / headers.Length - 10).ToArray();
 
                 // Draw table header and header only on the first page
                 foreach (var sale in salesData)
@@ -241,13 +246,13 @@ namespace ModernApp.MVC.Controller
                 string filename = "SalesReport_WithHeaderFooter.pdf";
                 document.Save(pdfFilePath);
                 MessageBox.Show("PDF exported successfully.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         public void PrintPdf(string pdfFilePath)
         {
