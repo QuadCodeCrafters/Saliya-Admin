@@ -422,12 +422,12 @@ namespace ModernApp.MVC.View.ReportSubviews
 
                 // Generate PDF
                 string pdfFilePath = "SalesReport_WithHeaderFooter.pdf"; // Update with the desired path
-                Sales = dataProvider.GetSampleData();
-                // Get the sales data as a list from your observable collection
-                List<SalesData> salesDataList = Sales.ToList();
+
+                // Get the sales data from the DataGrid (assuming SalesReportDataGrid is the name of your DataGrid)
+                List<SalesData> salesDataList = ((IEnumerable<SalesData>)SalesReportDataGrid.ItemsSource).ToList();
 
                 // Call the ExportPdfWithHeaderFooter method with the sales data
-                reportController.GeneratePrintableDocument(salesDataList, pdfFilePath,SalesReportDataGrid);
+                reportController.GeneratePrintableDocument(salesDataList, pdfFilePath, SalesReportDataGrid);
 
                 // Show the print dialog for the generated PDF
                 reportController.PrintPdf(pdfFilePath);
@@ -449,9 +449,10 @@ namespace ModernApp.MVC.View.ReportSubviews
 
                 this.IsEnabled = true;
             }
+
         }
 
-       
+
 
 
         //public void GeneratePrintableDocument(List<SalesData> salesData, string pdfFilePath)
@@ -461,7 +462,7 @@ namespace ModernApp.MVC.View.ReportSubviews
         //        // Create PDF document
         //        PdfDocument document = new PdfDocument();
         //        document.Info.Title = "Saliya Auto Care Sales Report";
-                 
+
         //        const double pageWidth = 8.27 * 72; // A4 width in points (72 DPI)
         //        const double pageHeight = 11.69 * 72; // A4 height in points (72 DPI)
         //        const double margin = 40; // Margin for content
@@ -533,7 +534,7 @@ namespace ModernApp.MVC.View.ReportSubviews
         //        string filename = "SalesReport_WithHeaderFooter.pdf";
         //        document.Save(pdfFilePath);
         //        MessageBox.Show("PDF exported successfully.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
-               
+
         //    }
         //    catch (Exception ex)
         //    {
@@ -569,7 +570,7 @@ namespace ModernApp.MVC.View.ReportSubviews
         //        //{
         //            //processInfo = new ProcessStartInfo 
         //            //{
-                        
+
         //            //};
         //        //}
 

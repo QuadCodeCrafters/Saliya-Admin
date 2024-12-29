@@ -215,8 +215,22 @@ namespace ModernApp.MVC.Controller
 
                 bool isHeaderDrawn = false; // Flag to track if the header has been drawn
 
-                // Define column widths dynamically based on DataGrid
-                double[] columnWidths = headers.Select(header => pageWidth / headers.Length - 0).ToArray();
+                // Reduce the width of the first column to 50
+                double firstColumnWidth = 50;
+                double remainingWidth = pageWidth - firstColumnWidth - (headers.Length - 1) * 5; // Subtract space for other columns
+
+                // Calculate the remaining column widths for other columns
+                double[] columnWidths = new double[headers.Length];
+
+                // Set the width of the first column
+                columnWidths[0] = firstColumnWidth;
+
+                // Calculate the width for the other columns
+                for (int i = 1; i < headers.Length; i++)
+                {
+                    columnWidths[i] = remainingWidth / (headers.Length - 1);
+                }
+
 
                 // Draw table header and header only on the first page
                 foreach (var sale in salesData)
