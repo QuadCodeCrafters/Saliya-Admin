@@ -41,7 +41,7 @@ namespace ModernApp.MVC.Controller
                     .ToArray();
 
                 // Calculate column widths based on number of headers
-                double[] columnWidths =  { 50, 150, 100, 100, 100 };
+                double[] columnWidths = headers.Select(header => pageWidth / headers.Length - 0).ToArray();
 
                 // Add pages and content
                 PdfPage page = document.AddPage();
@@ -202,7 +202,7 @@ namespace ModernApp.MVC.Controller
                 bool isHeaderDrawn = false; // Flag to track if the header has been drawn
 
                 // Define column widths dynamically based on DataGrid
-                double[] columnWidths = headers.Select(header => pageWidth / headers.Length - 10).ToArray();
+                double[] columnWidths = headers.Select(header => pageWidth / headers.Length - 0).ToArray();
 
                 // Draw table header and header only on the first page
                 foreach (var sale in salesData)
