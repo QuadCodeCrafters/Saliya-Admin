@@ -5,18 +5,28 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using ModernApp.MVVM.Model;
+using ModernApp.MVC.Model;
 
 
 namespace ModernApp.Core
 {
     class ObservableObject : INotifyPropertyChanged
     {
+        private readonly reportModel reportModel;
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+        public ObservableObject()
+        {
+            reportModel = new reportModel();
+          
+        }
+
 
         //public ObservableCollection<Employee> Employees { get; set; }
         //public Employee SelectedEmployee { get; set; }
@@ -34,39 +44,39 @@ namespace ModernApp.Core
             }
         }
 
+        public ObservableCollection<ModernApp.MVC.View.ReportSubviews.SalesData> GetSampleData()
+        {
+            var salesDataCollection = new ObservableCollection<ModernApp.MVC.View.ReportSubviews.SalesData>();
 
-        public ObservableCollection<SalesData> GetSampleData()
-        {
-            return new ObservableCollection<SalesData>
-        {
-            new SalesData { SaleID = 1, ProductName = "Oil Change", ProductType = "Service", SalesAmount = 1500.00M, SaleDate = DateTime.Today },
-            new SalesData { SaleID = 2, ProductName = "Car Wash", ProductType = "Service", SalesAmount = 800.00M, SaleDate = DateTime.Today },
-            new SalesData { SaleID = 3, ProductName = "Tire Replacement", ProductType = "Product", SalesAmount = 20000.00M, SaleDate = DateTime.Today },
-            new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-            new SalesData { SaleID = 5, ProductName = "Air Filter Replacement", ProductType = "Product", SalesAmount = 3000.00M, SaleDate = DateTime.Today },
-            new SalesData { SaleID = 6, ProductName = "Engine Diagnostic", ProductType = "Service", SalesAmount = 5000.00M, SaleDate = DateTime.Today },
-              new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                               new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                 new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                   new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                     new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                       new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                         new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                           new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                             new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                               new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                 new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                   new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                     new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                       new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                         new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                           new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                             new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                               new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                                 new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                                   new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-                                                                     new SalesData { SaleID = 4, ProductName = "Battery Replacement", ProductType = "Product", SalesAmount = 12000.00M, SaleDate = DateTime.Today },
-        };
+            try
+            {
+                // Fetch data as ObservableCollection<SalesDatalot>
+                var salesDataLotList = reportModel.GetSalesDataFromDb(); // Returns ObservableCollection<SalesDatalot>
+
+                // Map each SalesDatalot to SalesData
+                foreach (var dataLot in salesDataLotList)
+                {
+                    var salesData = new ModernApp.MVC.View.ReportSubviews.SalesData
+                    {
+                        SaleID = dataLot.SaleID,
+                        ProductName = dataLot.ProductName,
+                        ProductType = dataLot.ProductType,
+                        SalesAmount = dataLot.SalesAmount,
+                        SaleDate = dataLot.SaleDate
+                    };
+
+                    salesDataCollection.Add(salesData);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately
+                Console.WriteLine($"An error occurred while fetching sample data: {ex.Message}");
+            }
+
+            return salesDataCollection;
         }
+
+
     }
 }

@@ -249,6 +249,7 @@
     <Compile Include="MVC\Controller\SalesController.cs" />
     <Compile Include="MVC\Model\DBconnection.cs" />
     <Compile Include="MVC\Model\EmployeeModel.cs" />
+    <Compile Include="MVC\Model\reportModel.cs" />
     <Compile Include="MVC\Model\SalesModel.cs" />
     <Compile Include="MVC\Model\user.cs" />
     <Compile Include="MVC\Controller\DiscoveryViewModel.cs" />
