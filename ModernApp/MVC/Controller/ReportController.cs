@@ -16,7 +16,7 @@ namespace ModernApp.MVC.Controller
     {
         //Export a PDF report with header and footer
 
-        public void ExportPdfWithHeaderFooter(List<SalesData> salesData)
+        public void ExportPdfWithHeaderFooter(List<SalesData> salesData, DataGrid dataGrid)
         {
             try
             {
@@ -35,6 +35,14 @@ namespace ModernApp.MVC.Controller
                 string logoPath = "D:\\personal\\Coding\\C#\\ModernApp\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
                 XImage logo = XImage.FromFile(logoPath);
 
+                // Extract headers from DataGrid
+                string[] headers = dataGrid.Columns
+                    .Select(col => col.Header?.ToString() ?? string.Empty)
+                    .ToArray();
+
+                // Calculate column widths based on number of headers
+                double[] columnWidths = headers.Select(_ => pageWidth / headers.Length - 10).ToArray();
+
                 // Add pages and content
                 PdfPage page = document.AddPage();
                 page.Size = PdfSharp.PageSize.A4;
@@ -43,10 +51,6 @@ namespace ModernApp.MVC.Controller
 
                 bool isHeaderDrawn = false; // Flag to track if the header has been drawn
 
-                // Define column headers
-                string[] headers = { "Sale ID", "Product Name", "Product Type", "Sales Amount", "Sale Date" };
-                double[] columnWidths = { 50, 150, 100, 100, 100 };
-
                 // Draw table header and header only on the first page
                 foreach (var sale in salesData)
                 {
@@ -54,6 +58,7 @@ namespace ModernApp.MVC.Controller
                     {
                         // Draw header on the first page
                         DrawHeader(gfx, logo, margin, pageWidth);
+
                         // Draw table header
                         DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
                         yOffset += 20;
