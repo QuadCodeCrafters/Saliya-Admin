@@ -228,7 +228,7 @@ namespace ModernApp.MVC.Controller
                 // Calculate the width for the other columns
                 for (int i = 1; i < headers.Length; i++)
                 {
-                    columnWidths[i] = remainingWidth / (headers.Length - 1);//gdgdgdgdsgdsgds
+                    columnWidths[i] = remainingWidth / (headers.Length - 1);
                 }
 
 
