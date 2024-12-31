@@ -38,7 +38,7 @@ namespace ModernApp.MVC.Model
                     {
                         while (reader.Read())
                         {
-                            var salesData = new SalesDatalot
+                            var salesData = new 
                             {
                                 SaleID = reader.GetInt32("SaleID"),
                                 ProductName = reader.GetString("ProductName"),
