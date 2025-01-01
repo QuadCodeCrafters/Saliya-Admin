@@ -46,7 +46,10 @@ namespace ModernApp.MVC.View.ReportSubviews
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
             DateTime? fromDate = FromDatePicker.SelectedDate;
-           
+            DateTime? toDate = ToDatePicker.SelectedDate;
+
+       
+
         }
 
        
