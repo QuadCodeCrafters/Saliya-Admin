@@ -46,15 +46,7 @@ namespace ModernApp.MVC.View.ReportSubviews
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
             DateTime? fromDate = FromDatePicker.SelectedDate;
-            DateTime? toDate = ToDatePicker.SelectedDate;
-
-            // Filter the data for the DataGrid view
-            var filteredData = Sales.Where(sale =>
-                (!fromDate.HasValue || sale.SaleDate >= fromDate.Value) &&
-                (!toDate.HasValue || sale.SaleDate <= toDate.Value)).ToList();
-
-            // Update the DataGrid view without modifying the original collection
-            SalesReportDataGrid.ItemsSource = filteredData;
+           
         }
 
        
