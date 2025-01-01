@@ -53,7 +53,8 @@ namespace ModernApp.MVC.View.ReportSubviews
                 (!fromDate.HasValue || sale.SaleDate >= fromDate.Value) &&
                 (!toDate.HasValue || sale.SaleDate <= toDate.Value)).ToList();
 
-         
+            // Update the DataGrid view without modifying the original collection
+            SalesReportDataGrid.ItemsSource = filteredData;
 
         }
 
