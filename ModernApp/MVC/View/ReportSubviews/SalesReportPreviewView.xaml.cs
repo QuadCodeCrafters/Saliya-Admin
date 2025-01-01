@@ -43,6 +43,23 @@ namespace ModernApp.MVC.View.ReportSubviews
             SalesReportDataGrid.ItemsSource = Sales;
         }
 
+        private void FilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime? fromDate = FromDatePicker.SelectedDate;
+            DateTime? toDate = ToDatePicker.SelectedDate;
+
+            // Filter the data for the DataGrid view
+            var filteredData = Sales.Where(sale =>
+                (!fromDate.HasValue || sale.SaleDate >= fromDate.Value) &&
+                (!toDate.HasValue || sale.SaleDate <= toDate.Value)).ToList();
+
+            // Update the DataGrid view without modifying the original collection
+            SalesReportDataGrid.ItemsSource = filteredData;
+        }
+
+       
+      
+
         //private ObservableCollection<SalesData> GetSampleData()
         //{
         //    return new ObservableCollection<SalesData>
@@ -100,7 +117,7 @@ namespace ModernApp.MVC.View.ReportSubviews
         //}
 
 
-      
+
 
 
         private void RemoveScrollViewers(DependencyObject control)
