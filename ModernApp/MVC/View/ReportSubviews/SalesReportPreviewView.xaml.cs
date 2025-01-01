@@ -48,7 +48,12 @@ namespace ModernApp.MVC.View.ReportSubviews
             DateTime? fromDate = FromDatePicker.SelectedDate;
             DateTime? toDate = ToDatePicker.SelectedDate;
 
-       
+            // Filter the data for the DataGrid view
+            var filteredData = Sales.Where(sale =>
+                (!fromDate.HasValue || sale.SaleDate >= fromDate.Value) &&
+                (!toDate.HasValue || sale.SaleDate <= toDate.Value)).ToList();
+
+         
 
         }
 
