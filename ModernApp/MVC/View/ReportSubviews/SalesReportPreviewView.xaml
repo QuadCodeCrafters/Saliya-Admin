@@ -28,7 +28,7 @@
             </StackPanel>
         </Grid>
         <!-- Filters Section -->
-        <StackPanel Orientation="Horizontal" Margin="357,61,0,464" HorizontalAlignment="Left">
+        <StackPanel Orientation="Horizontal" Margin="357,34,0,491" HorizontalAlignment="Left">
             <TextBlock Text="From:" VerticalAlignment="Center" FontSize="14" Margin="5"/>
             <DatePicker Name="FromDatePicker" Width="150"/>
             <TextBlock Text="To:" VerticalAlignment="Center" FontSize="14" Margin="5"/>

@@ -15,7 +15,7 @@ namespace ModernApp.MVC.Controller
     internal class ReportController
     {
         //Export a PDF report with header and footer
-
+        //Sales report 
         public void ExportPdfWithHeaderFooter(List<SalesData> salesData, DataGrid dataGrid)
         {
             try
@@ -137,6 +137,46 @@ namespace ModernApp.MVC.Controller
             gfx.DrawString("Saliya Auto Care", new XFont("Arial", 18, XFontStyle.Bold),
                 XBrushes.Black, new XPoint(margin + logoWidth + 10, margin + 20));
             gfx.DrawString("Sales Report", new XFont("Arial", 14, XFontStyle.Regular),
+                XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 40));
+            gfx.DrawString($"Date: {DateTime.Now:MMMM dd, yyyy}", new XFont("Arial", 12, XFontStyle.Regular),
+                XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 60));
+        }
+
+
+        // Helper method to draw the header
+        //spare parts report
+        private void DrawSparePartsHeader(XGraphics gfx, XImage logo, double margin, double pageWidth)
+        {
+            double logoWidth = 80;
+            double logoHeight = 80;
+
+            // Draw logo
+            gfx.DrawImage(logo, margin, margin, logoWidth, logoHeight);
+
+            // Draw header text
+            gfx.DrawString("Saliya Auto Care", new XFont("Arial", 18, XFontStyle.Bold),
+                XBrushes.Black, new XPoint(margin + logoWidth + 10, margin + 20));
+            gfx.DrawString("Spare parts Report", new XFont("Arial", 14, XFontStyle.Regular),
+                XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 40));
+            gfx.DrawString($"Date: {DateTime.Now:MMMM dd, yyyy}", new XFont("Arial", 12, XFontStyle.Regular),
+                XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 60));
+        }
+
+
+        // Helper method to draw the header
+        //gross profit report
+        private void DrawGrossProfitHeader(XGraphics gfx, XImage logo, double margin, double pageWidth)
+        {
+            double logoWidth = 80;
+            double logoHeight = 80;
+
+            // Draw logo
+            gfx.DrawImage(logo, margin, margin, logoWidth, logoHeight);
+
+            // Draw header text
+            gfx.DrawString("Saliya Auto Care", new XFont("Arial", 18, XFontStyle.Bold),
+                XBrushes.Black, new XPoint(margin + logoWidth + 10, margin + 20));
+            gfx.DrawString("Gross profit Report", new XFont("Arial", 14, XFontStyle.Regular),
                 XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 40));
             gfx.DrawString($"Date: {DateTime.Now:MMMM dd, yyyy}", new XFont("Arial", 12, XFontStyle.Regular),
                 XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 60));
