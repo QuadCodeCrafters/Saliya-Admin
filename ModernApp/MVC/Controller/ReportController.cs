@@ -16,7 +16,7 @@ namespace ModernApp.MVC.Controller
     {
         //Export a PDF report with header and footer
         //Sales report 
-        public void ExportPdfWithHeaderFooter(List<SalesData> salesData, DataGrid dataGrid)
+        public void ExportPdfWithHeaderFooter(List<SalesData> salesData, DataGrid dataGrid, decimal totalSales, DateTime? fromDate, DateTime? toDate)
         {
             try
             {
@@ -46,16 +46,11 @@ namespace ModernApp.MVC.Controller
 
                 // Calculate the remaining column widths for other columns
                 double[] columnWidths = new double[headers.Length];
-
-                // Set the width of the first column
                 columnWidths[0] = firstColumnWidth;
-
-                // Calculate the width for the other columns
                 for (int i = 1; i < headers.Length; i++)
                 {
                     columnWidths[i] = remainingWidth / (headers.Length - 1);
                 }
-
 
                 // Add pages and content
                 PdfPage page = document.AddPage();
@@ -63,34 +58,30 @@ namespace ModernApp.MVC.Controller
                 XGraphics gfx = XGraphics.FromPdfPage(page);
                 XFont font = new XFont("Arial", 12, XFontStyle.Regular);
 
-                bool isHeaderDrawn = false; // Flag to track if the header has been drawn
+                bool isHeaderDrawn = false;
 
-                // Draw table header and header only on the first page
                 foreach (var sale in salesData)
                 {
                     if (!isHeaderDrawn)
                     {
-                        // Draw header on the first page
-                        DrawHeader(gfx, logo, margin, pageWidth);
+                        // Draw header with optional date range
+                        DrawHeader(gfx, logo, margin, pageWidth, totalSales, fromDate, toDate);
 
                         // Draw table header
                         DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
                         yOffset += 20;
-                        isHeaderDrawn = true; // Set flag to true after drawing the header
-                        
+                        isHeaderDrawn = true;
                     }
 
-                    if (yOffset > pageHeight - margin - footerHeight) // Check if page is full
+                    if (yOffset > pageHeight - margin - footerHeight)
                     {
                         DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
 
-                        // Add new page
                         page = document.AddPage();
                         page.Size = PdfSharp.PageSize.A4;
                         gfx = XGraphics.FromPdfPage(page);
                         yOffset = margin + 100;
 
-                        // Redraw header and table header on the new page
                         DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
                         yOffset += 20;
                     }
@@ -108,10 +99,8 @@ namespace ModernApp.MVC.Controller
                     yOffset += 20;
                 }
 
-                // Draw footer on the last page
                 DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
 
-                // Save the document
                 string filename = "SalesReport_WithHeaderFooter.pdf";
                 document.Save(filename);
                 MessageBox.Show("PDF exported successfully.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -123,64 +112,74 @@ namespace ModernApp.MVC.Controller
             }
         }
 
-
-        // Helper method to draw the header
-        private void DrawHeader(XGraphics gfx, XImage logo, double margin, double pageWidth)
+        // Updated DrawHeader to include date range
+        private void DrawHeader(XGraphics gfx, XImage logo, double margin, double pageWidth, decimal totalSales, DateTime? fromDate, DateTime? toDate)
         {
             double logoWidth = 80;
             double logoHeight = 80;
 
-            // Draw logo
             gfx.DrawImage(logo, margin, margin, logoWidth, logoHeight);
 
-            // Draw header text
             gfx.DrawString("Saliya Auto Care", new XFont("Arial", 18, XFontStyle.Bold),
                 XBrushes.Black, new XPoint(margin + logoWidth + 10, margin + 20));
             gfx.DrawString("Sales Report", new XFont("Arial", 14, XFontStyle.Regular),
                 XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 40));
             gfx.DrawString($"Date: {DateTime.Now:MMMM dd, yyyy}", new XFont("Arial", 12, XFontStyle.Regular),
                 XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 60));
+
+            if (fromDate.HasValue && toDate.HasValue)
+            {
+                gfx.DrawString($"Report Period: {fromDate.Value:yyyy.MM.dd} - {toDate.Value:yyyy.MM.dd}",
+                    new XFont("Arial", 12, XFontStyle.Regular), XBrushes.Gray,
+                    new XPoint(margin + logoWidth + 10, margin + 80));
+            }
+
+            string totalSalesText = $"Total Sales: {totalSales:C}";
+            gfx.DrawString(totalSalesText, new XFont("Arial", 12, XFontStyle.Bold),
+                XBrushes.Black, new XPoint(pageWidth - margin - 200, margin + 40));
         }
 
 
-        // Helper method to draw the header
-        //spare parts report
-        private void DrawSparePartsHeader(XGraphics gfx, XImage logo, double margin, double pageWidth)
-        {
-            double logoWidth = 80;
-            double logoHeight = 80;
-
-            // Draw logo
-            gfx.DrawImage(logo, margin, margin, logoWidth, logoHeight);
-
-            // Draw header text
-            gfx.DrawString("Saliya Auto Care", new XFont("Arial", 18, XFontStyle.Bold),
-                XBrushes.Black, new XPoint(margin + logoWidth + 10, margin + 20));
-            gfx.DrawString("Spare parts Report", new XFont("Arial", 14, XFontStyle.Regular),
-                XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 40));
-            gfx.DrawString($"Date: {DateTime.Now:MMMM dd, yyyy}", new XFont("Arial", 12, XFontStyle.Regular),
-                XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 60));
-        }
 
 
-        // Helper method to draw the header
-        //gross profit report
-        private void DrawGrossProfitHeader(XGraphics gfx, XImage logo, double margin, double pageWidth)
-        {
-            double logoWidth = 80;
-            double logoHeight = 80;
+        //// Helper method to draw the header
+        ////spare parts report
+        //private void DrawSparePartsHeader(XGraphics gfx, XImage logo, double margin, double pageWidth)
+        //{
+        //    double logoWidth = 80;
+        //    double logoHeight = 80;
 
-            // Draw logo
-            gfx.DrawImage(logo, margin, margin, logoWidth, logoHeight);
+        //    // Draw logo
+        //    gfx.DrawImage(logo, margin, margin, logoWidth, logoHeight);
 
-            // Draw header text
-            gfx.DrawString("Saliya Auto Care", new XFont("Arial", 18, XFontStyle.Bold),
-                XBrushes.Black, new XPoint(margin + logoWidth + 10, margin + 20));
-            gfx.DrawString("Gross profit Report", new XFont("Arial", 14, XFontStyle.Regular),
-                XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 40));
-            gfx.DrawString($"Date: {DateTime.Now:MMMM dd, yyyy}", new XFont("Arial", 12, XFontStyle.Regular),
-                XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 60));
-        }
+        //    // Draw header text
+        //    gfx.DrawString("Saliya Auto Care", new XFont("Arial", 18, XFontStyle.Bold),
+        //        XBrushes.Black, new XPoint(margin + logoWidth + 10, margin + 20));
+        //    gfx.DrawString("Spare parts Report", new XFont("Arial", 14, XFontStyle.Regular),
+        //        XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 40));
+        //    gfx.DrawString($"Date: {DateTime.Now:MMMM dd, yyyy}", new XFont("Arial", 12, XFontStyle.Regular),
+        //        XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 60));
+        //}
+
+
+        //// Helper method to draw the header
+        ////gross profit report
+        //private void DrawGrossProfitHeader(XGraphics gfx, XImage logo, double margin, double pageWidth)
+        //{
+        //    double logoWidth = 80;
+        //    double logoHeight = 80;
+
+        //    // Draw logo
+        //    gfx.DrawImage(logo, margin, margin, logoWidth, logoHeight);
+
+        //    // Draw header text
+        //    gfx.DrawString("Saliya Auto Care", new XFont("Arial", 18, XFontStyle.Bold),
+        //        XBrushes.Black, new XPoint(margin + logoWidth + 10, margin + 20));
+        //    gfx.DrawString("Gross profit Report", new XFont("Arial", 14, XFontStyle.Regular),
+        //        XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 40));
+        //    gfx.DrawString($"Date: {DateTime.Now:MMMM dd, yyyy}", new XFont("Arial", 12, XFontStyle.Regular),
+        //        XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 60));
+        //}
 
 
 
@@ -223,7 +222,7 @@ namespace ModernApp.MVC.Controller
         //direcly it prints by opening the canon printer dialog box
         // Generate a printable document with header and footer
 
-        public void GeneratePrintableDocument(List<SalesData> salesData, string pdfFilePath, DataGrid dataGrid)
+        public void GeneratePrintableDocument(List<SalesData> salesData, string pdfFilePath, DataGrid dataGrid, decimal totalsales , DateTime? fromDate, DateTime? toDate)
         {
             try
             {
@@ -278,7 +277,10 @@ namespace ModernApp.MVC.Controller
                     if (!isHeaderDrawn)
                     {
                         // Draw header on the first page
-                        DrawHeader(gfx, logo, margin, pageWidth);
+
+                        // Draw header with optional date range
+                        DrawHeader(gfx, logo, margin, pageWidth, totalsales, fromDate, toDate);
+
                         // Draw table header
                         DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
                         yOffset += 20;

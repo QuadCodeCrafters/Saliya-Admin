@@ -66,10 +66,17 @@ VerticalAlignment="Top" Margin="-5,4,5,0"
 
 
 
-        <!-- Footer Section (DockPanel for buttons, excluded from print) -->
         <DockPanel Name="FooterDockPanel" VerticalAlignment="Bottom" Margin="10">
-            <Button Content="Export to PDF" DockPanel.Dock="Right" Width="120" Height="30" Margin="5" FontWeight="Bold" Background="#3498DB" Foreground="White" BorderBrush="#2980B9" Click="ExportPdfButton_Click"/>
-            <Button Content="Print" DockPanel.Dock="Right" Width="120" Margin="800,0,0,0" FontWeight="Bold" Background="#2ECC71" Foreground="White" BorderBrush="#27AE60" Click="Buttonprint_Click"/>
-        </DockPanel>
+    <Button Content="Export to PDF" DockPanel.Dock="Right" Width="120" Height="30" Margin="5"
+            FontWeight="Bold" Background="#3498DB" Foreground="White" BorderBrush="#2980B9"
+            Click="ExportPdfButton_Click" />
+    <Button Content="Print" DockPanel.Dock="Right" Width="120" Margin="500,0,0,0" FontWeight="Bold"
+            Background="#2ECC71" Foreground="White" BorderBrush="#27AE60" Click="Buttonprint_Click" />
+  
+    <Label Name="TotalSalesLabel" DockPanel.Dock="Left" FontSize="16" FontWeight="Bold"
+           Foreground="#2C3E50" VerticalAlignment="Center" Margin="10,0,0,0"
+           Content="Total Sales: $0.00" />
+</DockPanel>
+
     </Grid>
 </UserControl>

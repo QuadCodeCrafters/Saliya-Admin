@@ -20,7 +20,7 @@ namespace ModernApp.MVC.View.ReportSubviews
     {
         public DateTime CurrentDate { get; set; } = DateTime.Now;
         public ObservableCollection<SalesData> Sales { get; set; }
-
+        decimal totalSales;
 
         private ObservableObject dataProvider;
         public ObservableCollection<SalesData> SalesData { get; private set; }
@@ -41,6 +41,7 @@ namespace ModernApp.MVC.View.ReportSubviews
             // Load sample data
             //Sales = GetSampleData();
             SalesReportDataGrid.ItemsSource = Sales;
+            calculateSalestotal();
         }
 
         private void FilterButton_Click(object sender, RoutedEventArgs e)
@@ -55,6 +56,9 @@ namespace ModernApp.MVC.View.ReportSubviews
 
             // Update the DataGrid view without modifying the original collection
             SalesReportDataGrid.ItemsSource = filteredData;
+            totalSales = filteredData.Sum(sale => sale.SalesAmount);
+            TotalSalesLabel.Content = $"Total Sales: {totalSales:C}";
+           
 
         }
 
@@ -216,13 +220,17 @@ namespace ModernApp.MVC.View.ReportSubviews
                 }
             }
 
-            // Call the ExportPdfWithHeaderFooter method with the sales data
-            reportController.ExportPdfWithHeaderFooter(salesDataList, SalesReportDataGrid);
+            // Get the date range
+            DateTime? fromDate = FromDatePicker.SelectedDate;
+            DateTime? toDate = ToDatePicker.SelectedDate;
+
+            // Call the ExportPdfWithHeaderFooter method with the sales data and date range
+            reportController.ExportPdfWithHeaderFooter(salesDataList, SalesReportDataGrid, totalSales, fromDate, toDate);
         }
 
 
 
-
+      
 
 
         //   public void ExportPdfWithHeaderFooter(List<SalesData> salesData)
@@ -313,7 +321,7 @@ namespace ModernApp.MVC.View.ReportSubviews
         //}
 
 
-              // Helper method to draw the header
+        // Helper method to draw the header
         //        private void DrawHeader(XGraphics gfx, XImage logo, double margin, double pageWidth)
         //        {
         //            double logoWidth = 80;
@@ -443,9 +451,12 @@ namespace ModernApp.MVC.View.ReportSubviews
 
                 // Get the sales data from the DataGrid (assuming SalesReportDataGrid is the name of your DataGrid)
                 List<SalesData> salesDataList = ((IEnumerable<SalesData>)SalesReportDataGrid.ItemsSource).ToList();
+                // Get the date range
+                DateTime? fromDate = FromDatePicker.SelectedDate;
+                DateTime? toDate = ToDatePicker.SelectedDate;
 
                 // Call the ExportPdfWithHeaderFooter method with the sales data
-                reportController.GeneratePrintableDocument(salesDataList, pdfFilePath, SalesReportDataGrid);
+                reportController.GeneratePrintableDocument(salesDataList, pdfFilePath, SalesReportDataGrid,totalSales, fromDate, toDate);
 
                 // Show the print dialog for the generated PDF
                 reportController.PrintPdf(pdfFilePath);
@@ -646,6 +657,22 @@ namespace ModernApp.MVC.View.ReportSubviews
             }
         }
 
+        //calculate total sales
+        public void calculateSalestotal()
+        {
+           
+
+            foreach (var item in SalesReportDataGrid.Items)
+            {
+                if (item is SalesData sale)
+                {
+                    totalSales += sale.SalesAmount;
+                }
+            }
+
+            // Update the label content with the total sales
+            TotalSalesLabel.Content = $"Total Sales: {totalSales:C}";
+        }
 
 
 
