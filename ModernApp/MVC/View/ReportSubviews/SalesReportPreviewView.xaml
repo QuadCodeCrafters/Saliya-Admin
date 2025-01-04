@@ -4,31 +4,39 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
             Background="White">
 
     <Grid Margin="20">
         <!-- Header Section -->
-        <Grid VerticalAlignment="Top" Margin="0,10">
+        <Grid VerticalAlignment="Top" Margin="0,0,485,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <!-- Company Logo -->
-            <Image Source="pack://application:,,,/Images/304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png" 
-                   Width="80" Height="80" Margin="10"/>
 
             <!-- Header Details -->
-            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10">
-                <TextBlock Text="Saliya Auto Care" FontSize="30" FontWeight="Bold" Foreground="#2C3E50"/>
-                <TextBlock Text="Sales Report" FontSize="18" FontWeight="SemiBold" Foreground="#34495E"/>
+            <Button Name="btnBackEmployeeDashboard"
+Style="{StaticResource MaterialDesignFlatButton}"
+VerticalAlignment="Top" Margin="-5,4,5,0"
+>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20" Margin="0,0,5,0" />
+                    <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" />
+                </StackPanel>
+            </Button>
+            <StackPanel Grid.Column="1" Orientation="Vertical" >
+
+                <TextBlock Text="Sales Report" FontSize="30" FontWeight="Bold" Foreground="#2C3E50"/>
                 <TextBlock Text="{Binding CurrentDate, StringFormat='Date: {0:MMMM dd, yyyy}'}" 
-                           FontSize="14" Foreground="#7F8C8D"/>
+                           FontSize="14" Foreground="#7F8C8D"  HorizontalAlignment="Left" Height="25"/>
             </StackPanel>
         </Grid>
         <!-- Filters Section -->
-        <StackPanel Orientation="Horizontal" Margin="357,34,0,491" HorizontalAlignment="Left">
+        <StackPanel Orientation="Horizontal" Margin="30,65,0,460" HorizontalAlignment="Left">
             <TextBlock Text="From:" VerticalAlignment="Center" FontSize="14" Margin="5"/>
             <DatePicker Name="FromDatePicker" Width="150"/>
             <TextBlock Text="To:" VerticalAlignment="Center" FontSize="14" Margin="5"/>
@@ -46,7 +54,7 @@
                   RowHeight="40" 
                   BorderBrush="#BDC3C7"
                   Foreground="#2C3E50" 
-                  FontSize="14" Margin="0,180,0,80">
+                  FontSize="14" Margin="0,143,0,80">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Sale ID" Binding="{Binding SaleID}" Width="100"/>
                 <DataGridTextColumn Header="Product Name" Binding="{Binding ProductName}" Width="200"/>
@@ -56,16 +64,12 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <!-- Footer Section -->
-        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center" 
-                   Margin="0,0,0,50" FontSize="12" Foreground="#7F8C8D" TextAlignment="Center">
-            © 2024 Saliya Auto Care, All Rights Reserved | Contact: info@saliyaautocare.com
-        </TextBlock>
+
 
         <!-- Footer Section (DockPanel for buttons, excluded from print) -->
         <DockPanel Name="FooterDockPanel" VerticalAlignment="Bottom" Margin="10">
             <Button Content="Export to PDF" DockPanel.Dock="Right" Width="120" Height="30" Margin="5" FontWeight="Bold" Background="#3498DB" Foreground="White" BorderBrush="#2980B9" Click="ExportPdfButton_Click"/>
-            <Button Content="Print" DockPanel.Dock="Right" Width="120" Margin="500,0,0,0" FontWeight="Bold" Background="#2ECC71" Foreground="White" BorderBrush="#27AE60" Click="Buttonprint_Click"/>
+            <Button Content="Print" DockPanel.Dock="Right" Width="120" Margin="800,0,0,0" FontWeight="Bold" Background="#2ECC71" Foreground="White" BorderBrush="#27AE60" Click="Buttonprint_Click"/>
         </DockPanel>
     </Grid>
 </UserControl>
