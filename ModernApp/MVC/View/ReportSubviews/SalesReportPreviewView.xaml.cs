@@ -49,21 +49,42 @@ namespace ModernApp.MVC.View.ReportSubviews
             DateTime? fromDate = FromDatePicker.SelectedDate;
             DateTime? toDate = ToDatePicker.SelectedDate;
 
+            // Get the selected product type from the ComboBox
+            var selectedProductItem = ServiceComboBox.SelectedItem as ComboBoxItem;
+            string selectedProductType = selectedProductItem?.Content.ToString();
+
             // Filter the data for the DataGrid view
             var filteredData = Sales.Where(sale =>
                 (!fromDate.HasValue || sale.SaleDate >= fromDate.Value) &&
-                (!toDate.HasValue || sale.SaleDate <= toDate.Value)).ToList();
+                (!toDate.HasValue || sale.SaleDate <= toDate.Value) &&
+                (string.IsNullOrEmpty(selectedProductType) || sale.ProductType == selectedProductType))
+                .ToList();
 
             // Update the DataGrid view without modifying the original collection
             SalesReportDataGrid.ItemsSource = filteredData;
             totalSales = filteredData.Sum(sale => sale.SalesAmount);
             TotalSalesLabel.Content = $"Total Sales: {totalSales:C}";
-           
-
         }
 
-       
-      
+        //clear filter data
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Clear the DatePickers
+            FromDatePicker.SelectedDate = null;
+            ToDatePicker.SelectedDate = null;
+
+            // Clear the ComboBox selection
+            ServiceComboBox.SelectedIndex = -1;
+
+            // Reset the DataGrid to show all data
+            SalesReportDataGrid.ItemsSource = Sales;
+
+            // Reset the total sales label to show the total of all sales
+            totalSales = Sales.Sum(sale => sale.SalesAmount);
+            TotalSalesLabel.Content = $"Total Sales: {totalSales:C}";
+        }
+
+
 
         //private ObservableCollection<SalesData> GetSampleData()
         //{
@@ -224,8 +245,11 @@ namespace ModernApp.MVC.View.ReportSubviews
             DateTime? fromDate = FromDatePicker.SelectedDate;
             DateTime? toDate = ToDatePicker.SelectedDate;
 
+            var selectedProductItem = ServiceComboBox.SelectedItem as ComboBoxItem;
+            string selectedProductType = selectedProductItem?.Content.ToString();
+
             // Call the ExportPdfWithHeaderFooter method with the sales data and date range
-            reportController.ExportPdfWithHeaderFooter(salesDataList, SalesReportDataGrid, totalSales, fromDate, toDate);
+            reportController.ExportPdfWithHeaderFooter(salesDataList, SalesReportDataGrid, totalSales, fromDate, toDate, selectedProductType);
         }
 
 
@@ -455,8 +479,11 @@ namespace ModernApp.MVC.View.ReportSubviews
                 DateTime? fromDate = FromDatePicker.SelectedDate;
                 DateTime? toDate = ToDatePicker.SelectedDate;
 
+                var selectedProductItem = ServiceComboBox.SelectedItem as ComboBoxItem;
+                string selectedProductType = selectedProductItem?.Content.ToString();
+
                 // Call the ExportPdfWithHeaderFooter method with the sales data
-                reportController.GeneratePrintableDocument(salesDataList, pdfFilePath, SalesReportDataGrid,totalSales, fromDate, toDate);
+                reportController.GeneratePrintableDocument(salesDataList, pdfFilePath, SalesReportDataGrid,totalSales, fromDate, toDate, selectedProductType);
 
                 // Show the print dialog for the generated PDF
                 reportController.PrintPdf(pdfFilePath);
@@ -674,8 +701,7 @@ namespace ModernApp.MVC.View.ReportSubviews
             TotalSalesLabel.Content = $"Total Sales: {totalSales:C}";
         }
 
-
-
+       
     }
 
     public class SalesData

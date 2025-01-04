@@ -41,7 +41,18 @@ VerticalAlignment="Top" Margin="-5,4,5,0"
             <DatePicker Name="FromDatePicker" Width="150"/>
             <TextBlock Text="To:" VerticalAlignment="Center" FontSize="14" Margin="5"/>
             <DatePicker Name="ToDatePicker" Width="150"/>
+           
+
+            <!-- Dropdown for Category Filter -->
+            <ComboBox Name="ServiceComboBox" Width="200" Margin="30,0,30,0" materialDesign:HintAssist.Hint="Select Category">
+                <ComboBoxItem Content="Paint Job" />
+                <ComboBoxItem Content="Vehicle Services" />
+                <ComboBoxItem Content="Vehicle Repairs" />
+                <ComboBoxItem Content="Carrier Services" />
+                <ComboBoxItem Content="Spare Services" />
+            </ComboBox>
             <Button Content="Filter" Margin="5" Click="FilterButton_Click"/>
+            <Button Content="Clear" Name="ClearButton"  Background="Red" Click="ClearButton_Click"/>
         </StackPanel>
 
         <!-- DataGrid Section -->

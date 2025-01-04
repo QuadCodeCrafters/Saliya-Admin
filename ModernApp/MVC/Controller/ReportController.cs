@@ -16,7 +16,7 @@ namespace ModernApp.MVC.Controller
     {
         //Export a PDF report with header and footer
         //Sales report 
-        public void ExportPdfWithHeaderFooter(List<SalesData> salesData, DataGrid dataGrid, decimal totalSales, DateTime? fromDate, DateTime? toDate)
+        public void ExportPdfWithHeaderFooter(List<SalesData> salesData, DataGrid dataGrid, decimal totalSales, DateTime? fromDate, DateTime? toDate, string selectedproducttype)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace ModernApp.MVC.Controller
                     if (!isHeaderDrawn)
                     {
                         // Draw header with optional date range
-                        DrawHeader(gfx, logo, margin, pageWidth, totalSales, fromDate, toDate);
+                        DrawHeader(gfx, logo, margin, pageWidth, totalSales, fromDate, toDate, selectedproducttype);
 
                         // Draw table header
                         DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
@@ -113,7 +113,7 @@ namespace ModernApp.MVC.Controller
         }
 
         // Updated DrawHeader to include date range
-        private void DrawHeader(XGraphics gfx, XImage logo, double margin, double pageWidth, decimal totalSales, DateTime? fromDate, DateTime? toDate)
+        private void DrawHeader(XGraphics gfx, XImage logo, double margin, double pageWidth, decimal totalSales, DateTime? fromDate, DateTime? toDate, string selectedproducttype)
         {
             double logoWidth = 80;
             double logoHeight = 80;
@@ -127,17 +127,31 @@ namespace ModernApp.MVC.Controller
             gfx.DrawString($"Date: {DateTime.Now:MMMM dd, yyyy}", new XFont("Arial", 12, XFontStyle.Regular),
                 XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 60));
 
+            double currentYPosition = margin + 80; // Start position for the header information
+
+            // Define the space to place the two strings horizontally
+            double xPosition = margin + logoWidth + 10;
+
             if (fromDate.HasValue && toDate.HasValue)
             {
                 gfx.DrawString($"Report Period: {fromDate.Value:yyyy.MM.dd} - {toDate.Value:yyyy.MM.dd}",
                     new XFont("Arial", 12, XFontStyle.Regular), XBrushes.Gray,
-                    new XPoint(margin + logoWidth + 10, margin + 80));
+                    new XPoint(xPosition, currentYPosition));
+                xPosition += 230; // Move the x position for the next string horizontally
+            }
+
+            if (!string.IsNullOrEmpty(selectedproducttype))
+            {
+                gfx.DrawString($"Product Type: {selectedproducttype}",
+                    new XFont("Arial", 12, XFontStyle.Regular), XBrushes.Gray,
+                    new XPoint(xPosition, currentYPosition));
             }
 
             string totalSalesText = $"Total Sales: {totalSales:C}";
             gfx.DrawString(totalSalesText, new XFont("Arial", 12, XFontStyle.Bold),
                 XBrushes.Black, new XPoint(pageWidth - margin - 200, margin + 40));
         }
+
 
 
 
@@ -222,7 +236,7 @@ namespace ModernApp.MVC.Controller
         //direcly it prints by opening the canon printer dialog box
         // Generate a printable document with header and footer
 
-        public void GeneratePrintableDocument(List<SalesData> salesData, string pdfFilePath, DataGrid dataGrid, decimal totalsales , DateTime? fromDate, DateTime? toDate)
+        public void GeneratePrintableDocument(List<SalesData> salesData, string pdfFilePath, DataGrid dataGrid, decimal totalsales , DateTime? fromDate, DateTime? toDate, string selectedproducttype)
         {
             try
             {
@@ -279,7 +293,7 @@ namespace ModernApp.MVC.Controller
                         // Draw header on the first page
 
                         // Draw header with optional date range
-                        DrawHeader(gfx, logo, margin, pageWidth, totalsales, fromDate, toDate);
+                        DrawHeader(gfx, logo, margin, pageWidth, totalsales, fromDate, toDate,selectedproducttype);
 
                         // Draw table header
                         DrawTableRow(gfx, font, headers, columnWidths, margin, yOffset, true);
