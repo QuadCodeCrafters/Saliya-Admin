@@ -71,7 +71,7 @@ VerticalAlignment="Top" Margin="-5,4,5,0"
                 <DataGridTextColumn Header="Product Name" Binding="{Binding ProductName}" Width="200"/>
                 <DataGridTextColumn Header="Product Type" Binding="{Binding ProductType}" Width="150"/>
                 <DataGridTextColumn Header="Sales Amount" Binding="{Binding SalesAmount, StringFormat=C}" Width="150"/>
-                <DataGridTextColumn Header="Sale Date" Binding="{Binding SaleDate, StringFormat={}{0:MMMM dd, yyyy}}" Width="155"/>
+                <DataGridTextColumn Header="Sale Date" Binding="{Binding SaleDate, StringFormat={}{0:MMMM dd yyyy}}" Width="155"/>
             </DataGrid.Columns>
         </DataGrid>
 

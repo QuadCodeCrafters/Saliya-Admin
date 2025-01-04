@@ -37,7 +37,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Buttons with Material Design -->
-            <Button Name="btnSalesReportGenerate" Content="Revenue Report" Style="{StaticResource MaterialDesignRaisedButton}"
+            <Button Name="btnSalesReportGenerate" Content="Sales Report" Style="{StaticResource MaterialDesignRaisedButton}"
                     Command="{Binding RevenueReportCommand}" Grid.Row="0" Grid.Column="0"
                     Margin="10" Padding="10" Height="70" Click="btnSalesReportGenerate_Click" >
                 <Button.Background>
@@ -47,7 +47,7 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
-            <Button Content="Expense Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="0" Grid.Column="1" Margin="10" Height="70" />
+            <Button Name="btnEmployeeReportGenerate" Content="Employee Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="0" Grid.Column="1" Margin="10" Height="70" Click="btnEmployeeReportGenerate_Click" />
             <Button Content="Profit and Loss Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="0" Grid.Column="2" Margin="10" Height="70" />
             <Button Content="Cash Flow Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="0" Grid.Column="3" Margin="10" Height="70" />
             <Button Content="Customer History Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="1" Grid.Column="0" Margin="10" Height="70" />
