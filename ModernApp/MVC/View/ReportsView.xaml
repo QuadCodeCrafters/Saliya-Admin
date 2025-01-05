@@ -48,7 +48,7 @@
                 </Button.Background>
             </Button>
             <Button Name="btnEmployeeReportGenerate" Content="Employee Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="0" Grid.Column="1" Margin="10" Height="70" Click="btnEmployeeReportGenerate_Click" />
-            <Button Content="Profit and Loss Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="0" Grid.Column="2" Margin="10" Height="70" />
+            <Button Name="btnAttendenceReportGenerate" Content="Attendence Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="0" Grid.Column="2" Margin="10" Height="70" Click="btnAttendenceReportGenerate_Click" />
             <Button Content="Cash Flow Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="0" Grid.Column="3" Margin="10" Height="70" />
             <Button Content="Customer History Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="1" Grid.Column="0" Margin="10" Height="70" />
             <Button Content="Service Summary Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="1" Grid.Column="1" Margin="10" Height="70" />
@@ -60,7 +60,7 @@
             <Button Content="KPI Dashboard" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="2" Grid.Column="3" Margin="10" Height="70" />
         </Grid>
         <Border CornerRadius="10" BorderThickness="1">
-            <Frame Name="freportpreviewContainer" Margin="-1,-1,-1,-1"/>
+            <Frame Name="freportpreviewContainer" Margin="-1,-1,-1,-1" />
         </Border>
     </Grid>
 </UserControl>

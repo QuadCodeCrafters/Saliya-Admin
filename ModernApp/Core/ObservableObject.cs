@@ -117,6 +117,48 @@ namespace ModernApp.Core
         }
 
 
+        public ObservableCollection<ModernApp.MVC.View.ReportSubviews.AttendenceData> GetAttendenceSampleData()
+        {
+            var AttendenceDataCollection = new ObservableCollection<ModernApp.MVC.View.ReportSubviews.AttendenceData>();
+
+            try
+            {
+                // Fetch data from the database
+                var AttendenceDatalot = reportModel.GetAttendanceDataFromDb();
+
+                // Iterate through the fetched data
+                foreach (var dataLot in AttendenceDatalot)
+                {
+                    var attendence = new ModernApp.MVC.View.ReportSubviews.AttendenceData
+                    {
+                        AttendanceID = dataLot.AttendanceID,
+                        EmployeeID = dataLot.EmployeeID,
+                        Name = dataLot.Name,
+                        Status = dataLot.Status,
+                        Position = dataLot.Position,
+                        AttendanceDate = dataLot.AttendanceDate,
+                        CheckInTime = dataLot.CheckInTime,
+                        CheckOutTime = dataLot.CheckOutTime
+
+                        
+
+                 };
+
+                    AttendenceDataCollection.Add(attendence);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately
+                Console.WriteLine($"An error occurred while fetching sample data: {ex.Message}");
+            }
+
+            return AttendenceDataCollection;
+        }
+
+
+
+
 
     }
 }

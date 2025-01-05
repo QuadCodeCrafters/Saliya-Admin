@@ -117,10 +117,90 @@ namespace ModernApp.MVC.Model
             return employeeDataList;
         }
 
+        //get data for attendence report 
+        public List<AttendenceDatalot> GetAttendanceDataFromDb()
+        {
+            var attendanceDataList = new List<AttendenceDatalot>();
+
+            // SQL query to fetch data from Attendance and Employee tables
+            string query = @"
+        SELECT 
+            a.AttendanceID,
+            a.EmployeeID,
+            e.Name,
+            e.Position,
+            a.AttendanceDate,
+            a.Status,
+            a.CheckInTime,
+            a.CheckOutTime
+        FROM 
+            Attendance a
+        INNER JOIN 
+            Employee e
+        ON 
+            a.EmployeeID = e.EmployeeID";
+
+            try
+            {
+                // Ensure the database connection is properly managed
+                using (var connection = dbConnection.GetConnection())
+                {
+                    connection.Open(); // Open the connection
+
+                    // Create the MySQL command
+                    var command = new MySqlCommand(query, connection);
+
+                    using (command)
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var attendanceData = new AttendenceDatalot
+                            {
+                                AttendanceID = reader.GetInt32("AttendanceID"),
+                                EmployeeID = reader.GetInt32("EmployeeID"),
+                                Name = reader.GetString("Name"),
+                                Position = reader.GetString("Position"),
+                                AttendanceDate = reader.GetDateTime("AttendanceDate"),
+                                Status = reader.GetString("Status"),
+                                CheckInTime = reader.IsDBNull(reader.GetOrdinal("CheckInTime"))
+                                              ? (TimeSpan?)null
+                                              : reader.GetTimeSpan("CheckInTime"),
+                                CheckOutTime = reader.IsDBNull(reader.GetOrdinal("CheckOutTime"))
+                                               ? (TimeSpan?)null
+                                               : reader.GetTimeSpan("CheckOutTime")
+                            };
+
+                            attendanceDataList.Add(attendanceData); // Add to the list
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately
+                Console.WriteLine($"An error occurred while fetching data from the database: {ex.Message}");
+            }
+
+            return attendanceDataList;
+        }
+
     }
 
 
-   
+    public class AttendenceDatalot
+    {
+        public int AttendanceID { get; set; }
+        public int EmployeeID { get; set; }
+        public string Name { get; set; }
+        public string Position { get; set; }
+        public DateTime AttendanceDate { get; set; }
+        public string Status { get; set; }
+        public TimeSpan? CheckInTime { get; set; }
+        public TimeSpan? CheckOutTime { get; set; }
+    }
+
+
 
     public class EmployeeDatalot
     {

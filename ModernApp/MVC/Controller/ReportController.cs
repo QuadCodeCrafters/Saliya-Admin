@@ -234,6 +234,115 @@ namespace ModernApp.MVC.Controller
         }
 
 
+        public void ExportPdfAttendanceReport(
+    List<AttendenceData> attendanceDataList,
+    DataGrid dataGrid,
+    int totalAttendanceCount,
+    string employeeNameFilter,
+    string selectedJobTitle,
+    string selectedStatus,
+    DateTime? startDate,
+    DateTime? endDate,
+    TimeSpan? selectedCheckInTime,
+    TimeSpan? selectedCheckOutTime)
+        {
+            try
+            {
+                // Create PDF document
+                PdfDocument document = new PdfDocument();
+                document.Info.Title = "Saliya Auto Care Attendance Report";
+
+                const double pageWidth = 8.27 * 72; // A4 width in points (72 DPI)
+                const double pageHeight = 11.69 * 72; // A4 height in points (72 DPI)
+                const double margin = 20; // Margin for content
+
+                double yOffset = margin + 120; // Leave space for header
+                double footerHeight = 50;
+
+                // Load the logo image
+                string logoPath = "D:\\personal\\Coding\\C#\\ModernApp\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
+                XImage logo = XImage.FromFile(logoPath);
+
+                // Headers for Attendance Report
+                string[] headers = { "AttendanceID", "EmployeeID", "Name", "Position", "AttendanceDate", "Status", "CheckIn", "CheckOut" };
+
+                // Column width calculations
+                double firstColumnWidth = 70;
+                double remainingWidth = pageWidth - firstColumnWidth - (headers.Length - 1) * 5;
+
+                double[] columnWidths = new double[headers.Length];
+                columnWidths[0] = firstColumnWidth;
+                for (int i = 1; i < headers.Length; i++)
+                {
+                    columnWidths[i] = remainingWidth / (headers.Length - 1);
+                }
+
+                // Add pages and content
+                PdfPage page = document.AddPage();
+                page.Size = PdfSharp.PageSize.A4;
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+
+                XFont headerFont = new XFont("Segoe UI", 9, XFontStyle.Regular);
+                XFont rowFont = new XFont("Arial", 8, XFontStyle.Regular);
+
+                bool isHeaderDrawn = false;
+
+                foreach (var attendance in attendanceDataList)
+                {
+                    if (!isHeaderDrawn)
+                    {
+                        // Draw header with optional filters
+                        DrawAttendanceReportHeader(gfx, logo, margin, pageWidth, totalAttendanceCount, selectedJobTitle, selectedStatus, startDate, endDate, selectedCheckInTime, selectedCheckOutTime);
+
+                        // Draw table header
+                        DrawTableRow(gfx, headerFont, headers, columnWidths, margin, yOffset, true);
+                        yOffset += 25; // Adjust row spacing
+                        isHeaderDrawn = true;
+                    }
+
+                    if (yOffset > pageHeight - margin - footerHeight)
+                    {
+                        DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
+
+                        page = document.AddPage();
+                        page.Size = PdfSharp.PageSize.A4;
+                        gfx = XGraphics.FromPdfPage(page);
+                        yOffset = margin + 80;
+
+                        DrawTableRow(gfx, headerFont, headers, columnWidths, margin, yOffset, true);
+                        yOffset += 20; // Adjust row spacing
+                    }
+
+                    string[] rowData =
+                    {
+                attendance.AttendanceID.ToString(),
+                attendance.EmployeeID.ToString(),
+                attendance.Name,
+                attendance.Position,
+                attendance.AttendanceDate.ToShortDateString(),
+                attendance.Status,
+                attendance.CheckInTime?.ToString(@"hh\:mm") ?? "N/A", // Format TimeSpan as hh:mm
+                attendance.CheckOutTime?.ToString(@"hh\:mm") ?? "N/A"
+            };
+
+                    DrawTableRow(gfx, rowFont, rowData, columnWidths, margin, yOffset, false);
+                    yOffset += 20; // Adjust row spacing
+                }
+
+                DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
+
+                string filename = "AttendanceReport_WithFilters.pdf";
+                document.Save(filename);
+                MessageBox.Show("PDF exported successfully.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                System.Diagnostics.Process.Start(filename);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
 
 
 
@@ -348,7 +457,95 @@ namespace ModernApp.MVC.Controller
             }
         }
 
+        //attendence header
+        private void DrawAttendanceReportHeader(
+    XGraphics gfx,
+    XImage logo,
+    double margin,
+    double pageWidth,
+    int totalAttendanceCount,
+    string employeeNameFilter,
+    string selectedStatus,
+    DateTime? startDate,
+    DateTime? endDate,
+    TimeSpan? checkInTime,
+    TimeSpan? checkOutTime)
+        {
+            double logoWidth = 80;
+            double logoHeight = 80;
 
+            // Draw the logo
+            gfx.DrawImage(logo, margin, margin, logoWidth, logoHeight);
+
+            // Draw header text
+            gfx.DrawString("Saliya Auto Care", new XFont("Segoe UI", 18, XFontStyle.Bold),
+                XBrushes.Black, new XPoint(margin + logoWidth + 10, margin + 20));
+            gfx.DrawString("Attendance Report", new XFont("Segoe UI", 14, XFontStyle.Bold),
+                XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 40));
+            gfx.DrawString($"Generated on: {DateTime.Now:MMMM dd, yyyy}", new XFont("Segoe UI", 12, XFontStyle.Regular),
+                XBrushes.Gray, new XPoint(margin + logoWidth + 10, margin + 60));
+
+            // Total attendance records
+            double xPosition = margin + logoWidth + 10; // Start next to the header text
+            double yPosition = margin + 80;
+            gfx.DrawString($"Total Records: {totalAttendanceCount}", new XFont("Segoe UI", 10, XFontStyle.Regular),
+                XBrushes.Gray, new XPoint(xPosition, yPosition));
+
+            // Adjust yPosition for filters (stacked vertically)
+            yPosition += 20;
+
+            // Filters stacked below "Total Records"
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                gfx.DrawString($"Report Period: {startDate.Value:yyyy.MM.dd} - {endDate.Value:yyyy.MM.dd}",
+                    new XFont("Segoe UI", 10, XFontStyle.Regular), XBrushes.Gray,
+                    new XPoint(xPosition, yPosition));
+                xPosition += 190; // Increment y position for next line
+            }
+
+            if (startDate.HasValue && !endDate.HasValue)
+            {
+                gfx.DrawString($"Selected Date: {startDate.Value:yyyy.MM.dd}",
+                    new XFont("Segoe UI", 10, XFontStyle.Regular), XBrushes.Gray,
+                    new XPoint(xPosition, yPosition));
+                yPosition += 20; // Increment y position for next line
+            }
+
+            //if (!string.IsNullOrEmpty(employeeNameFilter))
+            //{
+            //    gfx.DrawString($"Employee: {employeeNameFilter}",
+            //        new XFont("Segoe UI", 10, XFontStyle.Regular), XBrushes.Gray,
+            //        new XPoint(xPosition, yPosition));
+            //    yPosition += 20; // Increment y position for next line
+            //}
+
+            if (!string.IsNullOrEmpty(selectedStatus))
+            {
+                gfx.DrawString($"Status: {selectedStatus}",
+                    new XFont("Segoe UI", 10, XFontStyle.Regular), XBrushes.Gray,
+                    new XPoint(xPosition, yPosition));
+                xPosition += 190; // Increment y position for next line
+            }
+
+            if (checkInTime.HasValue || checkOutTime.HasValue)
+            {
+                string timeFilter = "Time: ";
+                if (checkInTime.HasValue)
+                    timeFilter += $"Check-In ≥ {checkInTime.Value:hh\\:mm} ";
+                if (checkOutTime.HasValue)
+                    timeFilter += $"Check-Out ≤ {checkOutTime.Value:hh\\:mm}";
+
+                gfx.DrawString(timeFilter, new XFont("Segoe UI", 10, XFontStyle.Regular), XBrushes.Gray,
+                    new XPoint(xPosition, yPosition));
+                xPosition += 190; // Increment y position for next line
+            }
+
+            // Check if there is data to display
+            if (totalAttendanceCount == 0)
+            {
+                throw new InvalidOperationException("No data available to display in the report after applying the filters.");
+            }
+        }
 
 
 
@@ -685,6 +882,119 @@ namespace ModernApp.MVC.Controller
                 // Save the document
                 document.Save(pdfFilePath);
                 MessageBox.Show("PDF exported successfully.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+        public void GenerateAttendancePrintableDocument(
+    List<AttendenceData> attendanceDataList,
+    string pdfFilePath,
+    DataGrid dataGrid,
+    int totalRecordCount,
+    string employeeNameFilter,
+    string selectedJobTitle,
+    string selectedStatus,
+    DateTime? startDate,
+    DateTime? endDate,
+    TimeSpan? selectedCheckInTime,
+    TimeSpan? selectedCheckOutTime)
+        {
+            try
+            {
+                // Extract headers for the attendance report
+                string[] headers = { "AttendanceID","EmployeeID", "Name", "Date", "Status", "Check-In", "Check-Out" };
+
+                // Create PDF document
+                PdfDocument document = new PdfDocument();
+                document.Info.Title = "Saliya Auto Care Attendance Report";
+
+                const double pageWidth = 8.27 * 72; // A4 width in points (72 DPI)
+                const double pageHeight = 11.69 * 72; // A4 height in points (72 DPI)
+                const double margin = 40; // Margin for content
+                double yOffset = margin + 120; // Space for header
+                double footerHeight = 50;
+
+                // Load the logo image
+                string logoPath = "D:\\personal\\Coding\\C#\\ModernApp\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
+                XImage logo = XImage.FromFile(logoPath);
+
+                // Add the first page
+                PdfPage page = document.AddPage();
+                page.Size = PdfSharp.PageSize.A4;
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+                XFont headerFont = new XFont("Segoe UI", 9, XFontStyle.Regular);
+                XFont rowFont = new XFont("Arial", 8, XFontStyle.Regular);
+
+                bool isHeaderDrawn = false;
+
+                // Reduce the width of the first column to 50
+                double firstColumnWidth = 70;
+                double remainingWidth = pageWidth - firstColumnWidth - (headers.Length - 1) * 5; // Subtract space for other columns
+
+                // Calculate the remaining column widths for other columns
+                double[] columnWidths = new double[headers.Length];
+                columnWidths[0] = firstColumnWidth;
+
+                for (int i = 1; i < headers.Length; i++)
+                {
+                    columnWidths[i] = remainingWidth / (headers.Length - 1);
+                }
+
+                // Draw table header and content
+                foreach (var attendence in attendanceDataList)
+                {
+                    if (!isHeaderDrawn)
+                    {
+                        // Draw header with filters
+                        DrawAttendanceReportHeader(gfx, logo, margin, pageWidth, totalRecordCount, employeeNameFilter,  selectedStatus, startDate, endDate, selectedCheckInTime, selectedCheckOutTime);
+
+                        // Draw table header
+                        DrawTableRow(gfx, headerFont, headers, columnWidths, margin, yOffset, true);
+                        yOffset += 20;
+                        isHeaderDrawn = true;
+                    }
+
+                    if (yOffset > pageHeight - margin - footerHeight)
+                    {
+                        DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
+
+                        // Add new page
+                        page = document.AddPage();
+                        page.Size = PdfSharp.PageSize.A4;
+                        gfx = XGraphics.FromPdfPage(page);
+                        yOffset = margin + 100;
+
+                        // Redraw table header on new page
+                        DrawTableRow(gfx, headerFont, headers, columnWidths, margin, yOffset, true);
+                        yOffset += 20;
+                    }
+
+                    string[] rowData =
+                    {
+                attendence.AttendanceID.ToString(),
+                attendence.EmployeeID.ToString(),
+                attendence.Name,
+                attendence.AttendanceDate.ToShortDateString(),
+                attendence.Status,
+                attendence.CheckInTime?.ToString(@"hh\:mm") ?? "N/A", // Format TimeSpan as hh:mm
+                attendence.CheckOutTime?.ToString(@"hh\:mm") ?? "N/A"
+            };
+
+
+                    DrawTableRow(gfx, rowFont, rowData, columnWidths, margin, yOffset, false);
+                    yOffset += 20;
+                }
+
+                // Draw footer on the last page
+                DrawFooter(gfx, pageWidth, pageHeight, footerHeight);
+
+                // Save the document
+                document.Save(pdfFilePath);
+                MessageBox.Show("Attendance report PDF exported successfully.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
