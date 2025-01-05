@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
+using System.Data.Odbc;
 using MySql.Data.MySqlClient;
 
 namespace ModernApp.MVC.Model
@@ -61,7 +63,80 @@ namespace ModernApp.MVC.Model
             return salesDataList;
         }
 
+
+
+
+        public List<EmployeeData> GetEmployeeDataFromDb()
+        {
+            var employeeDataList = new List<EmployeeData>();
+
+            // SQL query to fetch data from Employee table
+            string query = "SELECT EmployeeID, NationalIdentificationNumber, Name, DOB, Salary, Status, Mail, Position, Address, Phone, HireDate FROM Employee";
+
+            try
+            {
+                // Ensure the database connection is properly managed
+                using (var connection = dbConnection.GetConnection())
+                {
+                    connection.Open(); // Open the connection
+
+                    // Create the MySQL command
+                    var command = new MySqlCommand(query, connection);
+
+                    using (command)
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var employeeData = new EmployeeData
+                            {
+                                EmployeeID = reader.GetInt32("EmployeeID"),
+                                NationalIdentificationNumber = reader.GetString("NationalIdentificationNumber"),
+                                Name = reader.GetString("Name"),
+                                DOB = reader.GetDateTime("DOB"),
+                                Salary = reader.GetDecimal("Salary"),
+                                Status = reader.GetString("Status"),
+                                Mail = reader.GetString("Mail"),
+                                Position = reader.GetString("Position"),
+                                Address = reader.GetString("Address"),
+                                Phone = reader.GetString("Phone"),
+                                HireDate = reader.GetDateTime("HireDate")
+                            };
+
+                            employeeDataList.Add(employeeData); // Add to the list
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately
+                Console.WriteLine($"An error occurred while fetching data from the database: {ex.Message}");
+            }
+
+            return employeeDataList;
+        }
+
     }
+
+
+   
+
+    public class EmployeeData
+    {
+        public int EmployeeID { get; set; }
+        public string NationalIdentificationNumber { get; set; }
+        public string Name { get; set; }
+        public DateTime DOB { get; set; }
+        public decimal Salary { get; set; }
+        public string Status { get; set; }
+        public string Mail { get; set; }
+        public string Position { get; set; }
+        public string Address { get; set; }
+        public string Phone { get; set; }
+        public DateTime HireDate { get; set; }
+    }
+
 
     public class SalesDatalot
     {

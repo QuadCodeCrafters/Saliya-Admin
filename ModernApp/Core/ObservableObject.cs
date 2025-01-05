@@ -77,6 +77,46 @@ namespace ModernApp.Core
             return salesDataCollection;
         }
 
+        public ObservableCollection<ModernApp.MVC.View.ReportSubviews.EmployeeData> GetEmployeeSampleData()
+        {
+            var EmployeeDataCollection = new ObservableCollection<ModernApp.MVC.View.ReportSubviews.EmployeeData>();
+
+            try
+            {
+                // Fetch data from the database
+                var EmployeeDataLotList = reportModel.GetEmployeeDataFromDb();
+
+                // Iterate through the fetched data
+                foreach (var dataLot in EmployeeDataLotList)
+                {
+                    var employee = new ModernApp.MVC.View.ReportSubviews.EmployeeData
+                    {
+                        EmployeeID = dataLot.EmployeeID,
+                        NationalIdentificationNumber = dataLot.NationalIdentificationNumber,
+                        Name = dataLot.Name,
+                        DOB = dataLot.DOB,
+                        Salary = dataLot.Salary,
+                        Status = dataLot.Status,
+                        Mail = dataLot.Mail,
+                        Position = dataLot.Position,
+                        Address = dataLot.Address,
+                        Phone = dataLot.Phone,
+                        HireDate = dataLot.HireDate
+                    };
+
+                    EmployeeDataCollection.Add(employee);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately
+                Console.WriteLine($"An error occurred while fetching sample data: {ex.Message}");
+            }
+
+            return EmployeeDataCollection;
+        }
+
+
 
     }
 }
