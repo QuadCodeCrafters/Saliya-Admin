@@ -66,9 +66,9 @@ namespace ModernApp.MVC.Model
 
 
 
-        public List<EmployeeData> GetEmployeeDataFromDb()
+        public List<EmployeeDatalot> GetEmployeeDataFromDb()
         {
-            var employeeDataList = new List<EmployeeData>();
+            var employeeDataList = new List<EmployeeDatalot>();
 
             // SQL query to fetch data from Employee table
             string query = "SELECT EmployeeID, NationalIdentificationNumber, Name, DOB, Salary, Status, Mail, Position, Address, Phone, HireDate FROM Employee";
@@ -88,7 +88,7 @@ namespace ModernApp.MVC.Model
                     {
                         while (reader.Read())
                         {
-                            var employeeData = new EmployeeData
+                            var employeeData = new EmployeeDatalot
                             {
                                 EmployeeID = reader.GetInt32("EmployeeID"),
                                 NationalIdentificationNumber = reader.GetString("NationalIdentificationNumber"),
@@ -122,7 +122,7 @@ namespace ModernApp.MVC.Model
 
    
 
-    public class EmployeeData
+    public class EmployeeDatalot
     {
         public int EmployeeID { get; set; }
         public string NationalIdentificationNumber { get; set; }

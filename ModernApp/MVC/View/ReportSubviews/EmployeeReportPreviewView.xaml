@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              Background="White">
 
-    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+   
         <Grid Margin="20">
             <!-- Define Rows for Header, Filters, DataGrid, and Footer -->
             <Grid.RowDefinitions>
@@ -29,9 +29,9 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Name="btnBackEmployeeDashboard"
+                <Button Name="btnBackReportDashboard"
                         Style="{StaticResource MaterialDesignFlatButton}"
-                        VerticalAlignment="Top" Margin="-5,4,5,0">
+                        VerticalAlignment="Top" Margin="-5,4,0,0" Click="btnBackReportDashboard_Click">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20" Margin="0,0,5,0" />
                         <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" />
@@ -47,12 +47,14 @@
 
             <!-- Filters Section -->
             <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Center">
-                <materialDesign:Card Padding="20" Background="{DynamicResource MaterialDesignPaper}" Height="290">
+                <materialDesign:Card Padding="0" Background="{DynamicResource MaterialDesignPaper}" Height="207">
                     <!-- Filters Content -->
-                    <StackPanel Orientation="Vertical" Margin="0">
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,-21">
                         <TextBlock Text="Filters" FontSize="20" FontWeight="Bold" 
-                                   Foreground="{DynamicResource MaterialDesignBody}" HorizontalAlignment="Center" Margin="0,0,0,20"/>
-
+                                   Foreground="{DynamicResource MaterialDesignBody}" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                        <Label Name="TotalEmployeeLabel" DockPanel.Dock="Left" FontSize="16" FontWeight="Bold"
+        Foreground="#2C3E50" VerticalAlignment="Center" Margin="10,0,0,0"
+        Content="Employee no: 0" />
                         <!-- First Row of Filters -->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
                             <TextBox x:Name="EmployeeNameTextBox" Width="180" Margin="10" 
@@ -73,16 +75,18 @@
                                 <ComboBoxItem Content="Inactive"/>
                                 <ComboBoxItem Content="On Leave"/>
                             </ComboBox>
+
+                            <DatePicker x:Name="StartDatePicker" Width="180" Margin="10"
+             materialDesign:HintAssist.Hint="Start Date"
+             Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
+                            <DatePicker x:Name="EndDatePicker" Width="180" Margin="10"
+             materialDesign:HintAssist.Hint="End Date"
+             Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
                         </StackPanel>
 
                         <!-- Second Row of Filters -->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,5">
-                            <DatePicker x:Name="StartDatePicker" Width="180" Margin="10"
-                                        materialDesign:HintAssist.Hint="Start Date"
-                                        Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
-                            <DatePicker x:Name="EndDatePicker" Width="180" Margin="10"
-                                        materialDesign:HintAssist.Hint="End Date"
-                                        Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
+                           
                           
                         </StackPanel>
 
@@ -101,17 +105,17 @@
                 </materialDesign:Card>
             </StackPanel>
 
-            <!-- DataGrid Section -->
             <DataGrid Grid.Row="2" Name="EmployeeReportDataGrid"
-                      AutoGenerateColumns="False" 
-                      CanUserAddRows="False"
-                      AlternatingRowBackground="#F7F9FA" 
-                      GridLinesVisibility="Horizontal" 
-                      Background="White"
-                      RowHeight="40" 
-                      BorderBrush="#BDC3C7"
-                      Foreground="#2C3E50" 
-                      FontSize="14" Margin="-10,0,10,0">
+          AutoGenerateColumns="False" 
+          CanUserAddRows="False"
+          AlternatingRowBackground="#F7F9FA" 
+          GridLinesVisibility="Horizontal" 
+          Background="White"
+          RowHeight="40" 
+          BorderBrush="#BDC3C7"
+          Foreground="#2C3E50" 
+          FontSize="14" Margin="-10,0,10,0"
+          PreviewMouseWheel="EmployeeReportDataGrid_PreviewMouseWheel">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Employee ID" Binding="{Binding EmployeeID}" Width="100"/>
                     <DataGridTextColumn Header="National ID" Binding="{Binding NationalIdentificationNumber}" Width="200"/>
@@ -130,14 +134,11 @@
 
             <!-- Footer Section -->
             <DockPanel Grid.Row="3" Name="FooterDockPanel" VerticalAlignment="Bottom" Margin="10">
-                <Button Content="Export to PDF" DockPanel.Dock="Right" Width="120" Height="30" Margin="5"
-                        FontWeight="Bold" Background="#3498DB" Foreground="White" BorderBrush="#2980B9" />
-                <Button Content="Print" DockPanel.Dock="Right" Width="120" Margin="500,0,0,0" 
-                        FontWeight="Bold" Background="#2ECC71" Foreground="White" BorderBrush="#27AE60" />
-                <Label Name="TotalSalesLabel" DockPanel.Dock="Left" FontSize="16" FontWeight="Bold"
-                       Foreground="#2C3E50" VerticalAlignment="Center" Margin="10,0,0,0"
-                       Content="Employee no: 0" />
+            <Button Name="btnExportPdf" Content="Export to PDF" DockPanel.Dock="Right" Width="120" Height="30" Margin="5"
+                FontWeight="Bold" Background="#3498DB" Foreground="White" BorderBrush="#2980B9" Click="btnExportPdf_Click" />
+                <Button Name="btnPrintPdf" Content="Print" DockPanel.Dock="Right" Width="120" Margin="750,0,0,0" 
+                FontWeight="Bold" Background="#2ECC71" Foreground="White" BorderBrush="#27AE60" Click="btnPrintPdf_Click"  />
             </DockPanel>
         </Grid>
-    </ScrollViewer>
+    
 </UserControl>

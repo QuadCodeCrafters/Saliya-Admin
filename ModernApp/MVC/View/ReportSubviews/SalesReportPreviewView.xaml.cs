@@ -701,7 +701,33 @@ namespace ModernApp.MVC.View.ReportSubviews
             TotalSalesLabel.Content = $"Total Sales: {totalSales:C}";
         }
 
-       
+     
+
+        private void btnBackReportDashboard_Click(object sender, RoutedEventArgs e)
+        {
+            var parentFrame = FindParent<Frame>(this); // Find the parent Frame
+            if (parentFrame != null)
+            {
+                parentFrame.Content = null; // Remove the UserControl (close it)
+            }
+        }
+
+        // Helper function to find the parent Frame of the UserControl
+        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) return null;
+
+            if (parentObject is T parent)
+            {
+                return parent;
+            }
+            else
+            {
+                return FindParent<T>(parentObject);
+            }
+        }
     }
 
     public class SalesData

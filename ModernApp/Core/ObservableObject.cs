@@ -84,10 +84,10 @@ namespace ModernApp.Core
             try
             {
                 // Fetch data from the database
-                var EmployeeDataLotList = reportModel.GetEmployeeDataFromDb();
+                var EmployeeDatalot = reportModel.GetEmployeeDataFromDb();
 
                 // Iterate through the fetched data
-                foreach (var dataLot in EmployeeDataLotList)
+                foreach (var dataLot in EmployeeDatalot)
                 {
                     var employee = new ModernApp.MVC.View.ReportSubviews.EmployeeData
                     {
