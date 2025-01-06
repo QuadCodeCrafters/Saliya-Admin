@@ -206,6 +206,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MVC\View\ReportSubviews\GrossProfitReportPreviewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVC\View\ReportSubviews\SalesReportPreviewView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -298,6 +302,9 @@
     </Compile>
     <Compile Include="MVC\View\ReportSubviews\EmployeeReportPreviewView.xaml.cs">
       <DependentUpon>EmployeeReportPreviewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVC\View\ReportSubviews\GrossProfitReportPreviewView.xaml.cs">
+      <DependentUpon>GrossProfitReportPreviewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVC\View\ReportSubviews\SalesReportPreviewView.xaml.cs">
       <DependentUpon>SalesReportPreviewView.xaml</DependentUpon>

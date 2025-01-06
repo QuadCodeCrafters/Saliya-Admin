@@ -88,5 +88,29 @@ namespace ModernApp.MVVM.View
                 MessageBox.Show($"Error navigating to page: {ex.Message}");
             }
         }
+
+
+        private void btnGrossProfitReportGenerate_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (freportpreviewContainer != null)
+                {
+                    freportpreviewContainer.Navigate(new Uri("pack://application:,,,/MVC/View/ReportSubviews/GrossProfitReportPreviewView.xaml", UriKind.Absolute));
+                }
+                else
+                {
+                    MessageBox.Show("Frame container is not initialized.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+        }
     }
+
+
+
+    
 }

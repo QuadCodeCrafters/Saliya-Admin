@@ -45,6 +45,7 @@ namespace ModernApp.MVC.View.ReportSubviews
             // Load sample data
             //Sales = GetSampleData();
             AttendenceReportDataGrid.ItemsSource = attendence;
+            CounttotalEmployees();
         }
 
 
@@ -125,6 +126,7 @@ namespace ModernApp.MVC.View.ReportSubviews
             CheckOutTimepicker.SelectedTime = null;
 
             AttendenceReportDataGrid.ItemsSource = attendence;
+            CounttotalEmployees();
         }
 
         private void btnFilterApply_Click(object sender, RoutedEventArgs e)
