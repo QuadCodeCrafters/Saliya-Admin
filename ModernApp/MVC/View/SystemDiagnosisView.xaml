@@ -8,7 +8,6 @@
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="1000"
              Background="#F5F5F5">
-    
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -48,34 +47,38 @@
                 <StackPanel Margin="10">
                     <!-- CPU Usage Section -->
                     <Border CornerRadius="8" Background="White" Margin="10" Padding="10" 
-                            Style="{StaticResource MaterialDesignCard}">
-                        <Grid>
-                            <TextBlock Text="CPU Usage" FontSize="20" FontWeight="Bold" />
-                            <TextBlock Text="{Binding CpuUsagePercentage, StringFormat={}{0:F1}%}" 
+                          >
+                        <materialDesign:Card Margin="10" Padding="10" Background="White" >
+                            <Grid>
+                                <TextBlock Text="CPU Usage" FontSize="20" FontWeight="Bold" />
+                                <TextBlock Text="{Binding CpuUsagePercentage, StringFormat={}{0:F1}%}" 
                                        FontSize="16" Foreground="Gray" Margin="0,5" />
-                            <lvc:CartesianChart Name="CpuUsageChart" Height="150" Margin="5">
-                                <lvc:CartesianChart.Series>
-                                    <lvc:LineSeries Title="CPU Usage" Values="{Binding CpuUsageValues}" 
+                                <lvc:CartesianChart Name="CpuUsageChart" Height="150" Margin="5">
+                                    <lvc:CartesianChart.Series>
+                                        <lvc:LineSeries Title="CPU Usage" Values="{Binding CpuUsageValues}" 
                                                     PointGeometrySize="0" StrokeThickness="2" />
-                                </lvc:CartesianChart.Series>
-                            </lvc:CartesianChart>
-                        </Grid>
+                                    </lvc:CartesianChart.Series>
+                                </lvc:CartesianChart>
+                            </Grid>
+                        </materialDesign:Card>
                     </Border>
 
                     <!-- Memory Usage Section -->
                     <Border CornerRadius="8" Background="White" Margin="10" Padding="10" 
-                            Style="{StaticResource MaterialDesignCard}">
-                        <Grid>
-                            <TextBlock Text="Memory Usage" FontSize="20" FontWeight="Bold" />
-                            <TextBlock Text="{Binding MemoryUsagePercentage, StringFormat={}{0:F1}%}" 
+                          >
+                        <materialDesign:Card Margin="10" Padding="10" Background="White" >
+                            <Grid>
+                                <TextBlock Text="Memory Usage" FontSize="20" FontWeight="Bold" />
+                                <TextBlock Text="{Binding MemoryUsagePercentage, StringFormat={}{0:F1}%}" 
                                        FontSize="16" Foreground="Gray" Margin="0,5" />
-                            <lvc:CartesianChart Name="MemoryUsageChart" Height="150" Margin="5">
-                                <lvc:CartesianChart.Series>
-                                    <lvc:LineSeries Title="Memory Usage" Values="{Binding MemoryUsageValues}" 
+                                <lvc:CartesianChart Name="MemoryUsageChart" Height="150" Margin="5">
+                                    <lvc:CartesianChart.Series>
+                                        <lvc:LineSeries Title="Memory Usage" Values="{Binding MemoryUsageValues}" 
                                                     PointGeometrySize="0" StrokeThickness="2" />
-                                </lvc:CartesianChart.Series>
-                            </lvc:CartesianChart>
-                        </Grid>
+                                    </lvc:CartesianChart.Series>
+                                </lvc:CartesianChart>
+                            </Grid>
+                        </materialDesign:Card>
                     </Border>
                 </StackPanel>
             </TabItem>

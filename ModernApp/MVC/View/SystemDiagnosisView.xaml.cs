@@ -28,6 +28,8 @@ namespace ModernApp.MVVM.View
         public ChartValues<double> MemoryUsageValues { get; set; }
         public ChartValues<double> UploadSpeedValues { get; set; }
         public ChartValues<double> DownloadSpeedValues { get; set; }
+        public float CpuUsagePercentage { get; private set; }
+        public double MemoryUsagePercentage { get; private set; }
 
         private Dictionary<string, long> previousBytesSent;
         private Dictionary<string, long> previousBytesReceived;
@@ -88,6 +90,9 @@ namespace ModernApp.MVVM.View
 
                     MemoryUsageValues.Add(memoryUsage);
                     if (MemoryUsageValues.Count > 30) MemoryUsageValues.RemoveAt(0);
+
+                    CpuUsagePercentage = cpuUsage;
+                    MemoryUsagePercentage = memoryUsage;
 
                     CpuUsageChart.Series[0].Values = CpuUsageValues;
                     MemoryUsageChart.Series[0].Values = MemoryUsageValues;
@@ -238,6 +243,8 @@ namespace ModernApp.MVVM.View
         public string Name { get; set; }
         public double CPU { get; set; }
         public double Memory { get; set; } // In MB
+       
+
     }
 
     public class ServiceInfo
