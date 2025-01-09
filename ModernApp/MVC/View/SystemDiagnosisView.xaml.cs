@@ -4,11 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
 using System.Timers;
-using System.Web;
+using System.Net.NetworkInformation;
 using System.Windows.Controls;
 using LiveCharts;
 using LiveCharts.Wpf;
-using System.Net.NetworkInformation;
 using System.Windows.Threading;
 
 namespace ModernApp.MVVM.View
@@ -22,12 +21,13 @@ namespace ModernApp.MVVM.View
         private PerformanceCounter memoryCounter;
         private Timer updateTimer;
         private Timer networkTimer;
+        private Timer processUpdateTimer;
+        private Timer serviceUpdateTimer;
 
         public ChartValues<double> CpuUsageValues { get; set; }
         public ChartValues<double> MemoryUsageValues { get; set; }
         public ChartValues<double> UploadSpeedValues { get; set; }
         public ChartValues<double> DownloadSpeedValues { get; set; }
-
 
         private Dictionary<string, long> previousBytesSent;
         private Dictionary<string, long> previousBytesReceived;
@@ -58,91 +58,18 @@ namespace ModernApp.MVVM.View
             networkTimer.Elapsed += UpdateNetworkData;
             networkTimer.Start();
 
-            // Load processes, services, and network interfaces
-            LoadProcesses();
-            LoadServices();
+            // Start updating processes
+            processUpdateTimer = new Timer(3000); // Update every 3 seconds
+            processUpdateTimer.Elapsed += UpdateProcesses;
+            processUpdateTimer.Start();
+
+            // Start updating services
+            serviceUpdateTimer = new Timer(5000); // Update every 5 seconds
+            serviceUpdateTimer.Elapsed += UpdateServices;
+            serviceUpdateTimer.Start();
+
+            // Load initial network interfaces
             LoadNetworkInterfaces();
-        }
-
-        private void LoadProcesses()
-        {
-            try
-            {
-                var processes = Process.GetProcesses()
-                                       .Select(p =>
-                                       {
-                                           try
-                                           {
-                                               return new ProcessInfo
-                                               {
-                                                   Name = p.ProcessName,
-                                                   CPU = 0, // Placeholder: Fetching CPU usage is limited
-                                                   Memory = Math.Round(p.WorkingSet64 / 1024.0 / 1024.0, 2) // Memory in MB
-                                               };
-                                           }
-                                           catch (Exception ex) when (ex is UnauthorizedAccessException || ex is InvalidOperationException)
-                                           {
-                                               Debug.WriteLine($"Process {p.ProcessName} access denied: {ex.Message}");
-                                               return null;
-                                           }
-                                       })
-                                       .Where(p => p != null)
-                                       .ToList();
-
-                ProcessesGrid.ItemsSource = processes;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error loading processes: {ex.Message}");
-            }
-        }
-
-        private void LoadServices()
-        {
-            try
-            {
-                var services = ServiceController.GetServices()
-                                                .Select(s => new ServiceInfo
-                                                {
-                                                    Name = s.DisplayName,
-                                                    Status = s.Status.ToString()
-                                                }).ToList();
-
-                ServicesGrid.ItemsSource = services;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error loading services: {ex.Message}");
-            }
-        }
-
-        private void LoadNetworkInterfaces()
-        {
-            try
-            {
-                var networkInterfaces = NetworkInterface.GetAllNetworkInterfaces()
-                                                        .Where(ni => ni.OperationalStatus == OperationalStatus.Up)
-                                                        .Select(ni => new NetworkInfo
-                                                        {
-                                                            Name = ni.Name,
-                                                            Speed = ni.Speed / 1_000_000.0, // Convert to Mbps
-                                                            Description = ni.Description
-                                                        })
-                                                        .ToList();
-
-                NetworkInterfacesGrid.ItemsSource = networkInterfaces;
-
-                // Initialize previous bytes sent and received
-                foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
-                {
-                    previousBytesSent[ni.Id] = ni.GetIPv4Statistics().BytesSent;
-                    previousBytesReceived[ni.Id] = ni.GetIPv4Statistics().BytesReceived;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error loading network interfaces: {ex.Message}");
-            }
         }
 
         private void UpdatePerformanceData(object sender, ElapsedEventArgs e)
@@ -213,10 +140,84 @@ namespace ModernApp.MVVM.View
             }
         }
 
+        private void UpdateProcesses(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                var processes = Process.GetProcesses()
+                                       .Select(p =>
+                                       {
+                                           try
+                                           {
+                                               return new ProcessInfo
+                                               {
+                                                   Name = p.ProcessName,
+                                                   CPU = 0, // Placeholder
+                                                   Memory = Math.Round(p.WorkingSet64 / 1024.0 / 1024.0, 2) // Memory in MB
+                                               };
+                                           }
+                                           catch (Exception ex) when (ex is UnauthorizedAccessException || ex is InvalidOperationException)
+                                           {
+                                               Debug.WriteLine($"Process {p.ProcessName} access denied: {ex.Message}");
+                                               return null;
+                                           }
+                                       })
+                                       .Where(p => p != null)
+                                       .ToList();
+
+                Dispatcher.Invoke(() =>
+                {
+                    ProcessesGrid.ItemsSource = processes;
+                });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error updating processes: {ex.Message}");
+            }
+        }
+
+        private void UpdateServices(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                var services = ServiceController.GetServices()
+                                                .Select(s => new ServiceInfo
+                                                {
+                                                    Name = s.DisplayName,
+                                                    Status = s.Status.ToString()
+                                                }).ToList();
+
+                Dispatcher.Invoke(() =>
+                {
+                    ServicesGrid.ItemsSource = services;
+                });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error updating services: {ex.Message}");
+            }
+        }
+
+        private void LoadNetworkInterfaces()
+        {
+            try
+            {
+                foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
+                {
+                    previousBytesSent[ni.Id] = ni.GetIPv4Statistics().BytesSent;
+                    previousBytesReceived[ni.Id] = ni.GetIPv4Statistics().BytesReceived;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error loading network interfaces: {ex.Message}");
+            }
+        }
+
         private double GetTotalMemory()
         {
             var computerInfo = new Microsoft.VisualBasic.Devices.ComputerInfo();
-            return computerInfo.TotalPhysicalMemory / 1_048_576.0;
+            return computerInfo.TotalPhysicalMemory / 1_048_576.0; // Convert bytes to MB
         }
 
         private void UserControl_Unloaded(object sender, System.Windows.RoutedEventArgs e)
@@ -225,6 +226,10 @@ namespace ModernApp.MVVM.View
             updateTimer?.Dispose();
             networkTimer?.Stop();
             networkTimer?.Dispose();
+            processUpdateTimer?.Stop();
+            processUpdateTimer?.Dispose();
+            serviceUpdateTimer?.Stop();
+            serviceUpdateTimer?.Dispose();
         }
     }
 
@@ -232,20 +237,12 @@ namespace ModernApp.MVVM.View
     {
         public string Name { get; set; }
         public double CPU { get; set; }
-        public double Memory { get; set; }
-
+        public double Memory { get; set; } // In MB
     }
 
     public class ServiceInfo
     {
         public string Name { get; set; }
         public string Status { get; set; }
-    }
-
-    public class NetworkInfo
-    {
-        public string Name { get; set; }
-        public double Speed { get; set; }
-        public string Description { get; set; }
     }
 }
