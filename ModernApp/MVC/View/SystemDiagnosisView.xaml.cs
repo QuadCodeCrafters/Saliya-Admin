@@ -9,6 +9,9 @@ using System.Windows.Controls;
 using LiveCharts;
 using LiveCharts.Wpf;
 using System.Windows.Threading;
+using System.Windows;
+using System.Management;
+using System.Windows.Media;
 
 namespace ModernApp.MVVM.View
 {
@@ -28,8 +31,10 @@ namespace ModernApp.MVVM.View
         public ChartValues<double> MemoryUsageValues { get; set; }
         public ChartValues<double> UploadSpeedValues { get; set; }
         public ChartValues<double> DownloadSpeedValues { get; set; }
-        public float CpuUsagePercentage { get; private set; }
+        public float CpuUsagePercentage { get;  set; }
         public double MemoryUsagePercentage { get; private set; }
+
+
 
         private Dictionary<string, long> previousBytesSent;
         private Dictionary<string, long> previousBytesReceived;
@@ -73,6 +78,22 @@ namespace ModernApp.MVVM.View
             // Load initial network interfaces
             LoadNetworkInterfaces();
         }
+        private string GetIntelChipName()
+        {
+            try
+            {
+                var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Processor WHERE Manufacturer LIKE '%Intel%'");
+                foreach (var item in searcher.Get())
+                {
+                    return item["Name"]?.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error retrieving Intel chip name: {ex.Message}");
+            }
+            return "Unknown";
+        }
 
         private void UpdatePerformanceData(object sender, ElapsedEventArgs e)
         {
@@ -82,6 +103,9 @@ namespace ModernApp.MVVM.View
                 var availableMemory = memoryCounter.NextValue();
                 var totalMemory = GetTotalMemory();
                 var memoryUsage = 100 - (availableMemory / totalMemory * 100);
+                // Retrieve the Intel chip name
+                var intelChipName = GetIntelChipName();
+
 
                 Dispatcher.Invoke(() =>
                 {
@@ -96,6 +120,21 @@ namespace ModernApp.MVVM.View
 
                     CpuUsageChart.Series[0].Values = CpuUsageValues;
                     MemoryUsageChart.Series[0].Values = MemoryUsageValues;
+
+                    // Update the TextBlock with CPU percentage
+                    CpuUsageTextBlock.Text = $"{CpuUsagePercentage:F1}%";
+
+                    // Change the color based on CPU usage percentage
+                    if (CpuUsagePercentage > 90)
+                    {
+                        CpuUsageTextBlock.Foreground = new SolidColorBrush(Colors.Red);
+                    }
+                    else
+                    {
+                        CpuUsageTextBlock.Foreground = new SolidColorBrush(Colors.Green);
+                    }
+
+                    IntelChipNameTextBlock.Text = $"Intel Chip: {intelChipName}";
                 });
             }
             catch (Exception ex)
@@ -103,6 +142,11 @@ namespace ModernApp.MVVM.View
                 Debug.WriteLine($"Error updating performance data: {ex.Message}");
             }
         }
+
+
+
+
+
 
         private void UpdateNetworkData(object sender, ElapsedEventArgs e)
         {
@@ -144,6 +188,37 @@ namespace ModernApp.MVVM.View
                 Debug.WriteLine($"Error updating network data: {ex.Message}");
             }
         }
+
+        public void OpenNetworkSettings()
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "ms-settings:network",
+                UseShellExecute = true
+            });
+        }
+
+
+        public void OpenNetworkConnectionsControlPanel()
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "ncpa.cpl",
+                UseShellExecute = true
+            });
+        }
+        private void OpenNetworkSettings_Click(object sender, RoutedEventArgs e)
+        {
+            OpenNetworkSettings();
+        }
+
+        private void OpenNetworkConnectionsControlPanel_Click(object sender, RoutedEventArgs e)
+        {
+            OpenNetworkConnectionsControlPanel();
+        }
+
+
+
 
         private void UpdateProcesses(object sender, ElapsedEventArgs e)
         {

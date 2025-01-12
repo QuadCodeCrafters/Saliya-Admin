@@ -6,7 +6,7 @@
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-             d:DesignHeight="600" d:DesignWidth="1000"
+            
              Background="#F5F5F5">
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -15,23 +15,34 @@
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <TextBlock Text="System Diagnosis"
-                   FontSize="28"
-                   FontWeight="Bold"
-                   Foreground="{DynamicResource PrimaryHueMidBrush}"
-                   Margin="0,0,0,20" />
+        <Grid>
+            <TextBlock Text="System Diagnosis"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="#007AFF"
+                       VerticalAlignment="Top"
+                       Margin="10" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10">
+                <Button Content="Open Network Settings"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Margin="5" Click="OpenNetworkSettings_Click" />
+                <Button Content="Open Network Connections"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Margin="5" Click="OpenNetworkConnectionsControlPanel_Click" />
+            </StackPanel>
+        </Grid>
 
-        <!-- TabControl with Material Design styling -->
-        <TabControl Grid.Row="1" Margin="10" Background="White"
-                   >
-
+        <!-- Main Content -->
+        <TabControl Grid.Row="1" Margin="10" Background="White">
             <!-- Processes Tab -->
             <TabItem Header="Processes">
-                <Border CornerRadius="8" Background="White" Margin="10" Padding="10" 
-                       >
-                    <materialDesign:Card Margin="10" Padding="10" Background="White" >
-                        <DataGrid Name="ProcessesGrid" AutoGenerateColumns="False" CanUserAddRows="False"
-                              Style="{StaticResource MaterialDesignDataGrid}" RowHeight="48">
+                <Border CornerRadius="8" Background="White" Margin="10" Padding="10">
+                    <materialDesign:Card Background="White" Margin="10" Padding="10">
+                        <DataGrid Name="ProcessesGrid"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  Style="{StaticResource MaterialDesignDataGrid}"
+                                  RowHeight="48">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Process Name" Binding="{Binding Name}" Width="*" />
                                 <DataGridTextColumn Header="CPU (%)" Binding="{Binding CPU}" Width="100" />
@@ -43,90 +54,111 @@
             </TabItem>
 
             <!-- Performance Tab -->
-            <TabItem Header="Performance">
-                <StackPanel Margin="10">
-                    <!-- CPU Usage Section -->
-                    <Border CornerRadius="8" Background="White" Margin="10" Padding="10" 
-                          >
-                        <materialDesign:Card Margin="10" Padding="10" Background="White" >
+            <TabItem Header="Performance" Margin="-2,-2,0,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83">
+
+                <StackPanel Margin="10" Orientation="Horizontal">
+                    <!-- CPU Usage -->
+                    <Border CornerRadius="8" Background="White"  Width="550">
+                        <materialDesign:Card Background="White" Margin="10" Padding="10">
                             <Grid>
-                                <TextBlock Text="CPU Usage" FontSize="20" FontWeight="Bold" />
-                                <TextBlock Text="{Binding CpuUsagePercentage, StringFormat={}{0:F1}%}" 
-                                       FontSize="16" Foreground="Gray" Margin="0,5" />
+
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,238">
+
+                                    <TextBlock Text="CPU Usage" FontSize="20" FontWeight="Bold" />
+                                    <TextBlock  x:Name="CpuUsageTextBlock"
+FontSize="20"
+Foreground="Gray"
+Margin="290,0,0,0"  />
+
+                                </StackPanel>
+
+
+
+
+
                                 <lvc:CartesianChart Name="CpuUsageChart" Height="150" Margin="5">
                                     <lvc:CartesianChart.Series>
-                                        <lvc:LineSeries Title="CPU Usage" Values="{Binding CpuUsageValues}" 
-                                                    PointGeometrySize="0" StrokeThickness="2" />
+                                        <lvc:LineSeries Title="CPU Usage" Values="{Binding CpuUsageValues}"
+                          PointGeometrySize="0" StrokeThickness="2" Stroke="#007AFF" />
                                     </lvc:CartesianChart.Series>
                                 </lvc:CartesianChart>
+
+
+                                <TextBlock x:Name="IntelChipNameTextBlock"
+FontSize="16"
+Foreground="Gray" Margin="10,336,0,0"
+ />
                             </Grid>
                         </materialDesign:Card>
                     </Border>
 
-                    <!-- Memory Usage Section -->
-                    <Border CornerRadius="8" Background="White" Margin="10" Padding="10" 
-                          >
-                        <materialDesign:Card Margin="10" Padding="10" Background="White" >
+                    <!-- Memory Usage -->
+                    <Border CornerRadius="8" Background="White" Margin="0"  Width="550">
+                        <materialDesign:Card Background="White" Margin="10" Padding="10">
                             <Grid>
                                 <TextBlock Text="Memory Usage" FontSize="20" FontWeight="Bold" />
-                                <TextBlock Text="{Binding MemoryUsagePercentage, StringFormat={}{0:F1}%}" 
-                                       FontSize="16" Foreground="Gray" Margin="0,5" />
+                                <TextBlock Text="{Binding MemoryUsagePercentage, StringFormat={}{0:F1}%}"
+            FontSize="16"
+            Foreground="Gray"
+            Margin="0,5" />
                                 <lvc:CartesianChart Name="MemoryUsageChart" Height="150" Margin="5">
                                     <lvc:CartesianChart.Series>
-                                        <lvc:LineSeries Title="Memory Usage" Values="{Binding MemoryUsageValues}" 
-                                                    PointGeometrySize="0" StrokeThickness="2" />
+                                        <lvc:LineSeries Title="Memory Usage" Values="{Binding MemoryUsageValues}"
+                         PointGeometrySize="0" StrokeThickness="2" Stroke="#FF2D55" />
                                     </lvc:CartesianChart.Series>
                                 </lvc:CartesianChart>
                             </Grid>
                         </materialDesign:Card>
                     </Border>
                 </StackPanel>
+
             </TabItem>
 
             <!-- Services Tab -->
             <TabItem Header="Services">
-                <Border CornerRadius="8" Background="White" Margin="10" Padding="10" 
-                       >
-                    <materialDesign:Card Margin="10" Padding="10" Background="White" >
-                    <DataGrid Name="ServicesGrid" AutoGenerateColumns="False" CanUserAddRows="False"
-                              Style="{StaticResource MaterialDesignDataGrid}" RowHeight="48">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Service Name" Binding="{Binding Name}" Width="*" />
-                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="150" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                <Border CornerRadius="8" Background="White" Margin="10" Padding="10">
+                    <materialDesign:Card Background="White" Margin="10" Padding="10">
+                        <DataGrid Name="ServicesGrid"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  Style="{StaticResource MaterialDesignDataGrid}"
+                                  RowHeight="48">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Service Name" Binding="{Binding Name}" Width="*" />
+                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="150" />
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </materialDesign:Card>
                 </Border>
             </TabItem>
 
             <!-- Network Interfaces Tab -->
             <TabItem Header="Network Interfaces">
-                <Border CornerRadius="8" Background="White" Margin="10" Padding="10" 
-                       >
-                    <materialDesign:Card Margin="10" Padding="10" Background="White" >
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <DataGrid Name="NetworkInterfacesGrid" AutoGenerateColumns="False" CanUserAddRows="False"
-                                  Style="{StaticResource MaterialDesignDataGrid}" RowHeight="48" Margin="5">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Interface Name" Binding="{Binding Name}" Width="*" />
-                                <DataGridTextColumn Header="Speed (Mbps)" Binding="{Binding Speed}" Width="150" />
-                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*" />
-                            </DataGrid.Columns>
-                        </DataGrid>
+                <Border CornerRadius="8" Background="White" Margin="10" Padding="10">
+                    <materialDesign:Card Background="White" Margin="10" Padding="10">
+                        <StackPanel>
+                            <DataGrid Name="NetworkInterfacesGrid"
+                                      AutoGenerateColumns="False"
+                                      CanUserAddRows="False"
+                                      Style="{StaticResource MaterialDesignDataGrid}"
+                                      RowHeight="48"
+                                      Margin="5">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Interface Name" Binding="{Binding Name}" Width="*" />
+                                    <DataGridTextColumn Header="Speed (Mbps)" Binding="{Binding Speed}" Width="150" />
+                                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*" />
+                                </DataGrid.Columns>
+                            </DataGrid>
 
-                        <lvc:CartesianChart Grid.Row="1" Name="NetworkConnectivityChart" Height="200" Margin="5">
-                            <lvc:CartesianChart.Series>
-                                <lvc:LineSeries Title="Upload Speed (Mbps)" Values="{Binding UploadSpeedValues}" 
-                                                PointGeometrySize="0" StrokeThickness="2" Stroke="Green" />
-                                <lvc:LineSeries Title="Download Speed (Mbps)" Values="{Binding DownloadSpeedValues}" 
-                                                PointGeometrySize="0" StrokeThickness="2" Stroke="Blue" />
-                            </lvc:CartesianChart.Series>
-                        </lvc:CartesianChart>
-                    </Grid>
+                            <lvc:CartesianChart Name="NetworkConnectivityChart" Height="200" Margin="5">
+                                <lvc:CartesianChart.Series>
+                                    <lvc:LineSeries Title="Upload Speed (Mbps)" Values="{Binding UploadSpeedValues}"
+                                                    PointGeometrySize="0" StrokeThickness="2" Stroke="Green" />
+                                    <lvc:LineSeries Title="Download Speed (Mbps)" Values="{Binding DownloadSpeedValues}"
+                                                    PointGeometrySize="0" StrokeThickness="2" Stroke="#007AFF" />
+                                </lvc:CartesianChart.Series>
+                            </lvc:CartesianChart>
+                        </StackPanel>
                     </materialDesign:Card>
                 </Border>
             </TabItem>
