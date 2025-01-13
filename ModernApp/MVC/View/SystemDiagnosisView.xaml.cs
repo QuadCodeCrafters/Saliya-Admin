@@ -12,6 +12,7 @@ using System.Windows.Threading;
 using System.Windows;
 using System.Management;
 using System.Windows.Media;
+using System.ComponentModel;
 
 namespace ModernApp.MVVM.View
 {
@@ -38,6 +39,61 @@ namespace ModernApp.MVVM.View
 
         private Dictionary<string, long> previousBytesSent;
         private Dictionary<string, long> previousBytesReceived;
+
+
+
+        private string cpuMemoryOverview;
+        private string processOverview;
+        private string serviceOverview;
+        private string networkOverview;
+
+
+        public string CpuMemoryOverview
+        {
+            get => cpuMemoryOverview;
+            set
+            {
+                cpuMemoryOverview = value;
+                OnPropertyChanged(nameof(CpuMemoryOverview));
+            }
+        }
+
+        public string ProcessOverview
+        {
+            get => processOverview;
+            set
+            {
+                processOverview = value;
+                OnPropertyChanged(nameof(ProcessOverview));
+            }
+        }
+
+        public string ServiceOverview
+        {
+            get => serviceOverview;
+            set
+            {
+                serviceOverview = value;
+                OnPropertyChanged(nameof(ServiceOverview));
+            }
+        }
+
+        public string NetworkOverview
+        {
+            get => networkOverview;
+            set
+            {
+                networkOverview = value;
+                OnPropertyChanged(nameof(NetworkOverview));
+            }
+        }
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
 
         public SystemDiagnosisView()
         {
@@ -77,7 +133,20 @@ namespace ModernApp.MVVM.View
 
             // Load initial network interfaces
             LoadNetworkInterfaces();
+
+
+           
+
         }
+
+
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+
+
         private string GetIntelChipName()
         {
             try
@@ -322,6 +391,31 @@ namespace ModernApp.MVVM.View
             processUpdateTimer?.Dispose();
             serviceUpdateTimer?.Stop();
             serviceUpdateTimer?.Dispose();
+        }
+
+        private void btnHomeTab_Click(object sender, RoutedEventArgs e)
+        {
+            MainTabControl.SelectedIndex = 0;
+        }
+
+        private void btnProcessesTab_Click(object sender, RoutedEventArgs e)
+        {
+            MainTabControl.SelectedIndex = 1;
+        }
+
+        private void btnPerformanceTab_Click(object sender, RoutedEventArgs e)
+        {
+            MainTabControl.SelectedIndex = 2;
+        }
+
+        private void btnServicesTab_Click(object sender, RoutedEventArgs e)
+        {
+            MainTabControl.SelectedIndex = 3;
+        }
+
+        private void btnNetworkTab_Click(object sender, RoutedEventArgs e)
+        {
+            MainTabControl.SelectedIndex = 4;
         }
     }
 
