@@ -7,7 +7,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
             
-             Background="#F5F5F5">
+             Background="#F5F5F5" >
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -22,14 +22,7 @@
                        Foreground="#007AFF"
                        VerticalAlignment="Top"
                        Margin="10" />
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10">
-                <Button Content="Open Network Settings"
-                        Style="{StaticResource MaterialDesignFlatButton}"
-                        Margin="5" Click="OpenNetworkSettings_Click" />
-                <Button Content="Open Network Connections"
-                        Style="{StaticResource MaterialDesignFlatButton}"
-                        Margin="5" Click="OpenNetworkConnectionsControlPanel_Click" />
-            </StackPanel>
+            
         </Grid>
 
         <!-- Main Content -->
@@ -45,7 +38,7 @@
                                   RowHeight="48">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Process Name" Binding="{Binding Name}" Width="*" />
-                                <DataGridTextColumn Header="CPU (%)" Binding="{Binding CPU}" Width="100" />
+                               
                                 <DataGridTextColumn Header="Memory (MB)" Binding="{Binding Memory}" Width="150" />
                             </DataGrid.Columns>
                         </DataGrid>
@@ -133,35 +126,62 @@ Foreground="Gray" Margin="10,336,0,0"
             </TabItem>
 
             <!-- Network Interfaces Tab -->
-            <TabItem Header="Network Interfaces">
+            <TabItem Header="Network Interfaces" Height="22" Margin="-2,0,-2,0" VerticalAlignment="Bottom">
                 <Border CornerRadius="8" Background="White" Margin="10" Padding="10">
-                    <materialDesign:Card Background="White" Margin="10" Padding="10">
-                        <StackPanel>
-                            <DataGrid Name="NetworkInterfacesGrid"
-                                      AutoGenerateColumns="False"
-                                      CanUserAddRows="False"
-                                      Style="{StaticResource MaterialDesignDataGrid}"
-                                      RowHeight="48"
-                                      Margin="5">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Interface Name" Binding="{Binding Name}" Width="*" />
-                                    <DataGridTextColumn Header="Speed (Mbps)" Binding="{Binding Speed}" Width="150" />
-                                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*" />
-                                </DataGrid.Columns>
-                            </DataGrid>
+                    <Grid>
 
-                            <lvc:CartesianChart Name="NetworkConnectivityChart" Height="200" Margin="5">
-                                <lvc:CartesianChart.Series>
-                                    <lvc:LineSeries Title="Upload Speed (Mbps)" Values="{Binding UploadSpeedValues}"
-                                                    PointGeometrySize="0" StrokeThickness="2" Stroke="Green" />
-                                    <lvc:LineSeries Title="Download Speed (Mbps)" Values="{Binding DownloadSpeedValues}"
-                                                    PointGeometrySize="0" StrokeThickness="2" Stroke="#007AFF" />
-                                </lvc:CartesianChart.Series>
-                            </lvc:CartesianChart>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10">
+                            <Button Content="Open Network Settings"
+ Style="{StaticResource MaterialDesignFlatButton}"
+ Margin="5" Click="OpenNetworkSettings_Click" />
+                            <Button Content="Open Network Connections"
+ Style="{StaticResource MaterialDesignFlatButton}"
+ Margin="5" Click="OpenNetworkConnectionsControlPanel_Click" />
                         </StackPanel>
-                    </materialDesign:Card>
+                        
+                        
+                        <materialDesign:Card Background="White" Margin="10,57,10,22" Padding="10">
+                            <StackPanel>
+                                <!-- Connection Info Section -->
+                                <StackPanel Orientation="Horizontal" Margin="5">
+                                    <TextBox Name="ConnectionNameTextBox"  materialDesign:HintAssist.Hint="Connection Name:"  Margin="5" 
+            IsReadOnly="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                                    <TextBox Name="UploadSpeedTextBox" materialDesign:HintAssist.Hint="Upload Speed (Mbps):" Margin="5"
+            IsReadOnly="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+
+                                    <TextBox Name="DownloadSpeedTextBox"  materialDesign:HintAssist.Hint="Download Speed (Mbps):" Margin="5"
+            IsReadOnly="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                                </StackPanel>
+
+                                <!-- Network Interfaces Data Grid -->
+                                <DataGrid Name="NetworkInterfacesGrid"
+         AutoGenerateColumns="False"
+         CanUserAddRows="False"
+         Style="{StaticResource MaterialDesignDataGrid}"
+         RowHeight="48"
+         Margin="5">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Interface Name" Binding="{Binding Name}" Width="*" />
+                                        <DataGridTextColumn Header="Speed (Mbps)" Binding="{Binding Speed}" Width="150" />
+                                        <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                                <!-- Network Connectivity Chart -->
+                                <lvc:CartesianChart Name="NetworkConnectivityChart" Height="200" Margin="5">
+                                    <lvc:CartesianChart.Series>
+                                        <lvc:LineSeries Title="Upload Speed (Mbps)" Values="{Binding UploadSpeedValues}"
+                       PointGeometrySize="0" StrokeThickness="2" Stroke="Green" />
+                                        <lvc:LineSeries Title="Download Speed (Mbps)" Values="{Binding DownloadSpeedValues}"
+                       PointGeometrySize="0" StrokeThickness="2" Stroke="#007AFF" />
+                                    </lvc:CartesianChart.Series>
+                                </lvc:CartesianChart>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </Grid>
                 </Border>
             </TabItem>
+           
         </TabControl>
     </Grid>
 </UserControl>

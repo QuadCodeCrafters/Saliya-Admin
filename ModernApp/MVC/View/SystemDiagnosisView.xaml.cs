@@ -154,21 +154,27 @@ namespace ModernApp.MVVM.View
             {
                 var uploadSpeed = 0.0;
                 var downloadSpeed = 0.0;
+                string activeConnectionName = "No Active Connection";
 
                 foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
                 {
-                    var stats = ni.GetIPv4Statistics();
-                    var bytesSent = stats.BytesSent;
-                    var bytesReceived = stats.BytesReceived;
-
-                    if (previousBytesSent.ContainsKey(ni.Id))
+                    if (ni.OperationalStatus == OperationalStatus.Up)
                     {
-                        uploadSpeed += (bytesSent - previousBytesSent[ni.Id]) / 1024.0 / 1024.0 * 8; // Mbps
-                        downloadSpeed += (bytesReceived - previousBytesReceived[ni.Id]) / 1024.0 / 1024.0 * 8; // Mbps
-                    }
+                        activeConnectionName = ni.Name; // Get the active connection name
 
-                    previousBytesSent[ni.Id] = bytesSent;
-                    previousBytesReceived[ni.Id] = bytesReceived;
+                        var stats = ni.GetIPv4Statistics();
+                        var bytesSent = stats.BytesSent;
+                        var bytesReceived = stats.BytesReceived;
+
+                        if (previousBytesSent.ContainsKey(ni.Id))
+                        {
+                            uploadSpeed += (bytesSent - previousBytesSent[ni.Id]) / 1024.0 / 1024.0 * 8; // Mbps
+                            downloadSpeed += (bytesReceived - previousBytesReceived[ni.Id]) / 1024.0 / 1024.0 * 8; // Mbps
+                        }
+
+                        previousBytesSent[ni.Id] = bytesSent;
+                        previousBytesReceived[ni.Id] = bytesReceived;
+                    }
                 }
 
                 Dispatcher.Invoke(() =>
@@ -181,6 +187,11 @@ namespace ModernApp.MVVM.View
 
                     NetworkConnectivityChart.Series[0].Values = UploadSpeedValues;
                     NetworkConnectivityChart.Series[1].Values = DownloadSpeedValues;
+
+                    // Update textboxes
+                    ConnectionNameTextBox.Text = $"Connection Name: {activeConnectionName}";
+                    UploadSpeedTextBox.Text = $"Upload Speed (Mbps): {uploadSpeed:F2}";
+                    DownloadSpeedTextBox.Text = $"Download Speed (Mbps): {downloadSpeed:F2}";
                 });
             }
             catch (Exception ex)
@@ -188,6 +199,7 @@ namespace ModernApp.MVVM.View
                 Debug.WriteLine($"Error updating network data: {ex.Message}");
             }
         }
+
 
         public void OpenNetworkSettings()
         {
@@ -232,7 +244,7 @@ namespace ModernApp.MVVM.View
                                                return new ProcessInfo
                                                {
                                                    Name = p.ProcessName,
-                                                   CPU = 0, // Placeholder
+                                                  
                                                    Memory = Math.Round(p.WorkingSet64 / 1024.0 / 1024.0, 2) // Memory in MB
                                                };
                                            }
