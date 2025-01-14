@@ -60,104 +60,145 @@
                     <DropShadowEffect Color="Black" BlurRadius="15" ShadowDepth="5" Opacity="0.6"/>
                 </Grid.Effect>
             </Grid>
-
-            <StackPanel Margin="0,93,0,0" Grid.RowSpan="2">
-                <StackPanel.Background>
+            <ScrollViewer Margin="0,93,0,0" Grid.RowSpan="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                
+            
+            <Grid Margin="0,3,0,0" Grid.RowSpan="2">
+                <Grid.Background>
                     <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                         <GradientStop Color="#4F75FF" Offset="0" />
                         <GradientStop Color="#4F75FF" Offset="1" />
                     </LinearGradientBrush>
-                </StackPanel.Background>
+                </Grid.Background>
 
-                <!-- Search Box -->
+                <!-- Define Rows -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <!-- Menu Label -->
+                    <RowDefinition Height="Auto" />
+                    <!-- ScrollViewer -->
+                </Grid.RowDefinitions>
 
-                <!-- MAIN MENU Label -->
-                <TextBlock Text="nice MENU" Foreground="#ADE8F4" Margin="10,10,0,5" FontSize="14" />
+                    <StackPanel>
+                        <!-- Menu Label -->
+                        <TextBlock Grid.Row="0" Text="nice MENU" Foreground="#ADE8F4" Margin="10,10,0,5" FontSize="14" />
 
-                <!-- Menu Items -->
-                <!-- Add your menu buttons here -->
-                <RadioButton Name="RDBDashbord" Content="Dashboard"
-                 Tag="/Images/dashboard.png"
-                 Height="45"
-                 Foreground="White"
-                 FontSize="9"
-                 Style="{StaticResource MenuButtonTheme}"
-                 IsChecked="True"
-                Margin="10,9,6,3" Checked="RDBDashbord_Checked"/>
+                        <!-- ScrollViewer with Menu Items -->
 
-                <RadioButton Name="RDBSales" Content="Sales"
-                 Tag="/Images/increase.png"
-                 Height="45"
-                 Foreground="#FFFFFF"
-                 FontSize="9"
-                 Style="{StaticResource MenuButtonTheme}"
-                
-                  Margin="10,10,6,3" Checked="RDBSales_Checked"/>
+                        <Grid>
+                            <!-- Define the rows for each menu item -->
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
 
+                            <!-- Add RadioButtons -->
+                            <RadioButton Grid.Row="0" Name="RDBDashbord" Content="Dashboard"
+                        Tag="/Images/dashboard.png"
+                        Height="45"
+                        Foreground="White"
+                        FontSize="9"
+                        Style="{StaticResource MenuButtonTheme}"
+                        IsChecked="True"
+                        Margin="10,9,6,3" Checked="RDBDashbord_Checked" />
 
+                            <RadioButton Grid.Row="1" Name="RDBSales" Content="Sales"
+                        Tag="/Images/increase.png"
+                        Height="45"
+                        Foreground="#FFFFFF"
+                        FontSize="9"
+                        Style="{StaticResource MenuButtonTheme}"
+                        Margin="10,10,6,3" Checked="RDBSales_Checked" />
 
-                <RadioButton Name="RDBStock" Content="Inventory"
-                 Tag="/Images/accounting.png"
-                 Height="45"
-                 Foreground="White"
-                 FontSize="9"
-                 Style="{StaticResource MenuButtonTheme}"
-                  Margin="10,10,6,3" Checked="RDBStock_Checked" />
+                            <RadioButton Grid.Row="2" Name="RDBStock" Content="Inventory"
+                        Tag="/Images/accounting.png"
+                        Height="45"
+                        Foreground="White"
+                        FontSize="9"
+                        Style="{StaticResource MenuButtonTheme}"
+                        Margin="10,10,6,3" Checked="RDBStock_Checked" />
 
-                <RadioButton  x:Name="RDBhr" Content="Employee"
-                 Tag="/Images/payment-method.png"
-                 Height="45"
-                 Foreground="White"
-                 FontSize="9"
-                 Style="{StaticResource MenuButtonTheme}"
-                  Margin="10,10,6,3" Checked="RDBhr_Checked"/>
+                            <RadioButton Grid.Row="3" Name="RDBhr" Content="Employee"
+                        Tag="/Images/payment-method.png"
+                        Height="45"
+                        Foreground="White"
+                        FontSize="9"
+                        Style="{StaticResource MenuButtonTheme}"
+                        Margin="10,10,6,3" Checked="RDBhr_Checked" />
 
-                <RadioButton x:Name="RDBReport" Content="Report"
-                 Tag="/Images/teamwork.png"
-                 Height="45"
-                 Foreground="White"
-                 FontSize="9"
-                 Style="{StaticResource MenuButtonTheme}"
-                 Margin="10,10,6,3" Checked="RDBReport_Checked"/>
+                            <RadioButton Grid.Row="4" Name="RDBCstomer" Content="Customer"
+                        Tag="/Images/payment-method.png"
+                        Height="45"
+                        Foreground="White"
+                        FontSize="9"
+                        Style="{StaticResource MenuButtonTheme}"
+                        Margin="10,10,6,3" Checked="RDBhr_Checked" />
 
-                <RadioButton Name="RDBSystem" Content="System "
-                 Tag="/Images/report.png"
-                 Height="45"
-                 Foreground="White"
-                 FontSize="9"
-                 Style="{StaticResource MenuButtonTheme}"
-                 Margin="10,10,6,3" Checked="RDBSystem_Checked"/>
+                            <RadioButton Grid.Row="5" Name="RDBReport" Content="Report"
+                        Tag="/Images/teamwork.png"
+                        Height="45"
+                        Foreground="White"
+                        FontSize="9"
+                        Style="{StaticResource MenuButtonTheme}"
+                        Margin="10,10,6,3" Checked="RDBReport_Checked" />
 
-                <RadioButton Name="RDBCarrier" Content="Carrier "
-  Tag="/Images/report.png"
-  Height="45"
-  Foreground="White"
-  FontSize="9"
-  Style="{StaticResource MenuButtonTheme}"
-  Margin="10,10,6,3"/>
+                            <RadioButton Grid.Row="6" Name="RDBSystem" Content="System"
+                        Tag="/Images/report.png"
+                        Height="45"
+                        Foreground="White"
+                        FontSize="9"
+                        Style="{StaticResource MenuButtonTheme}"
+                        Margin="10,10,6,3" Checked="RDBSystem_Checked" />
 
+                            <RadioButton Grid.Row="7" Name="RDBCarrier" Content="Carrier"
+                        Tag="/Images/report.png"
+                        Height="45"
+                        Foreground="White"
+                        FontSize="9"
+                        Style="{StaticResource MenuButtonTheme}"
+                        Margin="10,10,6,3" Checked="RDBCarrier_Checked" />
 
+                            <!-- SETTINGS Label -->
+                            <TextBlock Grid.Row="8" Text="SETTINGS"
+                      Foreground="#ADE8F4" Margin="10,20,0,5" FontSize="14" />
 
-                <!-- SETTINGS Label -->
-                <TextBlock Text="SETTINGS" Foreground="#ADE8F4" Margin="10,20,0,5" FontSize="14" />
+                            <RadioButton Grid.Row="9" Name="RDBSettings" Content="Settings"
+                        Tag="/Images/settings (1).png"
+                        Height="45"
+                        Foreground="White"
+                        FontSize="10"
+                        Style="{StaticResource MenuButtonTheme}"
+                        Margin="10,10,6,3" Checked="RDBSettings_Checked" />
 
-                <RadioButton Name="RDBSettings" Content="Settings"
-                 Tag="/Images/settings (1).png"
-                 Height="45"
-                 Foreground="White"
-                 FontSize="10"
-                 Style="{StaticResource MenuButtonTheme}"
-                 Margin="10,10,6,3" Checked="RDBSettings_Checked"/>
-
-                <RadioButton Name="RDBHelp" Content="Help"
-                 Tag="/Images/question.png"
-                 Height="45"
-                 Foreground="White"
-                 FontSize="10"
-                 Style="{StaticResource MenuButtonTheme}"
-                 Margin="10,10,6,3" Checked="RDBHelp_Checked"/>
-
-            </StackPanel>
+                            <RadioButton Grid.Row="10" Name="RDBHelp" Content="Help"
+                        Tag="/Images/question.png"
+                        Height="45"
+                        Foreground="White"
+                        FontSize="10"
+                        Style="{StaticResource MenuButtonTheme}"
+                        Margin="10,10,6,3" Checked="RDBHelp_Checked" />
+                            <RadioButton Grid.Row="11" Name="RDfdfBHelp" Content="Help"
+                         Tag="/Images/question.png"
+                         Height="45"
+                         Foreground="White"
+                         FontSize="10"
+                         Style="{StaticResource MenuButtonTheme}"
+                         Margin="10,10,6,3"  />
+                        </Grid>
+                    </StackPanel>
+               
+            </Grid>
+            </ScrollViewer>
 
 
             <!-- Header bar with buttons and shadow effect -->
@@ -184,7 +225,7 @@
                     </Grid>
 
                     <!-- Profile Button with Popup -->
-                    <Button Width="40" Height="40" Background="Transparent" BorderBrush="Transparent" Cursor="Hand" Click="ProfileButton_Click">
+                    <Button Width="40" Height="40" Background="Transparent" BorderBrush="Transparent" Cursor="Hand" >
                         <Ellipse Width="30" Height="30" Fill="Orange" />
                     </Button>
 
@@ -232,7 +273,7 @@
                 </Rectangle.RenderTransform>
             </Rectangle>
             <!-- Border with a Frame for loading UserControls -->
-            <Border  Margin="0,93,0,0" CornerRadius="10" BorderThickness="1" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <Border  Margin="0,93,0,0" CornerRadius="10" BorderThickness="1" Grid.RowSpan="2" Grid.Column="1">
                 <Frame Name="fEmployeeEditContainer" Margin="-1,-1,-1,-1" />
             </Border>
 

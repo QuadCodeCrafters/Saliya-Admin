@@ -161,6 +161,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MVC\View\CarrierView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVC\View\DashboardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -270,6 +274,9 @@
     <Compile Include="MVC\Controller\DiscoveryViewModel.cs" />
     <Compile Include="MVC\Controller\HomeViewModel.cs" />
     <Compile Include="MVC\Controller\MainViewModel.cs" />
+    <Compile Include="MVC\View\CarrierView.xaml.cs">
+      <DependentUpon>CarrierView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MVC\View\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>

@@ -76,10 +76,7 @@ namespace ModernApp
            
         }
 
-        private void ProfileButton_Click(object sender, RoutedEventArgs e)
-        {
-            ProfilePopup.IsOpen = true;
-        }
+       
 
         private void RadioButton_Checked_1(object sender, RoutedEventArgs e)
         {
@@ -190,6 +187,27 @@ namespace ModernApp
                 MessageBox.Show($"Error navigating to page: {ex.Message}");
             }
         }
+
+        private void RDBCarrier_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (fContainer != null)
+                {
+                    fContainer.Navigate(new Uri("pack://application:,,,/MVC/View/CarrierView.xaml", UriKind.Absolute));
+                }
+                else
+                {
+                    MessageBox.Show("Frame container is not initialized.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+        }
+
+
 
         private void RDBSettings_Checked(object sender, RoutedEventArgs e)
         {

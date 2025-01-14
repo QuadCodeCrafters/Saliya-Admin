@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="ModernApp.MVC.View.CarrierView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ModernApp.MVC.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="139*"/>
+            <ColumnDefinition Width="621*"/>
+        </Grid.ColumnDefinitions>
+        <!-- Title -->
+        <TextBlock Text="Carrier Service Management" 
+                   FontSize="24" 
+                   FontWeight="Bold" 
+                   Foreground="{DynamicResource PrimaryHueDarkBrush}" 
+                   HorizontalAlignment="Left" 
+                   Margin="81,0,0,20" Grid.Column="1"/>
+
+        <!-- Main Layout -->
+        <Grid Margin="0,60,0,0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Carrier Vehicles List -->
+            <GroupBox Header="Existing Carrier Vehicles" 
+                      Style="{StaticResource MaterialDesignGroupBox}" 
+                      Margin="10" Padding="10">
+                <DataGrid Name="CarrierVehiclesDataGrid" 
+                          AutoGenerateColumns="False" 
+                          CanUserAddRows="False" 
+                          IsReadOnly="True"
+                          SelectionMode="Single"
+                          Margin="10">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*" />
+                        <DataGridTextColumn Header="Vehicle Name" Binding="{Binding VehicleName}" Width="2*" />
+                        <DataGridTextColumn Header="Capacity" Binding="{Binding Capacity}" Width="*" />
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+
+            <!-- Controls for Add/Delete -->
+            <StackPanel Grid.Column="1" Margin="20">
+                <GroupBox Header="Add New Carrier" 
+                          Style="{StaticResource MaterialDesignGroupBox}" 
+                          Margin="0,0,0,20">
+                    <StackPanel Margin="10">
+                        <TextBox Name="VehicleNameTextBox" 
+                                 materialDesign:HintAssist.Hint="Vehicle Name" 
+                                 Style="{StaticResource MaterialDesignTextBox}" />
+                        <TextBox Name="CapacityTextBox" 
+                                 materialDesign:HintAssist.Hint="Capacity (tons)" 
+                                 Style="{StaticResource MaterialDesignTextBox}" 
+                                 Margin="0,10,0,0" />
+                        <Button Content="Add Carrier" 
+                                Style="{StaticResource MaterialDesignRaisedButton}" 
+                                Margin="0,10,0,0" 
+                                />
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Delete Carrier" 
+                          Style="{StaticResource MaterialDesignGroupBox}">
+                    <StackPanel Margin="10">
+                        <TextBox Name="DeleteCarrierIdTextBox" 
+                                 materialDesign:HintAssist.Hint="Enter Carrier ID" 
+                                 Style="{StaticResource MaterialDesignTextBox}" />
+                        <Button Content="Delete Carrier" 
+                                Style="{StaticResource MaterialDesignRaisedButton}" 
+                                Margin="0,10,0,0" 
+                                 />
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
