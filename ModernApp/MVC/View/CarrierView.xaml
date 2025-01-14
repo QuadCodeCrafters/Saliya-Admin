@@ -8,30 +8,30 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
     <Grid Margin="20">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="139*"/>
-            <ColumnDefinition Width="621*"/>
-        </Grid.ColumnDefinitions>
-        <!-- Title -->
-        <TextBlock Text="Carrier Service Management" 
-                   FontSize="24" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Text="Carrier Service Administration" 
+                   FontSize="28" 
                    FontWeight="Bold" 
                    Foreground="{DynamicResource PrimaryHueDarkBrush}" 
-                   HorizontalAlignment="Left" 
-                   Margin="81,0,0,20" Grid.Column="1"/>
+                   Margin="10" />
 
         <!-- Main Layout -->
-        <Grid Margin="0,60,0,0" Grid.ColumnSpan="2">
+        <Grid Grid.Row="1" Margin="0,20,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*" />
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
 
             <!-- Carrier Vehicles List -->
-            <GroupBox Header="Existing Carrier Vehicles" 
+            <GroupBox Header="Existing Carrier Services" 
                       Style="{StaticResource MaterialDesignGroupBox}" 
                       Margin="10" Padding="10">
-                <DataGrid Name="CarrierVehiclesDataGrid" 
+                <DataGrid Name="CarrierServicesDataGrid" 
                           AutoGenerateColumns="False" 
                           CanUserAddRows="False" 
                           IsReadOnly="True"
@@ -39,43 +39,29 @@
                           Margin="10">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*" />
-                        <DataGridTextColumn Header="Vehicle Name" Binding="{Binding VehicleName}" Width="2*" />
-                        <DataGridTextColumn Header="Capacity" Binding="{Binding Capacity}" Width="*" />
+                        <DataGridTextColumn Header="Service Name" Binding="{Binding ServiceName}" Width="2*" />
+                        <DataGridTextColumn Header="Details" Binding="{Binding Details}" Width="2*" />
                         <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
 
-            <!-- Controls for Add/Delete -->
+            <!-- Controls for Add/Delete/Navigation -->
             <StackPanel Grid.Column="1" Margin="20">
-                <GroupBox Header="Add New Carrier" 
-                          Style="{StaticResource MaterialDesignGroupBox}" 
-                          Margin="0,0,0,20">
-                    <StackPanel Margin="10">
-                        <TextBox Name="VehicleNameTextBox" 
-                                 materialDesign:HintAssist.Hint="Vehicle Name" 
-                                 Style="{StaticResource MaterialDesignTextBox}" />
-                        <TextBox Name="CapacityTextBox" 
-                                 materialDesign:HintAssist.Hint="Capacity (tons)" 
-                                 Style="{StaticResource MaterialDesignTextBox}" 
-                                 Margin="0,10,0,0" />
-                        <Button Content="Add Carrier" 
-                                Style="{StaticResource MaterialDesignRaisedButton}" 
-                                Margin="0,10,0,0" 
-                                />
-                    </StackPanel>
-                </GroupBox>
+                <Button Content="Add New Carrier Service" 
+                        Style="{StaticResource MaterialDesignRaisedButton}" 
+                        Command="{Binding NavigateToAddServiceCommand}" 
+                        Margin="0,0,0,20" />
 
-                <GroupBox Header="Delete Carrier" 
+                <GroupBox Header="Delete Carrier Service" 
                           Style="{StaticResource MaterialDesignGroupBox}">
                     <StackPanel Margin="10">
-                        <TextBox Name="DeleteCarrierIdTextBox" 
-                                 materialDesign:HintAssist.Hint="Enter Carrier ID" 
+                        <TextBox Name="DeleteServiceIdTextBox" 
+                                 materialDesign:HintAssist.Hint="Enter Service ID" 
                                  Style="{StaticResource MaterialDesignTextBox}" />
-                        <Button Content="Delete Carrier" 
+                        <Button Content="Delete Service" 
                                 Style="{StaticResource MaterialDesignRaisedButton}" 
-                                Margin="0,10,0,0" 
-                                 />
+                                Margin="0,10,0,0" />
                     </StackPanel>
                 </GroupBox>
             </StackPanel>
