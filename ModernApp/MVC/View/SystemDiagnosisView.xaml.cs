@@ -42,51 +42,7 @@ namespace ModernApp.MVVM.View
 
 
 
-        private string cpuMemoryOverview;
-        private string processOverview;
-        private string serviceOverview;
-        private string networkOverview;
-
-
-        public string CpuMemoryOverview
-        {
-            get => cpuMemoryOverview;
-            set
-            {
-                cpuMemoryOverview = value;
-                OnPropertyChanged(nameof(CpuMemoryOverview));
-            }
-        }
-
-        public string ProcessOverview
-        {
-            get => processOverview;
-            set
-            {
-                processOverview = value;
-                OnPropertyChanged(nameof(ProcessOverview));
-            }
-        }
-
-        public string ServiceOverview
-        {
-            get => serviceOverview;
-            set
-            {
-                serviceOverview = value;
-                OnPropertyChanged(nameof(ServiceOverview));
-            }
-        }
-
-        public string NetworkOverview
-        {
-            get => networkOverview;
-            set
-            {
-                networkOverview = value;
-                OnPropertyChanged(nameof(NetworkOverview));
-            }
-        }
+       
 
         protected void OnPropertyChanged(string propertyName)
         {
@@ -174,7 +130,10 @@ namespace ModernApp.MVVM.View
                 var memoryUsage = 100 - (availableMemory / totalMemory * 100);
                 // Retrieve the Intel chip name
                 var intelChipName = GetIntelChipName();
-
+                Dispatcher.Invoke(() =>
+                {
+                    CpuMemoryOverview.Text = $"CPU: {cpuUsage:F1}% | Memory: {memoryUsage:F1}%";
+                });
 
                 Dispatcher.Invoke(() =>
                 {
@@ -221,6 +180,26 @@ namespace ModernApp.MVVM.View
         {
             try
             {
+                // Check internet connectivity by pinging a reliable external host
+                bool isInternetAccessible = false;
+                try
+                {
+                    using (var ping = new Ping())
+                    {
+                        var reply = ping.Send("8.8.8.8", 1000); // Ping Google DNS with a 1-second timeout
+                        isInternetAccessible = reply.Status == IPStatus.Success;
+                    }
+                }
+                catch
+                {
+                    isInternetAccessible = false;
+                }
+
+                Dispatcher.Invoke(() =>
+                {
+                    NetworkOverview.Text = isInternetAccessible ? "Network: Up" : "Network: Down";
+                });
+
                 var uploadSpeed = 0.0;
                 var downloadSpeed = 0.0;
                 string activeConnectionName = "No Active Connection";
@@ -270,6 +249,7 @@ namespace ModernApp.MVVM.View
         }
 
 
+
         public void OpenNetworkSettings()
         {
             Process.Start(new ProcessStartInfo
@@ -305,6 +285,15 @@ namespace ModernApp.MVVM.View
         {
             try
             {
+
+                var processCount = Process.GetProcesses().Length;
+
+                Dispatcher.Invoke(() =>
+                {
+                    ProcessOverview.Text = $"Number of Processes: {processCount}";
+                });
+
+
                 var processes = Process.GetProcesses()
                                        .Select(p =>
                                        {
@@ -341,6 +330,16 @@ namespace ModernApp.MVVM.View
         {
             try
             {
+
+                var runningServicesCount = ServiceController.GetServices()
+           .Count(s => s.Status == ServiceControllerStatus.Running);
+
+                Dispatcher.Invoke(() =>
+                {
+                    ServiceOverview.Text = $"Running Services: {runningServicesCount}";
+                });
+
+
                 var services = ServiceController.GetServices()
                                                 .Select(s => new ServiceInfo
                                                 {
@@ -363,6 +362,10 @@ namespace ModernApp.MVVM.View
         {
             try
             {
+
+              
+
+
                 foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
                 {
                     previousBytesSent[ni.Id] = ni.GetIPv4Statistics().BytesSent;
@@ -417,6 +420,9 @@ namespace ModernApp.MVVM.View
         {
             MainTabControl.SelectedIndex = 4;
         }
+
+       
+
     }
 
     public class ProcessInfo

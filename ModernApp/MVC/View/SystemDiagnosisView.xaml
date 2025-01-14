@@ -60,28 +60,43 @@
 
 
             <TabItem Header="Home">
-                <StackPanel>
-                    <!-- CPU and Memory -->
-                    <GroupBox Header="CPU  Memory" Margin="10">
-                        <TextBlock Text="{Binding CpuMemoryOverview}" FontSize="16" />
-                    </GroupBox>
+                <ScrollViewer>
+                    <StackPanel Margin="20">
+                        <!-- CPU and Memory -->
+                        <GroupBox Header="CPU and Memory" Margin="10" Style="{StaticResource MaterialDesignGroupBox}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Memory" Width="40" Height="40" Foreground="{DynamicResource PrimaryHueMidBrush}" Margin="0,0,10,0"/>
+                                <TextBlock Name="CpuMemoryOverview" FontSize="16" Foreground="{DynamicResource PrimaryHueDarkBrush}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </GroupBox>
 
-                    <!-- Processes -->
-                    <GroupBox Header="Processes" Margin="10">
-                        <TextBlock Text="{Binding ProcessOverview}" FontSize="16" />
-                    </GroupBox>
+                        <!-- Processes -->
+                        <GroupBox Header="Processes" Margin="10" Style="{StaticResource MaterialDesignGroupBox}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Cpu64Bit" Width="40" Height="40" Foreground="{DynamicResource PrimaryHueMidBrush}" Margin="0,0,10,0"/>
+                                <TextBlock Name="ProcessOverview" FontSize="16" Foreground="{DynamicResource PrimaryHueDarkBrush}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </GroupBox>
 
-                    <!-- Services -->
-                    <GroupBox Header="Services" Margin="10">
-                        <TextBlock Text="{Binding ServiceOverview}" FontSize="16" />
-                    </GroupBox>
+                        <!-- Services -->
+                        <GroupBox Header="Services" Margin="10" Style="{StaticResource MaterialDesignGroupBox}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Settings" Width="40" Height="40" Foreground="{DynamicResource PrimaryHueMidBrush}" Margin="0,0,10,0"/>
+                                <TextBlock x:Name="ServiceOverview" FontSize="16" Foreground="{DynamicResource PrimaryHueDarkBrush}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </GroupBox>
 
-                    <!-- Network -->
-                    <GroupBox Header="Network Interfaces" Margin="10">
-                        <TextBlock Text="{Binding NetworkOverview}" FontSize="16" />
-                    </GroupBox>
-                </StackPanel>
+                        <!-- Network -->
+                        <GroupBox Header="Network Interfaces" Margin="10" Style="{StaticResource MaterialDesignGroupBox}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Wifi" Width="40" Height="40" Foreground="{DynamicResource PrimaryHueMidBrush}" Margin="0,0,10,0"/>
+                                <TextBlock Name="NetworkOverview" FontSize="16" Foreground="{DynamicResource PrimaryHueDarkBrush}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
+
 
             <!-- Processes Tab -->
             <TabItem>
