@@ -24,5 +24,8 @@ namespace ModernApp.MVC.View
         {
             InitializeComponent();
         }
+
+
+        //just f thr github
     }
 }
