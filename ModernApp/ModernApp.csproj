@@ -58,8 +58,14 @@
     <Reference Include="MaterialDesignThemes.Wpf, Version=4.1.0.2556, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignThemes.4.1.0\lib\net452\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data, Version=9.1.0.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.9.1.0\lib\net462\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -101,6 +107,38 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MVVM\View\EmployeeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\HelpSubViews\HelpEmployee.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\HelpSubViews\HelpHelp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\HelpSubViews\HelpInventory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\HelpSubViews\HelpReports.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\HelpSubViews\HelpSales.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\HelpSubViews\HelpSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\HelpSubViews\HelpSupport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\HelpSubViews\HelpSystem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -146,9 +184,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MVVM\Model\DBconnection.cs" />
+    <Compile Include="MVVM\Model\inventoryModel.cs" />
     <Compile Include="MVVM\Model\user.cs" />
     <Compile Include="MVVM\ViewModel\DiscoveryViewModel.cs" />
     <Compile Include="MVVM\ViewModel\HomeViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\inventoryViewModel.cs" />
     <Compile Include="MVVM\ViewModel\MainViewModel.cs" />
     <Compile Include="MVVM\View\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
@@ -158,6 +199,30 @@
     </Compile>
     <Compile Include="MVVM\View\EmployeeView.xaml.cs">
       <DependentUpon>EmployeeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\HelpSubViews\HelpEmployee.xaml.cs">
+      <DependentUpon>HelpEmployee.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\HelpSubViews\HelpHelp.xaml.cs">
+      <DependentUpon>HelpHelp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\HelpSubViews\HelpInventory.xaml.cs">
+      <DependentUpon>HelpInventory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\HelpSubViews\HelpReports.xaml.cs">
+      <DependentUpon>HelpReports.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\HelpSubViews\HelpSales.xaml.cs">
+      <DependentUpon>HelpSales.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\HelpSubViews\HelpSettings.xaml.cs">
+      <DependentUpon>HelpSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\HelpSubViews\HelpSupport.xaml.cs">
+      <DependentUpon>HelpSupport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\HelpSubViews\HelpSystem.xaml.cs">
+      <DependentUpon>HelpSystem.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\View\HelpView.xaml.cs">
       <DependentUpon>HelpView.xaml</DependentUpon>
@@ -277,6 +342,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\images.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\imageBox.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.5.1.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.5.1.0\build\MaterialDesignThemes.targets')" />

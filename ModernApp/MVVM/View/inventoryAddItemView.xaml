@@ -9,33 +9,36 @@
  Background="GhostWhite"
       Title="inventoryAddItemView" Width="1050" Height="580" >
     <Grid>
-        <Border Background="black" CornerRadius="15" Padding="0" Margin="776,20,20,374"/>
-        <Image HorizontalAlignment="Left" Name="imgItem" Source="/images/suspension-assemblies.jpg" Height="222" Margin="791,38,0,0" VerticalAlignment="Top" Width="225"/>
-        <Button Content="Save" Name="btnSave" FontFamily="Montserrat" FontSize="20" Background="SpringGreen" FontWeight="Medium" HorizontalAlignment="Right" Width="143" Height="40"  Margin="0,486,34,0" RenderTransformOrigin="0.466,-0.902"  VerticalAlignment="Top"/>
-        <Button Content="Add Image" Name="btnAddImage" Foreground="White" FontFamily="Montserrat" FontSize="20" Background="DodgerBlue" FontWeight="Medium" HorizontalAlignment="Right" Width="225" Height="32"  Margin="0,211,34,0" RenderTransformOrigin="0.466,-0.902"  VerticalAlignment="Top"/>
+        <Image HorizontalAlignment="Left" Name="imgItem" Stretch="Uniform"
+       MouseLeftButtonDown="Image_MouseLeftButtonDown" Source="/images/imageBox.png"  Margin="720,125,0,0" VerticalAlignment="Top" Width="250" Height="200" />
+        <Button Content="Save" Name="btnSave" FontFamily="Montserrat" FontSize="20" Background="SpringGreen" FontWeight="Medium" HorizontalAlignment="Right" Width="143" Height="40"  Margin="0,486,34,0" RenderTransformOrigin="0.466,-0.902"  VerticalAlignment="Top" Click="btnSave_Click"/>
 
 
 
         <Grid Margin="0,0,279,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="251*"/>
+                <RowDefinition Height="329*"/>
+            </Grid.RowDefinitions>
 
 
 
 
 
-            <TextBlock Text="Item Name :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,116,527,432" Height="32" RenderTransformOrigin="0.62,-1.594"/>
-            <TextBlock Text="Brand Type :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,214,542,334" Height="32" RenderTransformOrigin="0.8,1.031"/>
-            <TextBlock Text="Model :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,272,537,276" Height="32" RenderTransformOrigin="0.48,-0.297"/>
-            <TextBlock Text="Special :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,314,616,234" Height="32"/>
-            <TextBlock Text="Supplier Name :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,364,530,184" Height="32"/>
-            <TextBlock Text="Address :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,416,594,132" Height="32"/>
-            <TextBlock Text="Email :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,464,630,84" Height="32" RenderTransformOrigin="0.762,1.969"/>
-            <TextBlock Text="Phone Number :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,514,522,34" Height="32"/>
-            <TextBlock Text="Quantity :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,164,561,384" Height="32"/>
-            <TextBlock Text="Item ID :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,64,527,484" Height="32" RenderTransformOrigin="0.62,-1.594"/>
+            <TextBlock Text="Item Name :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,116,527,103" Height="32" RenderTransformOrigin="0.62,-1.594"/>
+            <TextBlock Text="Brand Type :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,214,542,5" Height="32" RenderTransformOrigin="0.8,1.031"/>
+            <TextBlock Text="Model :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,21,537,276" Height="32" RenderTransformOrigin="0.48,-0.297" Grid.Row="1"/>
+            <TextBlock Text="Special :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,63,616,234" Height="32" Grid.Row="1"/>
+            <TextBlock Text="Supplier Name :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,113,530,184" Height="32" Grid.Row="1"/>
+            <TextBlock Text="Address :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,165,594,132" Height="32" Grid.Row="1"/>
+            <TextBlock Text="Email :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,213,630,84" Height="32" RenderTransformOrigin="0.762,1.969" Grid.Row="1"/>
+            <TextBlock Text="Phone Number :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,263,522,34" Height="32" Grid.Row="1"/>
+            <TextBlock Text="Quantity :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,164,561,55" Height="32"/>
+            <TextBlock Text="Item ID :" Foreground="Black" FontSize="20" FontWeight="Medium" FontFamily="Montserrat" Margin="55,64,527,155" Height="32" RenderTransformOrigin="0.62,-1.594"/>
             <TextBox Width="300" 
        Height="45"
        x:Name="txtItemID" 
-       Margin="296,60,175,475"
+       Margin="296,60,175,146"
        FontSize="10" 
        materialDesign:HintAssist.Hint="Enter Item ID" 
        BorderThickness="1" 
@@ -46,7 +49,7 @@
             <TextBox Width="300" 
           Height="45"
          x:Name="txtItemName" 
-         Margin="296,110,175,425"
+         Margin="296,110,175,96"
          FontSize="10" 
          materialDesign:HintAssist.Hint="Enter Item Name" 
          BorderThickness="1" 
@@ -57,7 +60,7 @@
             <TextBox Width="300" 
        Height="45" 
        x:Name="txtQTY" 
-       Margin="296,160,175,375"
+       Margin="296,160,175,46"
        FontSize="10" 
        materialDesign:HintAssist.Hint="Enter Quantity" 
        BorderThickness="1" 
@@ -76,73 +79,74 @@ FontSize="10"
 materialDesign:HintAssist.Hint="Enter Item Brand Type" 
 BorderThickness="1" 
 BorderBrush="{DynamicResource MaterialDesignDivider}" 
- Style="{StaticResource MaterialDesignOutlinedTextBox}"
+ Style="{StaticResource MaterialDesignOutlinedTextBox}" Grid.RowSpan="2"
 />
             <TextBox Width="300" 
                 Height="45"
                 Name="txtModel"
-                Margin="296,260,175,275"
+                Margin="296,9,175,275"
                 FontSize="10" 
                 materialDesign:HintAssist.Hint="Enter Item Model" 
                 BorderThickness="1" 
                 BorderBrush="{DynamicResource MaterialDesignDivider}" 
- Style="{StaticResource MaterialDesignOutlinedTextBox}"
+ Style="{StaticResource MaterialDesignOutlinedTextBox}" Grid.Row="1"
 />
             <TextBox Width="300" 
  Height="45"
 
-Margin="296,310,175,225"
+Margin="296,59,175,225"
 FontSize="10" 
 Name="txtSpecial"
 materialDesign:HintAssist.Hint="Enter Item Special" 
 BorderThickness="1" 
 BorderBrush="{DynamicResource MaterialDesignDivider}" 
- Style="{StaticResource MaterialDesignOutlinedTextBox}"
+ Style="{StaticResource MaterialDesignOutlinedTextBox}" Grid.Row="1"
 />
             <TextBox Width="300" 
                   Height="45" 
 Name="txtSupplierName"
-                Margin="296,360,175,175"
+                Margin="296,109,175,175"
                 FontSize="10" 
                 materialDesign:HintAssist.Hint="Enter Supplier Name" 
                 BorderThickness="1" 
                 BorderBrush="{DynamicResource MaterialDesignDivider}" 
- Style="{StaticResource MaterialDesignOutlinedTextBox}"
+ Style="{StaticResource MaterialDesignOutlinedTextBox}" Grid.Row="1"
 />
             <TextBox Width="300" 
                   Height="45"
 Name="txtAddress"
-                Margin="296,410,175,125"
+                Margin="296,159,175,125"
                 FontSize="10" 
                 materialDesign:HintAssist.Hint="Enter Supplier Address" 
                 BorderThickness="1" 
                 BorderBrush="{DynamicResource MaterialDesignDivider}" 
- Style="{StaticResource MaterialDesignOutlinedTextBox}"
+ Style="{StaticResource MaterialDesignOutlinedTextBox}" Grid.Row="1"
 />
             <TextBox Width="300" 
                  Height="45" 
 Name="txtEmail"
-                Margin="296,460,175,75"
+                Margin="296,209,175,75"
                 FontSize="10" 
                 materialDesign:HintAssist.Hint="Enter Supplier E-Mail" 
                 BorderThickness="1" 
                 BorderBrush="{DynamicResource MaterialDesignDivider}" 
- Style="{StaticResource MaterialDesignOutlinedTextBox}"
+ Style="{StaticResource MaterialDesignOutlinedTextBox}" Grid.Row="1"
 />
             <TextBox Width="300" 
 Name="txtNumber"
                       Height="45"
-                Margin="296,510,175,25"
+                Margin="296,259,175,25"
                 FontSize="10" 
                 materialDesign:HintAssist.Hint="Enter Supplier Number" 
                 BorderThickness="1" 
                 BorderBrush="{DynamicResource MaterialDesignDivider}" 
-                 Style="{StaticResource MaterialDesignOutlinedTextBox}"     
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}" Grid.Row="1"     
 
 />
-            <Image HorizontalAlignment="Left" Margin="615,64,0,478"  Width="30" Source="/images/images.png" RenderTransformOrigin="-0.138,-1.551"/>
+            <Image HorizontalAlignment="Left" Margin="615,64,0,149"  Width="30" Source="/images/images.png" RenderTransformOrigin="-0.138,-1.551"/>
 
 
         </Grid>
+        <Button Content="Clear" x:Name="btnClear" FontFamily="Montserrat" FontSize="20" Background="SpringGreen" FontWeight="Medium" HorizontalAlignment="Right" Width="143" Height="40"  Margin="0,486,205,0" RenderTransformOrigin="0.466,-0.902"  VerticalAlignment="Top" Click="btnClear_Click"/>
     </Grid>
 </Page>

@@ -41,7 +41,7 @@
 
                 <!-- Search Box Container -->
             </StackPanel>
-            <Image HorizontalAlignment="Left" Name="imgSearch" Height="44" Margin="165,8,0,8"  Width="48" Source="/images/png-clipart-bundle-icon-search-blue-search-button-thumbnail.png" RenderTransformOrigin="-0.138,-1.551"/>
+            <Image HorizontalAlignment="Left" MouseLeftButtonDown="Image_MouseLeftButtonDown" Name="imgSearch" Height="44" Margin="165,8,0,8"  Width="48" Source="/images/png-clipart-bundle-icon-search-blue-search-button-thumbnail.png" RenderTransformOrigin="-0.138,-1.551"/>
         </Grid>
         <Grid Margin="0,185,0,0">
 
@@ -67,14 +67,9 @@
 
 />
 
-            <Border Background="DodgerBlue" CornerRadius="15" Padding="0" Margin="822,80,31,318"/>
-
-            <Border Background="black" CornerRadius="15" Padding="0" Margin="820,-92,33,395">
-                <Image Source="/images/suspension-assemblies.jpg" Name="imgItem" Margin="10,10,10,10"/>
-
-            </Border>
-            <TextBox  BorderThickness="0,0,0,0" Name="txtQTY" Background="Transparent" FontSize="45" FontWeight="Heavy" FontFamily="Montserrat" Foreground="White" Margin="820,85,35,0" TextWrapping="Wrap" TextAlignment="Center" Text="QTY" VerticalAlignment="Top" Height="76" RenderTransformOrigin="0.691,0.824"/>
-            <Button Content="Update" Name="btnUpdate" FontFamily="Montserrat" FontSize="20" Background="SpringGreen" FontWeight="Medium" HorizontalAlignment="Right" Width="143" Height="40"  Margin="0,354,43,0" RenderTransformOrigin="0.466,-0.902"  VerticalAlignment="Top"/>
+            <Border Background="DodgerBlue" CornerRadius="15" Padding="0" Margin="783,268,70,130"/>
+            <TextBox  BorderThickness="0,0,0,0" Name="txtQTY" Background="Transparent" FontSize="45" FontWeight="Heavy" FontFamily="Montserrat" Foreground="White" Margin="783,273,72,0" TextWrapping="Wrap" TextAlignment="Center" Text="QTY" VerticalAlignment="Top" Height="76" RenderTransformOrigin="0.691,0.824"/>
+            <Button Content="Update" Name="btnUpdate" FontFamily="Montserrat" FontSize="20" Background="SpringGreen" FontWeight="Medium" HorizontalAlignment="Right" Width="143" Height="40"  Margin="0,354,43,0" RenderTransformOrigin="0.466,-0.902"  VerticalAlignment="Top" Click="btnUpdate_Click"/>
             <TextBox 
                 Height="45"
                 x:Name="txtType" 
@@ -153,11 +148,14 @@
                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
 
 />
+            <Image HorizontalAlignment="Left" MouseLeftButtonDown="Image_MouseLeftButtonDownclick" Name="imgItem" Source="/images/imageBox.png" Height="200" Margin="780,10,0,0" VerticalAlignment="Top" Width="250"/>
+            <Button Content="Delete" x:Name="btndelete" FontFamily="Montserrat" FontSize="20" Background="SpringGreen" FontWeight="Medium" HorizontalAlignment="Right" Width="143" Height="40"  Margin="0,352,192,0" RenderTransformOrigin="0.466,-0.902"  VerticalAlignment="Top" Click="btndelete_Click" />
 
 
         </Grid>
         <Image HorizontalAlignment="Left" Name="imgQR" Margin="684,124,0,472"  Width="48" Source="/images/images.png" RenderTransformOrigin="-0.138,-1.551"/>
         <Border Background="DodgerBlue" Margin="2,57,0,590"></Border>
         <Frame Name="fContainer"  NavigationUIVisibility="Hidden" Margin="0,60,0,0" />
+
     </Grid>
 </UserControl>

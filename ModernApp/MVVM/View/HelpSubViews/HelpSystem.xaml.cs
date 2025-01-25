@@ -13,21 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ModernApp.MVVM.View
+namespace ModernApp.MVVM.View.HelpSubViews
 {
     /// <summary>
-    /// Interaction logic for SettingsView.xaml
+    /// Interaction logic for HelpSystem.xaml
     /// </summary>
-    public partial class SettingsView : UserControl
+    public partial class HelpSystem : UserControl
     {
-        public SettingsView()
+        public HelpSystem()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="ModernApp.MVVM.View.HelpSubViews.HelpInventory"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ModernApp.MVVM.View.HelpSubViews"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="#f5f5f7">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Margin="10" Grid.Row="1" Grid.Column="0">
+            <TextBlock FontSize="16" FontWeight="Bold" Text="Inventory Management Help" Margin="0,0,0,10"/>
+            <TextBlock Text="This UserControl provides a dedicated section within the application to manage and view detailed information about available inventory items." Margin="0,0,0,5"/>
+            <TextBlock Text="With this UserControl, users can perform various inventory management tasks efficiently and with ease." Margin="0,0,0,5"/>
+            <TextBlock Text="The following are the key features available in this section:" FontWeight="Bold" Margin="0,10,0,5"/>
+            <TextBlock Text="1. Add new inventory items to the system, including detailed attributes like name, description, and specifications." Margin="0,0,0,2"/>
+            <TextBlock Text="2. Delete existing inventory items with confirmation to prevent accidental removals." Margin="0,0,0,2"/>
+            <TextBlock Text="3. Update the information of existing items, ensuring the inventory is always current and accurate." Margin="0,0,0,2"/>
+            <TextBlock Text="4. Use a barcode scanner to quickly and accurately input item codes, speeding up the data entry process." Margin="0,0,0,2"/>
+            <TextBlock Text="5. Capture and save an image of each item, providing a visual reference for better item identification." Margin="0,0,0,10"/>
+            <TextBlock Text="6. View real-time updates and notifications on inventory changes to stay informed about stock levels and modifications." Margin="0,0,0,2"/>
+            <TextBlock Text="7. Search and filter items based on various criteria like item code, name, and category, making item retrieval seamless." Margin="0,0,0,2"/>
+            <TextBlock Text="8. Generate reports on inventory transactions, helping with inventory audits and analysis." Margin="0,0,0,2"/>
+            <TextBlock Text="The UI includes interactive elements such as data entry fields, buttons for CRUD operations, and image display sections to enhance the user experience and efficiency of managing inventory." Margin="0,0,0,5"/>
+            <TextBlock Text="To get started, simply use the available controls below to add, update, or remove items as needed." Margin="0,0,0,10"/>
+        </StackPanel>
+
+        <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Width="30" Height="30" Click="CloseButton_Click">
+            <TextBlock FontSize="20" FontWeight="Bold" Text="✕" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Button>
+    </Grid>
+</UserControl>

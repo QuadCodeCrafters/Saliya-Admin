@@ -13,21 +13,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ModernApp.MVVM.View
+namespace ModernApp.MVVM.View.HelpSubViews
 {
     /// <summary>
-    /// Interaction logic for SettingsView.xaml
+    /// Interaction logic for HelpInventory.xaml
     /// </summary>
-    public partial class SettingsView : UserControl
+    public partial class HelpInventory : UserControl
     {
-        public SettingsView()
+        public HelpInventory()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-
+            // Hide the current user control
+            this.Visibility = Visibility.Collapsed;
         }
     }
 }

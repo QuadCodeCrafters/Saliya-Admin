@@ -24,5 +24,19 @@ namespace ModernApp.MVVM.View
         {
             InitializeComponent();
         }
+        private void Sales_Click(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                MainFrame.Navigate(new Uri("pack://application:,,,/MVVM/View/HelpSubViews/HelpSales.xaml", UriKind.Absolute));
+                MainFrame.Visibility = Visibility.Visible;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+        }
+        
+        
     }
 }
