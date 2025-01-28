@@ -189,6 +189,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MVC\View\HelpSubViews\HelpInventroySubViews.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVC\View\HelpSubViews\HelpSalesSubView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVC\View\HelpView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -294,6 +302,12 @@
     </Compile>
     <Compile Include="MVC\View\EmployeeView.xaml.cs">
       <DependentUpon>EmployeeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVC\View\HelpSubViews\HelpInventroySubViews.xaml.cs">
+      <DependentUpon>HelpInventroySubViews.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVC\View\HelpSubViews\HelpSalesSubView.xaml.cs">
+      <DependentUpon>HelpSalesSubView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVC\View\HelpView.xaml.cs">
       <DependentUpon>HelpView.xaml</DependentUpon>
