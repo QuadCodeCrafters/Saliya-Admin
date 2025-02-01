@@ -32,8 +32,8 @@ namespace ModernApp
         public MainWindow()
         {
             InitializeComponent();
-            fContainer.Navigate(new Uri("pack://application:,,,/MVC/View/HomeView.xaml", UriKind.Absolute));
-           
+            fContainer.Navigate(new Uri("pack://application:,,,/MVC/View/DashboardView.xaml", UriKind.Absolute));
+            fTopBoxContainer.Navigate(new Uri("pack://application:,,,/Top-Control-Bar/Top-Bar-Controls.xaml", UriKind.Absolute));
 
 
         }

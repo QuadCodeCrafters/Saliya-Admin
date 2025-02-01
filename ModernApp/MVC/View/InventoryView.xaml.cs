@@ -25,24 +25,70 @@ namespace ModernApp.MVVM.View
         public InventoryView()
         {
             InitializeComponent();
-            // Bind sample data
-            InventoryDataGrid.ItemsSource = GetInventoryItems();
+           
         }
 
-        // Create sample dataset
-        private ObservableCollection<InventoryItem> GetInventoryItems()
+     
+
+        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
         {
-            return new ObservableCollection<InventoryItem>
-            {
-                new InventoryItem { ItemName = "Engine Oil", SKU = "ENG123", StockLevel = 50, Supplier = "ABC Supplies", Category = "Auto Parts", ReorderLevel = 10, Price = "$25" },
-                new InventoryItem { ItemName = "Brake Pads", SKU = "BRK456", StockLevel = 30, Supplier = "XYZ Motors", Category = "Auto Parts", ReorderLevel = 5, Price = "$15" },
-                new InventoryItem { ItemName = "Tires", SKU = "TIR789", StockLevel = 20, Supplier = "TireCo", Category = "Auto Parts", ReorderLevel = 8, Price = "$50" }
-            };
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            if (parentObject == null) return null;
+            if (parentObject is T parent) return parent;
+            return FindParent<T>(parentObject);
         }
 
-       
+        public static T FindChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            if (parent == null) return null;
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T t) return t;
+                var childOfChild = FindChild<T>(child);
+                if (childOfChild != null) return childOfChild;
+            }
+            return null;
+        }
+
+
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                // Ensure fInventoryContainer is a Frame control
+                if (fInventoryContainer != null)
+                {
+                    // Navigate to the InventoryDetailedView UserControl
+                    fInventoryContainer.Navigate(new InventoryDetailedView());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+        }
+
+        private void btnAddItemInventory_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Ensure fInventoryContainer is a Frame control
+                if (fInventoryContainer != null)
+                {
+                    // Navigate to the InventoryDetailedView UserControl
+                    fInventoryContainer.Navigate(new InventryAddSubView());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+
+        }
+
+        private void btnInventoryDetails_Click(object sender, RoutedEventArgs e)
         {
             try
             {

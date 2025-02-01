@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModernApp.MVC.View.AttendenceSubViews;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
+
 namespace ModernApp.MVVM.View
 {
     /// <summary>
@@ -23,6 +26,14 @@ namespace ModernApp.MVVM.View
         public DashboardView()
         {
             InitializeComponent();
+        }
+
+        private void btnMarkAttendence_Click(object sender, RoutedEventArgs e)
+        {
+            MarkAttendece m1 = new MarkAttendece();
+            m1.Show();
+           
+
         }
     }
 }

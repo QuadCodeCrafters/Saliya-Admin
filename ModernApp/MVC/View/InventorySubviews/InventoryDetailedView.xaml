@@ -3,121 +3,201 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              Background="#F5F5F7">
     <Grid>
         <!-- Main Grid for Layout -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <!-- Search and Add Item Row -->
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <!-- Data Grid Row -->
         </Grid.RowDefinitions>
 
-        <!-- Search Bar and Add Item Button -->
-        <DockPanel Margin="10,10,10,0">
-            <!-- Search Bar -->
-            <Grid Width="308" Margin="0,0,10,0">
-                <TextBox Style="{StaticResource ModernSearchBarStyle}" 
-         Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" Margin="10,5,-170,5" />
 
-                <!-- <TextBlock Text="Search..."
-                           Foreground="#C7C7CC"
-                           FontSize="14"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Left"
-                           Margin="10,0,0,0"
-                           IsHitTestVisible="False"
-                           Visibility="{Binding Text, ElementName=SearchBar, Converter={StaticResource TextBoxWatermarkConverter}}" />
-           -->
-            </Grid>
+        <!-- Header Section -->
+        <Grid VerticalAlignment="Top" Margin="0,0,485,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-            <!-- Add Item Button -->
-            <Button Name="AddItemButton"
-                    Content="Add Item"
-                    Width="150"
-                    Height="40"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Right"
-                    Padding="10,5"
-                    Background="#007AFF"
-                    Foreground="White"
-                    FontWeight="Bold"
-                    BorderThickness="0"
-                    Cursor="Hand"
-                    Click="AddItemButton_Click" />
-        </DockPanel>
+            <!-- Company Logo -->
 
-        <!-- Inventory Data Grid -->
+            <!-- Header Details -->
+            <Button Name="btnBackInventoryDashboard"
+Style="{StaticResource MaterialDesignFlatButton}"
+VerticalAlignment="Top" Margin="-5,4,5,0" Click="btnBackInventoryDashboard_Click" 
+>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20" Margin="0,0,5,0" />
+                    <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" />
+                </StackPanel>
+            </Button>
+            <StackPanel Grid.Column="1" Orientation="Vertical" >
+
+                <TextBlock Text="Inventory Details" FontSize="30" FontWeight="Bold" Foreground="#2C3E50"/>
+                <TextBlock Text="{Binding CurrentDate, StringFormat='Date: {0:MMMM dd, yyyy}'}" 
+                           FontSize="14" Foreground="#7F8C8D"  HorizontalAlignment="Left" Height="25"/>
+            </StackPanel>
+        </Grid>
+        
+        <!-- Filters Section -->
+        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="10" HorizontalAlignment="Center">
+            <materialDesign:Card Padding="10" Background="{DynamicResource MaterialDesignPaper}" Height="207">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Filters" FontSize="20" FontWeight="Bold" 
+                               Foreground="{DynamicResource MaterialDesignBody}" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+
+                    <Label Name="TotalItemslabel" DockPanel.Dock="Left" FontSize="16" FontWeight="Bold"
+Foreground="#2C3E50" VerticalAlignment="Center" Margin="10,0,0,0"
+Content="Items no: 0" />
+                    <!-- First Row of Filters -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
+                        <TextBox x:Name="ItemNameTextBox" Width="180" Margin="10" 
+                                 materialDesign:HintAssist.Hint="Search by Name" 
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                        <ComboBox x:Name="CategoryComboBox" Width="180" Margin="10" 
+                                  materialDesign:HintAssist.Hint="Select Category" 
+                                  Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                            <ComboBoxItem Content="Electronics"/>
+                            <ComboBoxItem Content="Groceries"/>
+                            <ComboBoxItem Content="Clothing"/>
+                            <ComboBoxItem Content="Other"/>
+                        </ComboBox>
+                        <TextBox x:Name="MinPriceTextBox" Width="120" Margin="10"
+                                 materialDesign:HintAssist.Hint="Min Price"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                        <TextBox x:Name="MaxPriceTextBox" Width="120" Margin="10"
+                                 materialDesign:HintAssist.Hint="Max Price"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                    </StackPanel>
+
+                    <!-- Buttons for Filtering and Clearing -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
+                        <Button Name="btnApply" Content="Apply Filters"
+                                Width="150" Height="40" Margin="10"
+                                FontWeight="Bold" Background="#3498DB" Foreground="White" BorderBrush="#2980B9"
+                                Command="{Binding ApplyFiltersCommand}" Click="btnApply_Click"  />
+                        <Button Name="btnClear" Content="Clear Filters"
+                                Width="150" Height="40" Margin="10"
+                                FontWeight="Bold" Background="#E74C3C" Foreground="White" BorderBrush="#C0392B"
+                                Command="{Binding ClearFiltersCommand}" Click="btnClear_Click_1"  />
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+        </StackPanel>
+      
+
         <DataGrid Name="InventoryDataGrid"
-                  Grid.Row="1"
-                  AutoGenerateColumns="False"
-                  Margin="10"
-                  Background="White"
-                  Foreground="Black"
-                  RowHeight="50"
-                  ColumnHeaderHeight="40"
-                  BorderThickness="1"
-                  BorderBrush="#C7C7CC"
-                  AlternatingRowBackground="#F9F9F9"
-                  VerticalGridLinesBrush="#E5E5EA"
-                  HorizontalGridLinesBrush="#E5E5EA">
+          Grid.Row="2"
+          AutoGenerateColumns="False"
+          Margin="10"
+          Background="White"
+          Foreground="Black"
+          RowHeight="50"
+          ColumnHeaderHeight="40"
+          BorderThickness="1"
+          BorderBrush="#C7C7CC"
+          AlternatingRowBackground="#F9F9F9"
+          VerticalGridLinesBrush="#E5E5EA"
+          HorizontalGridLinesBrush="#E5E5EA"
+          ItemsSource="{Binding InventoryItems}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID"
-                                    Binding="{Binding ID}"
-                                    Width="Auto"
-                                    FontSize="14"
-                                    FontWeight="Normal" />
+                            Binding="{Binding ID}"
+                            Width="Auto"
+                            FontSize="14"
+                            FontWeight="Normal"
+                                    />
+                <DataGridTextColumn Header="Availability"
+                            Binding="{Binding Availability}"
+                            Width="Auto"
+                            FontSize="14"
+                            FontWeight="Normal" />
                 <DataGridTextColumn Header="Item Name"
-                                    Binding="{Binding ItemName}"
-                                    Width="*"
-                                    FontSize="14"
-                                    FontWeight="Normal" />
+                            Binding="{Binding ItemName}"
+                            Width="*"
+                            FontSize="14"
+                            FontWeight="Normal" />
+                <DataGridTextColumn Header="SKU"
+                            Binding="{Binding SKU}"
+                            Width="*"
+                            FontSize="14"
+                            FontWeight="Normal" />
+                <DataGridTextColumn Header="Item Price"
+                            Binding="{Binding ItemPrice, StringFormat=C}"
+                            Width="*"
+                            FontSize="14"
+                            FontWeight="Normal" />
                 <DataGridTextColumn Header="Category"
-                                    Binding="{Binding Category}"
-                                    Width="*"
-                                    FontSize="14"
-                                    FontWeight="Normal" />
-                <DataGridTextColumn Header="Price"
-                                    Binding="{Binding Price}"
-                                    Width="*"
-                                    FontSize="14"
-                                    FontWeight="Normal" />
-                <DataGridTextColumn Header="Quantity"
-                                    Binding="{Binding Quantity}"
-                                    Width="*"
-                                    FontSize="14"
-                                    FontWeight="Normal" />
+                            Binding="{Binding Category}"
+                            Width="*"
+                            FontSize="14"
+                            FontWeight="Normal" />
+                <DataGridTextColumn Header="Description"
+                            Binding="{Binding Description}"
+                            Width="200"
+                            FontSize="14"
+                            FontWeight="Normal" />
+                <DataGridTextColumn Header="Manufacturer"
+                            Binding="{Binding Manufacturer}"
+                            Width="*"
+                            FontSize="14"
+                            FontWeight="Normal" />
+                <DataGridTextColumn Header="Model Number"
+                            Binding="{Binding ModelNumber}"
+                            Width="*"
+                            FontSize="14"
+                            FontWeight="Normal" />
+                <DataGridTextColumn Header="Warranty"
+                            Binding="{Binding Warranty}"
+                            Width="*"
+                            FontSize="14"
+                            FontWeight="Normal" />
+                <DataGridTextColumn Header="Storage Location"
+                            Binding="{Binding StorageLocation}"
+                            Width="*"
+                            FontSize="14"
+                            FontWeight="Normal" />
+                <DataGridTextColumn Header="Pic Location"
+                            Binding="{Binding PicLocation}"
+                            Width="200"
+                            FontSize="14"
+                            FontWeight="Normal" />
                 <DataGridTemplateColumn Header="Actions" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <!-- Edit Button -->
                                 <Button Content="Edit"
-                                        Width="60"
-                                        Height="30"
-                                        Background="#34C759"
-                                        Foreground="White"
-                                        Margin="0,0,5,0"
-                                        FontWeight="Bold"
-                                        BorderThickness="0"
-                                        Cursor="Hand"
-                                        Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                        CommandParameter="{Binding}" />
+                                Width="60"
+                                Height="30"
+                                Background="#34C759"
+                                Foreground="White"
+                                Margin="0,0,5,0"
+                                FontWeight="Bold"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                CommandParameter="{Binding}" />
+                                <!-- Delete Button -->
                                 <Button Content="Delete"
-                                        Width="60"
-                                        Height="30"
-                                        Background="#FF3B30"
-                                        Foreground="White"
-                                        FontWeight="Bold"
-                                        BorderThickness="0"
-                                        Cursor="Hand"
-                                        Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                        CommandParameter="{Binding}" />
+                                Width="60"
+                                Height="30"
+                                Background="#FF3B30"
+                                Foreground="White"
+                                FontWeight="Bold"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                CommandParameter="{Binding}" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+
     </Grid>
 </UserControl>
