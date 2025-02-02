@@ -22,15 +22,19 @@
         <!-- Header Section -->
         <StackPanel Orientation="Horizontal" Margin="10,10,10,20">
             <TextBlock Text="Inventory Dashboard" FontSize="24" FontWeight="Bold" Foreground="#007AFF" />
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="390,0,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="230,0,0,0">
                 <Button Name="btnAddItemInventory" Content="Add Item" Width="150" Height="40" 
                         Background="#007AFF" Foreground="White" Margin="5"
                         Click="btnAddItemInventory_Click"/>
+                <Button Name="btnUpdateInventory" Content="Update item" Width="150" Height="40" 
+Background="#4CAF50" Foreground="White" Margin="5" Click="btnUpdateInventory_Click"/>
                 <Button Name="btnInventoryDetails" Content="View Item" Width="150" Height="40" 
                         Background="#4CAF50" Foreground="White" Margin="5"
                         Click="btnInventoryDetails_Click"/>
                 <Button Name="btnSparePartsInventory" Content="Spare Parts" Width="150" Height="40" 
-                        Background="#FF3B30" Foreground="White" Margin="5"/>
+                        Background="#FF3B30" Foreground="White" Margin="5" Click="btnSparePartsInventory_Click"/>
+                
+
             </StackPanel>
         </StackPanel>
 
@@ -114,6 +118,10 @@
             </Border>
         </Grid>
 
+        <!-- UserControl Frame -->
+        <Border Margin="10,10,10,10" CornerRadius="10" BorderThickness="1" Grid.RowSpan="3">
+            <Frame Name="fSparePartsContainer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </Border>
         <!-- UserControl Frame -->
         <Border Margin="10,65,10,10" CornerRadius="10" BorderThickness="1" Grid.RowSpan="3">
             <Frame Name="fInventoryContainer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>

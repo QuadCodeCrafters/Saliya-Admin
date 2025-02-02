@@ -4,20 +4,58 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ModernApp"
-        xmlns:viewModel="clr-namespace:ModernApp.MVVM.ViewModel"
+        xmlns:viewModel="clr-namespace:ModernApp.MVVM.ViewModel" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Background="Transparent"
         WindowState="Maximized"
-        ResizeMode="NoResize"  Height="751" Width="1223">
+        ResizeMode="CanResize"
+WindowStyle="SingleBorderWindow"
+  Height="751" Width="1223">
     
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
 
-    <Border Background="#FFFFFF" Opacity="1"
+
+       
+
+        <!--The message box of Loyality Unlock-->
+        <materialDesign:DialogHost x:Name="CancelDialogHost" BorderBrush="{DynamicResource MaterialDesignDivider}">
+
+            
+
+
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel Width="300">
+                    <TextBlock Text="Are you sure you want to cancel?"
+                           FontSize="16"
+                           TextAlignment="Center"
+                           Margin="20"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Yes" 
+                            Width="100"
+                            Background="Red"
+                            Foreground="White"
+                            Style="{StaticResource MaterialDesignRaisedButton}" 
+                            Click="ConfirmCancel_Click"/>
+
+                        <Button Content="No" 
+                            Width="100"
+                            Margin="10,0,0,0"
+                            Style="{StaticResource MaterialDesignFlatButton}" 
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+            
+            <Border Background="#FFFFFF" Opacity="1"
         CornerRadius="0">
 
+
         <Grid>
+            
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="188"/>
                 <ColumnDefinition />
@@ -27,6 +65,7 @@
                 <RowDefinition Height="98"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
+
 
 
             <Border Grid.Row="2" Grid.Column="2" Margin="8" CornerRadius="10" BorderThickness="1">
@@ -249,10 +288,19 @@
             <Border  Margin="0,93,0,0" CornerRadius="10" BorderThickness="1" Grid.RowSpan="2" Grid.Column="1">
                 <Frame Name="fEmployeeEditContainer" />
             </Border>
+                <Grid>
+                    <ContentControl x:Name="MainContentControl"/>
+                </Grid>
 
-        </Grid>
+            </Grid>
 
 
-    </Border>
-
+        </Border>
+            
+       
+       
+        </materialDesign:DialogHost>
+            
+  
+   
 </Window>

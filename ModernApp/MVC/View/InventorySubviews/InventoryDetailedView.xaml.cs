@@ -188,6 +188,7 @@ namespace ModernApp.MVC.View.InventorySubviews
         public string Warranty { get; set; }  // New field
         public string StorageLocation { get; set; }  // New field
         public string PicLocation { get; set; }  // New field
+        public object Quantity { get; internal set; }
     }
 
 }

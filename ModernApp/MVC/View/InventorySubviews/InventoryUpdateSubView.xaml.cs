@@ -1,47 +1,52 @@
-﻿using MaterialDesignThemes.Wpf;
-using Microsoft.Win32;
-using ModernApp.Events;
-using ModernApp.MVC.Controller;
-using ModernApp.MVC.Model;
-using MySql.Data.MySqlClient;
-using System;
-using System.Data.SqlClient;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Prism.Events;
-using ModernApp.Core;
-using System.ComponentModel;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 using AForge.Video;
 using AForge.Video.DirectShow;
 using ZXing;
-
+using System.Data.Common;
+using ModernApp.MVC.Model;
+using Microsoft.Win32;
+using System.IO;
+using Path = System.IO.Path;
+using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
+using ModernApp.Core;
+using ModernApp.Events;
+using Prism.Events;
 namespace ModernApp.MVC.View.InventorySubviews
 {
+
+    
     /// <summary>
-    /// Interaction logic for InventryAddSubView.xaml
+    /// Interaction logic for InventoryUpdateSubView.xaml
     /// </summary>
-    public partial class InventryAddSubView : UserControl
+    public partial class InventoryUpdateSubView : UserControl
     {
+        private readonly DBconnection dBconnection;
+        public event Action<BitmapImage> ImageUpdated;
         private readonly string ImageFolderPath = "D:\\personal\\InventoryPictures";
         private string relativePath;
-        private VideoCaptureDevice videoSource;
-        private BarcodeReader barcodeReader;
-        private readonly DBconnection dbConnection;
-        public event Action<BitmapImage> ImageUpdated;
-
-        public InventryAddSubView()
+        public InventoryUpdateSubView()
         {
             InitializeComponent();
-            dbConnection = new DBconnection();
+            dBconnection = new DBconnection();
             ImageUpdated += UpdateProfileImage;
             // Subscribe to ClearFormEvent
             App.EventAggregator.GetEvent<ClearFormEvent>().Subscribe(ClearForm);
-
         }
+
 
         private void UpdateProfileImage(BitmapImage image)
         {
@@ -189,11 +194,11 @@ namespace ModernApp.MVC.View.InventorySubviews
         private bool IsImageFile(string filePath)
         {
             string[] validExtensions = { ".jpg", ".jpeg", ".png", ".bmp", ".gif" };
-            string extension = Path.GetExtension(filePath)?.ToLower();
+            string extension = System.IO.Path.GetExtension(filePath)?.ToLower();
             return Array.Exists(validExtensions, ext => ext == extension);
         }
 
-       
+
         private void btnBackInventoryDashboard_Click(object sender, RoutedEventArgs e)
         {
             var parentFrame = FindParent<Frame>(this); // Find the parent Frame
@@ -220,89 +225,126 @@ namespace ModernApp.MVC.View.InventorySubviews
             }
         }
 
-        public void SaveInventoryItem()
+        public void LoadInventoryItem(string modelNumber)
         {
             try
             {
-                string itemName = txtItemName.Text;
-                decimal itemPrice;
-                if (!decimal.TryParse(txtItemPrice.Text, out itemPrice))
-                {
-                    MessageBox.Show("Please enter a valid price.", "Input Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                int quantityValue = string.IsNullOrWhiteSpace(txtQuantity.Text) ? 0 : Convert.ToInt32(txtQuantity.Text);
-                string category = cmbCategory.SelectedItem?.ToString();
-                string description = txtDescription.Text ?? string.Empty; // Ensure it's not null
-                string manufacturer = txtManufacturer.Text;
-                string modelNumber = txtModelNumber.Text;
-                string warranty = txtWarranty.Text;
-                string storageLocation = txtStorageLocation.Text;
-                string imagePath = relativePath;
-
-                if (string.IsNullOrWhiteSpace(itemName) || string.IsNullOrWhiteSpace(category))
-                {
-                    MessageBox.Show("Please fill in all required fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                using (var connection = dbConnection.GetConnection())
+                using (var connection = dBconnection.GetConnection()) // Use existing DB connection
                 {
                     connection.Open();
                     string query = @"
-                INSERT INTO Inventory 
-                (ItemName, ItemPrice, Quantity, Category, Description, Manufacturer, ModelNumber, Warranty, StorageLocation, PicLocation) 
-                VALUES (@ItemName, @ItemPrice, @Quantity, @Category, @Description, @Manufacturer, @ModelNumber, @Warranty, @StorageLocation, @PicLocation)";
+                SELECT ItemName, ItemPrice, Quantity, Category, Description, 
+                       Manufacturer, ModelNumber, Warranty, StorageLocation, PicLocation
+                FROM Inventory 
+                WHERE ModelNumber = @ModelNumber";
 
-                    using (var cmd = new MySqlCommand(query, connection))
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
-                        cmd.Parameters.Add("@ItemName", MySqlDbType.VarChar).Value = itemName;
-                        cmd.Parameters.Add("@ItemPrice", MySqlDbType.Decimal).Value = itemPrice; // Proper decimal
-                        cmd.Parameters.Add("@Quantity", MySqlDbType.Int32).Value = quantityValue;
-                        cmd.Parameters.Add("@Category", MySqlDbType.VarChar).Value = category;
-                        cmd.Parameters.Add("@Description", MySqlDbType.Text).Value = description; // Proper text handling
-                        cmd.Parameters.Add("@Manufacturer", MySqlDbType.VarChar).Value = manufacturer;
-                        cmd.Parameters.Add("@ModelNumber", MySqlDbType.VarChar).Value = modelNumber;
-                        cmd.Parameters.Add("@Warranty", MySqlDbType.VarChar).Value = warranty;
-                        cmd.Parameters.Add("@StorageLocation", MySqlDbType.VarChar).Value = storageLocation;
-                        cmd.Parameters.Add("@PicLocation", MySqlDbType.VarChar).Value = imagePath;
+                        command.Parameters.AddWithValue("@ModelNumber", modelNumber);
 
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("Item successfully added to inventory!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                        // Clear input fields
-                        //txtItemName.Clear();
-                        //cmbCategory.SelectedIndex = -1; // Reset dropdown selection
-                        //txtItemPrice.Clear();
-                        //txtQuantity.Clear();
-                        //txtDescription.Clear();
-                        ClearHelper.ClearTextBoxesAndComboBoxes(this);
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                txtItemName.Text = reader["ItemName"].ToString();
+                                txtItemPrice.Text = reader["ItemPrice"].ToString();
+                                txtQuantity.Text = reader["Quantity"].ToString();
+                                cmbCategory.SelectedItem = reader["Category"].ToString();
+                                txtDescription.Text = reader["Description"].ToString();
+                                txtManufacturer.Text = reader["Manufacturer"].ToString();
+                                txtModelNumber.Text = reader["ModelNumber"].ToString();
+                                txtWarranty.Text = reader["Warranty"].ToString();
+                                txtStorageLocation.Text = reader["StorageLocation"].ToString();
+                               
+                                string imagePath = reader["PicLocation"]?.ToString();
+                                if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
+                                {
+                                    LoadImage(imagePath);
+                                    relativePath = imagePath;
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Item not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            }
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error saving item: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error loading item: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void btnRegisterItem_Click(object sender, RoutedEventArgs e)
-        {
-            SaveInventoryItem();
 
+        public void UpdateInventoryItem()
+        {
+            try
+            {
+                using (var connection = dBconnection.GetConnection()) // Use existing connection
+                {
+                    connection.Open();
+                    string query = @"
+                UPDATE inventory 
+                SET ItemName = @ItemName, ItemPrice = @ItemPrice, Quantity = @Quantity, 
+                    Category = @Category, Description = @Description, Manufacturer = @Manufacturer, 
+                    Warranty = @Warranty, StorageLocation = @StorageLocation, PicLocation = @PicLocation 
+                WHERE ModelNumber = @ModelNumber";
+
+                    using (var command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@ItemName", txtItemName.Text);
+                        command.Parameters.AddWithValue("@ItemPrice", Convert.ToDecimal(txtItemPrice.Text));
+                        command.Parameters.AddWithValue("@Quantity", Convert.ToInt32(txtQuantity.Text));
+                        command.Parameters.AddWithValue("@Category", cmbCategory.Text);
+                        command.Parameters.AddWithValue("@Description", txtDescription.Text);
+                        command.Parameters.AddWithValue("@Manufacturer", txtManufacturer.Text);
+                        command.Parameters.AddWithValue("@ModelNumber", txtModelNumber.Text);
+                        command.Parameters.AddWithValue("@Warranty", txtWarranty.Text);
+                        command.Parameters.AddWithValue("@StorageLocation", txtStorageLocation.Text);
+                        command.Parameters.AddWithValue("@PicLocation", relativePath ?? (object)DBNull.Value); // Handle null image path
+
+                        int rowsAffected = command.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Item updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                            ClearHelper.ClearTextBoxesAndComboBoxes(this);
+                        }
+                        else
+                        {
+                            MessageBox.Show("No item found with the provided Model Number.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error updating item: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
-        private void btnCancelInventroyReg_Click(object sender, RoutedEventArgs e)
+        
+      
+        private void btnApply_Click(object sender, RoutedEventArgs e)
         {
-            App.EventAggregator.GetEvent<DialogOpenEvent>().Publish("OpenCancelDialog");
+            LoadInventoryItem(ItemNameTextBox.Text);
         }
 
+        private void btnUpdateItem_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateInventoryItem();
+        }
 
         public void ClearForm()
         {
-          
+
             ClearHelper.ClearTextBoxesAndComboBoxes(this);
         }
 
+        private void btnCancelInventroyUp_Click(object sender, RoutedEventArgs e)
+        {
+            App.EventAggregator.GetEvent<DialogOpenEvent>().Publish("OpenCancelDialog");
+        }
     }
 }

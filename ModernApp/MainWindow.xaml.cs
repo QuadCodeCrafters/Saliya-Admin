@@ -19,7 +19,10 @@ using System.Windows.Markup;
 using ModernApp.MVVM.Model;
 using ModernApp.MVC.View.EmployeeSubviews;
 using ModernApp.MVVM.View;
-
+using ModernApp.MVC.View.InventorySubviews;
+using MaterialDesignThemes.Wpf;
+using Prism.Events;
+using ModernApp.Events;
 
 namespace ModernApp
 {
@@ -34,11 +37,46 @@ namespace ModernApp
             InitializeComponent();
             fContainer.Navigate(new Uri("pack://application:,,,/MVC/View/DashboardView.xaml", UriKind.Absolute));
             fTopBoxContainer.Navigate(new Uri("pack://application:,,,/Top-Control-Bar/Top-Bar-Controls.xaml", UriKind.Absolute));
-
+            // Subscribe to DialogOpenEvent
+            App.EventAggregator.GetEvent<DialogOpenEvent>().Subscribe(OpenDialog);
 
         }
+        private void OpenDialog(string message)
+        {
+            if (message == "OpenCancelDialog")
+            {
+                // Find the DialogHost in MainWindow
+                if (CancelDialogHost != null)
+                {
+                    CancelDialogHost.IsOpen = true;
+                }
+                else
+                {
+                    MessageBox.Show("DialogHost not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
 
-       
+        private void ConfirmCancel_Click(object sender, RoutedEventArgs e)
+        {
+            // Publish event to clear the form
+            App.EventAggregator.GetEvent<ClearFormEvent>().Publish();
+
+            CloseDialog(); // Close the dialog
+        }
+
+        private void CloseDialog_Click(object sender, RoutedEventArgs e)
+        {
+            CloseDialog();
+        }
+
+        private void CloseDialog()
+        {
+            if (FindName("CancelDialogHost") is DialogHost dialogHost)
+            {
+                dialogHost.IsOpen = false;
+            }
+        }
 
 
         private void closeApp(object sender, MouseButtonEventArgs e)

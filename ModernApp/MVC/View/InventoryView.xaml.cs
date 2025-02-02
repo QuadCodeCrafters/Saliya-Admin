@@ -104,6 +104,28 @@ namespace ModernApp.MVVM.View
                 MessageBox.Show($"Error navigating to page: {ex.Message}");
             }
         }
+
+        private void btnUpdateInventory_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Ensure fInventoryContainer is a Frame control
+                if (fInventoryContainer != null)
+                {
+                    // Navigate to the InventoryDetailedView UserControl
+                    fInventoryContainer.Navigate(new InventoryUpdateSubView());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+        }
+
+        private void btnSparePartsInventory_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 
     public class InventoryItem
