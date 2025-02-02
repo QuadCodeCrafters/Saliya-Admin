@@ -4,22 +4,58 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ModernApp"
-        xmlns:viewModel="clr-namespace:ModernApp.MVVM.ViewModel"
+        xmlns:viewModel="clr-namespace:ModernApp.MVVM.ViewModel" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        
         Background="Transparent"
         WindowState="Maximized"
-       
-        ResizeMode="NoResize"  Height="751" Width="1223">
-
+        ResizeMode="CanResize"
+WindowStyle="SingleBorderWindow"
+  Height="751" Width="1223">
+    
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
 
-    <Border Background="#FFFFFF" Opacity="1"
+
+       
+
+        <!--The message box of Loyality Unlock-->
+        <materialDesign:DialogHost x:Name="CancelDialogHost" BorderBrush="{DynamicResource MaterialDesignDivider}">
+
+            
+
+
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel Width="300">
+                    <TextBlock Text="Are you sure you want to cancel?"
+                           FontSize="16"
+                           TextAlignment="Center"
+                           Margin="20"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Yes" 
+                            Width="100"
+                            Background="Red"
+                            Foreground="White"
+                            Style="{StaticResource MaterialDesignRaisedButton}" 
+                            Click="ConfirmCancel_Click"/>
+
+                        <Button Content="No" 
+                            Width="100"
+                            Margin="10,0,0,0"
+                            Style="{StaticResource MaterialDesignFlatButton}" 
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+            
+            <Border Background="#FFFFFF" Opacity="1"
         CornerRadius="0">
 
+
         <Grid>
+            
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="188"/>
                 <ColumnDefinition />
@@ -29,6 +65,7 @@
                 <RowDefinition Height="98"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
+
 
 
             <Border Grid.Row="2" Grid.Column="2" Margin="8" CornerRadius="10" BorderThickness="1">
@@ -41,13 +78,14 @@
                 <Grid.Background>
                     <LinearGradientBrush StartPoint="0,1" EndPoint="1,0.5">
                         <GradientStop Color="#023E8A" Offset="0.0" />
-                        <GradientStop Color="#0077B6" Offset="0.5" />
+                        <GradientStop Color="#007FFF" Offset="0.5" />
                         <GradientStop Color="#00B4D8" Offset="1.0" />
                     </LinearGradientBrush>
                 </Grid.Background>
 
+
                 <!-- Wavy effect overlay -->
-                <Path Fill="#4CC9F0" Stretch="Fill" Opacity="0.2" Data="M0,100 C150,200 350,0 500,100 L500,00 L0,0 Z" />
+                <Path Fill="#023E8A" Stretch="Fill" Opacity="0.2" Data="M0,100 C150,200 350,0 500,100 L500,00 L0,0 Z" />
                 <Image Source="Images/304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png" 
            HorizontalAlignment="Left" Margin="45,3,0,7" Width="75">
                     <!-- Add a shine effect around the logo -->
@@ -56,28 +94,41 @@
                     </Image.Effect>
                 </Image>
 
+
+                <Border  Margin="997,31,20,10" CornerRadius="10" BorderThickness="1" RenderTransformOrigin="0.5,0.5">
+                    <Border.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Border.RenderTransform>
+                    <Frame Name="fTopBoxContainer" />
+                </Border>
                 <Grid.Effect>
                     <DropShadowEffect Color="Black" BlurRadius="15" ShadowDepth="5" Opacity="0.6"/>
                 </Grid.Effect>
             </Grid>
             <ScrollViewer Margin="0,93,0,0" Grid.RowSpan="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                
-            
-            <Grid Margin="0,3,0,0" Grid.RowSpan="2">
-                <Grid.Background>
-                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                        <GradientStop Color="#4F75FF" Offset="0" />
-                        <GradientStop Color="#4F75FF" Offset="1" />
-                    </LinearGradientBrush>
-                </Grid.Background>
 
-                <!-- Define Rows -->
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <!-- Menu Label -->
-                    <RowDefinition Height="Auto" />
-                    <!-- ScrollViewer -->
-                </Grid.RowDefinitions>
+
+                <Grid Margin="0,0,0,0" Grid.RowSpan="2">
+                    <Grid.Background>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,0.7">
+                            <GradientStop Color="#023E8A" Offset="0.0" />
+                            <GradientStop Color="#007FFF" Offset="0.9" />
+                            <GradientStop Color="#00B4D8" Offset="1.6" />
+                        </LinearGradientBrush>
+                    </Grid.Background>
+
+                    <!-- Define Rows -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <!-- Menu Label -->
+                        <RowDefinition Height="Auto" />
+                        <!-- ScrollViewer -->
+                    </Grid.RowDefinitions>
 
                     <StackPanel>
                         <!-- Menu Label -->
@@ -190,51 +241,12 @@
                            
                         </Grid>
                     </StackPanel>
-               
-            </Grid>
+
+                </Grid>
             </ScrollViewer>
 
 
             <!-- Header bar with buttons and shadow effect -->
-            <Border Grid.Column="1" Background="White" CornerRadius="20" Margin="890,28,17,29">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Width="202">
-
-                    <!-- Search Icon Button -->
-                    <Button Name="SearchButton" Width="30" Height="30" Background="Transparent" BorderBrush="Transparent" 
-                            Cursor="Hand" Click="SearchButton_Click" Margin="10,0,15,0">
-                        <Image Source="/Icons/search.png" Stretch="Uniform"/>
-                    </Button>
-
-                    <!-- Moon Icon -->
-                    <Button Width="30" Height="30" Background="Transparent" BorderBrush="Transparent" Cursor="Hand" Margin="0,0,20,0">
-                        <Image Source="/Icons/moon.png" Stretch="Uniform"/>
-                    </Button>
-
-                    <!-- Notification Icon with Badge -->
-                    <Grid>
-                        <Button Width="30" Height="30" Background="Transparent" BorderBrush="Transparent" Cursor="Hand" Margin="0,0,20,0">
-                            <Image Source="/Icons/bell.png" Stretch="Uniform"/>
-                        </Button>
-                        <Ellipse Width="10" Height="10" Fill="Red" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0"/>
-                    </Grid>
-
-                    <!-- Profile Button with Popup -->
-                    <Button Width="40" Height="40" Background="Transparent" BorderBrush="Transparent" Cursor="Hand" >
-                        <Ellipse Width="30" Height="30" Fill="Orange" />
-                    </Button>
-
-                    <!-- Popup for Profile Settings -->
-                    <Popup Name="ProfilePopup" PlacementTarget="{Binding ElementName=ProfileButton}" StaysOpen="False" Placement="Bottom">
-                        <Border Background="White" BorderBrush="LightGray" BorderThickness="1" CornerRadius="10" Padding="10">
-                            <StackPanel>
-                                <TextBlock Text="Profile" Margin="5"/>
-                                <TextBlock Text="Settings" Margin="5"/>
-                                <TextBlock Text="Logout" Margin="5"/>
-                            </StackPanel>
-                        </Border>
-                    </Popup>
-                </StackPanel>
-            </Border>
 
             <!-- ContentControl for Main Views -->
             <!--ContentControl x:Name="fContainer"  Grid.Row="1"
@@ -268,12 +280,21 @@
             </Rectangle>
             <!-- Border with a Frame for loading UserControls -->
             <Border  Margin="0,93,0,0" CornerRadius="10" BorderThickness="1" Grid.RowSpan="2" Grid.Column="1">
-                <Frame Name="fEmployeeEditContainer" Margin="-1,-1,-1,-1" />
+                <Frame Name="fEmployeeEditContainer" />
             </Border>
+                <Grid>
+                    <ContentControl x:Name="MainContentControl"/>
+                </Grid>
 
-        </Grid>
+            </Grid>
 
 
-    </Border>
-
+        </Border>
+            
+       
+       
+        </materialDesign:DialogHost>
+            
+  
+   
 </Window>

@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Prism.Events;
 
 namespace ModernApp
 {
@@ -13,5 +14,6 @@ namespace ModernApp
     /// </summary>
     public partial class App : Application
     {
+        public static IEventAggregator EventAggregator { get; } = new EventAggregator();
     }
 }

@@ -1,5 +1,4 @@
-﻿using ModernApp.MVC.View.AttendenceSubViews;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,26 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-
-
-namespace ModernApp.MVVM.View
+namespace ModernApp.MVC.View.InventorySubviews
 {
     /// <summary>
-    /// Interaction logic for DashboardView.xaml
+    /// Interaction logic for SparePartsDetailsView.xaml
     /// </summary>
-    public partial class DashboardView : UserControl
+    public partial class SparePartsDetailsView : UserControl
     {
-        public DashboardView()
+        public SparePartsDetailsView()
         {
             InitializeComponent();
-        }
-
-        private void btnMarkAttendence_Click(object sender, RoutedEventArgs e)
-        {
-            MarkAttendece m1 = new MarkAttendece();
-            m1.Show();
-           
-
         }
     }
 }

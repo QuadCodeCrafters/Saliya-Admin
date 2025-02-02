@@ -1,0 +1,135 @@
+﻿<Window x:Class="ModernApp.loginPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ModernApp"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="loginPage"         Height="600" Width="800"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Background="{x:Null}"
+        AllowsTransparency="True"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+    <Window.Resources>
+        <!-- Animation for shake -->
+        <Storyboard x:Key="ShakeAnimation">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                         From="0" To="-5" Duration="0:0:0.1" AutoReverse="True" RepeatBehavior="3x"/>
+        </Storyboard>
+    </Window.Resources>
+
+    <materialDesign:Card UniformCornerRadius="15" 
+                         Background="{DynamicResource MaterialDesignPaper}"
+                         Margin="25" materialDesign:ShadowAssist.ShadowDepth="Depth4" >
+        <Grid>
+
+            <materialDesign:DialogHost x:Name="PermissionDialogHost" BorderBrush="{DynamicResource MaterialDesignDivider}">
+                <materialDesign:DialogHost.DialogContent>
+                    <Grid Width="300" Height="150" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Margin="15">
+                            <materialDesign:PackIcon Kind="CloseBox" Foreground="{StaticResource PrimaryHueMidBrush}" Width="50" Height="50" />
+                            <TextBlock  Foreground="{DynamicResource MaterialDesignBody}" Width="200" Margin="15 5" TextWrapping="Wrap" >
+                                Do you want to close the app?
+                            </TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="15">
+                            <Button Foreground="{DynamicResource MaterialDesignBody}"  Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}" Margin="4" VerticalAlignment="Center" Click="Button_Click">
+                                Yes
+                            </Button>
+                            <Button Foreground="{DynamicResource MaterialDesignBody}"  Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}" Margin="4" VerticalAlignment="Center">
+                                No
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:DialogHost.DialogContent>
+
+
+                <Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="350"/>
+                            <ColumnDefinition Width="400*"/>
+                        </Grid.ColumnDefinitions>
+
+
+                        <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost" Grid.Column="0">
+                            <StackPanel>
+                                <WrapPanel Margin="10">
+                                    <Image Source="/Images/logo.png" HorizontalAlignment="Left" Width="50" Height="50"/>
+                                    <TextBlock Text="QuadCodeCrafters" FontSize="18" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5">
+                                        <TextBlock.Foreground>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                <GradientStop Color="#4169E1" Offset="0.0"/>
+                                                <GradientStop Color="#3a868a" Offset="1.0"/>
+                                            </LinearGradientBrush>
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+                                </WrapPanel>
+                                <TextBlock Text="Welcome" FontSize="20" FontWeight="SemiBold" Width="86" Height="38"/>
+                                <TextBlock Text="Saliya Auto Care POS System" FontSize="17" FontWeight="SemiBold" Width="224" Height="28"/>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Top" Width="280" Height="348" Background="{DynamicResource MaterialDesignPaper}" CornerRadius="10" Margin="0,10" materialDesign:ShadowAssist.ShadowDepth="Depth4">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="30" ShadowDepth="0" Opacity="0.1"/>
+                                    </Border.Effect>
+                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Width="280" Height="348">
+                                        <TextBlock Margin="0 10 0 5" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="28" FontWeight="Bold" Text="Log in" Foreground="{DynamicResource MaterialDesignBody}"/>
+                                        <TextBox Margin="0 50 0 0" 
+                                                 x:Name="txtusername" 
+                                                 Width="200" 
+                                                 Height="55" 
+                                                 FontSize="15" 
+                                                 materialDesign:HintAssist.Hint="Enter Username" 
+                                                 BorderThickness="2" 
+                                                 TextChanged="txtusername_TextChanged" 
+                                                 BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                                                 Style="{StaticResource MaterialDesignOutlinedTextBox}">
+                                            <TextBox.Triggers>
+                                                <EventTrigger RoutedEvent="TextBox.GotFocus">
+                                                    <BeginStoryboard Storyboard="{StaticResource ShakeAnimation}"/>
+                                                </EventTrigger>
+                                            </TextBox.Triggers>
+                                        </TextBox>
+                                        <PasswordBox Margin="0 20 0 0" x:Name="txtpassword" Width="200" Height="55" FontSize="15" PasswordChanged="txtpassword_PasswordChanged" materialDesign:HintAssist.Hint="Enter Password" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedPasswordBox}">
+                                            <PasswordBox.Triggers>
+                                                <EventTrigger RoutedEvent="PasswordBox.GotFocus">
+                                                    <BeginStoryboard Storyboard="{StaticResource ShakeAnimation}"/>
+                                                </EventTrigger>
+                                            </PasswordBox.Triggers>
+                                        </PasswordBox>
+
+                                        <Button Margin="0 20 0 0" x:Name="btnlogin" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="35" Width="100" materialDesign:ButtonAssist.CornerRadius="10" FontSize="12" Content="LOG IN" Click="btnlogin_Click"/>
+                                        <StackPanel Height="58" Margin="0 10 0 0">
+                                            <TextBlock x:Name="accError" TextWrapping="Wrap" Text="" Width="260" Height="27" TextAlignment="Center" Foreground="Red"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </materialDesign:DialogHost>
+                        <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost1" Grid.Column="1">
+                            <StackPanel>
+                                <materialDesign:PopupBox HorizontalAlignment="Right" Margin="0 20 20 0" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Height="25">
+                                    <StackPanel>
+
+                                        <StackPanel Margin="16 10 0 6" Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock VerticalAlignment="Center" Text="Dark Mode" ToolTip="Enable Dark Mode" Cursor="Hand"/>
+                                            <ToggleButton Cursor="Hand" Margin="10 0 8 0" Name="themetoggle" IsChecked="{Binding IsDarkTheme}" Click="themetoggle_Click"/>
+                                        </StackPanel>
+                                        <Button ToolTip="Having Trouble logging in?" Margin="0 8 0 0" Content="Help Me" Cursor="Help" Click="Button_Click_1"/>
+
+                                        <Button Content="Exit Application" Cursor="Hand" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" CommandTarget="{Binding ElementName=PermissionDialogHost}"/>
+                                    </StackPanel>
+                                </materialDesign:PopupBox>
+
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="50 100 50 0">
+                                    <Image Source="/Images/POS.png" HorizontalAlignment="Left" Width="300" Height="300"></Image>
+                                </StackPanel>
+                            </StackPanel>
+                        </materialDesign:DialogHost>
+                    </Grid>
+                </Grid>
+            </materialDesign:DialogHost>
+        </Grid>
+    </materialDesign:Card>
+</Window>

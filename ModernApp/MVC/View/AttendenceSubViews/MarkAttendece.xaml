@@ -1,0 +1,102 @@
+﻿<Window x:Class="ModernApp.MVC.View.AttendenceSubViews.MarkAttendece"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Mark Attendance"
+        Height="500"
+        Width="850"
+        Background="{DynamicResource MaterialDesignPaper}"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        materialDesign:ColorZoneAssist.Mode="PrimaryDark">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        
+
+        <!-- Header -->
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,432,20">
+            <Button Name="btnBackAttendenceDashboard"
+            Style="{StaticResource MaterialDesignFlatButton}"
+            VerticalAlignment="Center" Click="btnBackAttendenceDashboard_Click"
+            >
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20" Margin="0,0,5,0" />
+                    <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" />
+                </StackPanel>
+            </Button>
+            <TextBlock Text="Employee Attendence"
+               FontSize="24"
+               FontWeight="Bold"
+               Foreground="#007AFF"
+               VerticalAlignment="Center"
+               Margin="20,0,0,0" />
+        </StackPanel>
+        <!-- Video Feed (Material Design Card) -->
+        <materialDesign:Card Grid.Row="1"
+                             Padding="10"
+                             
+                             Background="{DynamicResource MaterialDesignPaper}">
+            <Image x:Name="cameraFeed"
+                   Stretch="UniformToFill"
+                   Opacity="0.85"/>
+        </materialDesign:Card>
+
+        <!-- Barcode Output Section -->
+        <StackPanel Grid.Row="2"
+                    Orientation="Vertical"
+                    Margin="10">
+            <TextBlock Text="Scanned Barcode"
+                       FontSize="18"
+                       FontWeight="SemiBold"
+                       Foreground="{DynamicResource MaterialDesignBody}"
+                       Margin="0,0,0,8"/>
+
+            <TextBox x:Name="txtScannedBarcode"
+         FontSize="16"
+         Padding="8"
+         Background="{DynamicResource MaterialDesignPaper}"
+         Foreground="{DynamicResource MaterialDesignBody}"
+         BorderBrush="{DynamicResource MaterialDesignDivider}"
+         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+         materialDesign:HintAssist.Hint="Scanned Barcode"
+         IsReadOnly="True"/>
+
+        </StackPanel>
+        <!-- Buttons Section -->
+        <StackPanel Grid.Row="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="10"
+                    >
+
+            <Button Content="Start Scanning"
+                    FontSize="16"
+                    Padding="12,8"
+                    Background="#007AFF"
+                    Foreground="White"
+                    BorderThickness="0"
+                   Margin="0,0,20,0"
+                    Width="180"
+                    Cursor="Hand"/>
+
+            <Button Content="Close"
+                    FontSize="16"
+                    Padding="12,8"
+                    Background="#FF3B30"
+                    Foreground="White"
+                    BorderThickness="0"
+                    
+                    Width="120"
+                    Cursor="Hand"/>
+        </StackPanel>
+    </Grid>
+</Window>

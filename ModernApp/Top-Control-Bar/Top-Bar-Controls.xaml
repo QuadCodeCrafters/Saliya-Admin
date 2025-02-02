@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="ModernApp.Top_Control_Bar.Top_Bar_Controls"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ModernApp.Top_Control_Bar"
+             mc:Ignorable="d"
+             Width="150">
+
+    <!-- Top Bar -->
+    <Border Background="White" CornerRadius="20" Padding="10" Width="147">
+        <Grid >
+            <!-- Define Columns -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <!-- Search -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- Dark Mode -->
+
+                <!-- Profile -->
+            </Grid.ColumnDefinitions>
+
+            <!-- Search Icon Button -->
+
+
+
+            <!-- Notifications -->
+            <Grid Grid.Column="0" Margin="1,-1,30,10">
+                <Button Name="NotificationButton" Background="red" BorderBrush="Transparent" Cursor="Hand" Click="NotificationButton_Click" Margin="4,12,-24,0">
+                    <Image Source="pack://application:,,,/Icons/bell.png" Stretch="Uniform"/>
+                </Button>
+                <!-- Red Badge for New Notifications -->
+
+                <!-- Notifications Popup -->
+                <Popup Name="NotificationPopup" PlacementTarget="{Binding ElementName=NotificationButton}" StaysOpen="False" Placement="Bottom">
+                    <Border Background="White" BorderBrush="LightGray" BorderThickness="1" CornerRadius="10" Padding="10" Width="200">
+                        <StackPanel>
+                            <TextBlock Text="Notifications" FontWeight="Bold" Margin="5"/>
+                            <Separator/>
+                            <TextBlock Text="• New message received" Margin="5"/>
+                            <TextBlock Text="• System update available" Margin="5"/>
+                            <TextBlock Text="• Payment processed" Margin="5"/>
+                        </StackPanel>
+                    </Border>
+                </Popup>
+            </Grid>
+
+            <!-- Profile -->
+            <Grid Grid.Column="1" Margin="20,10,2,10">
+
+                <!-- Profile Popup -->
+                <Popup Name="ProfilePopup" Placement="Bottom" StaysOpen="False">
+                    <Border Background="White" BorderBrush="LightGray" BorderThickness="1" CornerRadius="10" Padding="10" Width="180">
+                        <StackPanel>
+                            <TextBlock Text="User Name" FontWeight="Bold" Margin="5"/>
+                            <Separator/>
+                            <Button Content="Profile" Width="160" Margin="5" Cursor="Hand"/>
+                            <Button Content="Settings" Width="160" Margin="5" Cursor="Hand"/>
+                            <Button Content="Logout" Width="160" Margin="5" Cursor="Hand" Foreground="Red"/>
+                        </StackPanel>
+                    </Border>
+                </Popup>
+            </Grid>
+            <Button x:Name="ProfileButton" Background="Red" BorderBrush="Transparent" Cursor="Hand" Click="ProfileButton_Click" Margin="5,16,-35,16" Grid.Column="1">
+                <Ellipse Width="20" Height="20" Fill="Orange"/>
+            </Button>
+        </Grid>
+    </Border>
+</UserControl>

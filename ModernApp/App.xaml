@@ -6,7 +6,7 @@
              xmlns:view="clr-namespace:ModernApp.MVVM.View"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              
-             StartupUri="MainWindow.xaml">
+             StartupUri="loadingPage.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
