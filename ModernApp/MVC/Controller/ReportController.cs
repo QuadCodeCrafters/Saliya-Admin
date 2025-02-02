@@ -35,7 +35,7 @@ namespace ModernApp.MVC.Controller
                 double footerHeight = 50;
 
                 // Load the logo image
-                string logoPath = "D:\\personal\\Coding\\C#\\ModernApp\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
+                string logoPath = "D:\\NIBM(DSE)\\DSE CW\\FP Project\\github admin\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
                 XImage logo = XImage.FromFile(logoPath);
 
                 // Extract headers from DataGrid
@@ -141,7 +141,7 @@ namespace ModernApp.MVC.Controller
                 double footerHeight = 50;
 
                 // Load the logo image
-                string logoPath = "D:\\personal\\Coding\\C#\\ModernApp\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
+                string logoPath = "D:\\NIBM(DSE)\\DSE CW\\FP Project\\github admin\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
                 XImage logo = XImage.FromFile(logoPath);
 
                 // Extract headers from DataGrid
@@ -260,7 +260,7 @@ namespace ModernApp.MVC.Controller
                 double footerHeight = 50;
 
                 // Load the logo image
-                string logoPath = "D:\\personal\\Coding\\C#\\ModernApp\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
+                string logoPath = "D:\\NIBM(DSE)\\DSE CW\\FP Project\\github admin\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
                 XImage logo = XImage.FromFile(logoPath);
 
                 // Headers for Attendance Report
@@ -688,7 +688,7 @@ namespace ModernApp.MVC.Controller
                 double footerHeight = 50;
 
                 // Load the logo image
-                string logoPath = "D:\\personal\\Coding\\C#\\ModernApp\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
+                string logoPath = "D:\\NIBM(DSE)\\DSE CW\\FP Project\\github admin\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
                 XImage logo = XImage.FromFile(logoPath);
 
                 // Add pages and content
@@ -804,7 +804,7 @@ namespace ModernApp.MVC.Controller
                 double footerHeight = 50;
 
                 // Load the logo image
-                string logoPath = "D:\\personal\\Coding\\C#\\ModernApp\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
+                string logoPath = "D:\\NIBM(DSE)\\DSE CW\\FP Project\\github admin\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
                 XImage logo = XImage.FromFile(logoPath);
 
                 // Add pages and content
@@ -919,7 +919,7 @@ namespace ModernApp.MVC.Controller
                 double footerHeight = 50;
 
                 // Load the logo image
-                string logoPath = "D:\\personal\\Coding\\C#\\ModernApp\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
+                string logoPath = "D:\\NIBM(DSE)\\DSE CW\\FP Project\\github admin\\ModernApp\\Images\\304778802_418138250302865_3903839059240116346_n-removebg-preview (1).png"; // Update with the actual path
                 XImage logo = XImage.FromFile(logoPath);
 
                 // Add the first page
