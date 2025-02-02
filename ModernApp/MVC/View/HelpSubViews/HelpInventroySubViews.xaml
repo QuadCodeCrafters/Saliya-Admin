@@ -4,38 +4,108 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ModernApp.MVC.View.HelpSubViews"
-              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <!-- Header -->
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <!-- Content -->
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
 
-        <!-- Place the StackPanel in the correct row -->
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,10,10,20">
-            <Button Name="btnBackHelpDashboard"
-              Style="{StaticResource MaterialDesignFlatButton}"
-              VerticalAlignment="Center" Click="btnBackHelpDashboard_Click"
-             >
+            <Button Name="btnBackinventoryDashboard"
+                    Background="{DynamicResource PrimaryHueMidBrush}"
+                    Foreground="White"
+                    Padding="10,5"
+                    VerticalAlignment="Center"
+                    Click="btnBackHelpDashboard_Click">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20" Margin="0,0,5,0" />
-                    <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" />
+                    <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20"
+                                             Margin="0,0,5,0" Foreground="White"/>
+                    <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" Foreground="White"/>
                 </StackPanel>
             </Button>
-            <TextBlock Text="Sales Help"
-                 FontSize="24"
-                 FontWeight="Bold"
-                 Foreground="#007AFF"
-                 VerticalAlignment="Center"
-                 Margin="20,0,0,0" />
-        </StackPanel>
-    </Grid>
 
+            <TextBlock Text="InventoryView Help Menu"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Foreground="{DynamicResource PrimaryHueMidBrush}"
+                       VerticalAlignment="Center"
+                       Padding="10,0,0,0"/>
+        </StackPanel>
+
+        <GridSplitter Grid.Row="1" HorizontalAlignment="Center" Background="#e3e3e5" Height="2" VerticalAlignment="Center" Width="1796" RenderTransformOrigin="0.5,0.5">
+            <GridSplitter.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </GridSplitter.RenderTransform>
+        </GridSplitter>
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="10,5,10,10">
+            <StackPanel>
+                <TextBlock Text="The Inventory View provides an intuitive interface for managing and monitoring stock levels, ensuring smooth operations." FontSize="16" FontWeight="Bold" Margin="0,10,0,10"/>
+
+                <TextBlock Text="1. Header" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
+                <TextBlock Text="Displays the title 'Inventory Dashboard' in bold. Helps users quickly identify the purpose of this interface." TextWrapping="Wrap" Margin="0,5,0,10"/>
+
+                <TextBlock Text="2. Inventory Metrics Section" FontSize="14" FontWeight="Bold" Margin="0,20,0,5"/>
+                <TextBlock Text="This section provides a quick summary of stock conditions using interactive cards." TextWrapping="Wrap" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Each card represents a different inventory metric:" FontWeight="Bold" Margin="0,10,0,5"/>
+                <TextBlock Text="- Total Items – Displays the total number of items currently in stock." Margin="0,5,0,5"/>
+                <TextBlock Text="- Out of Stock – Shows how many items have completely run out." Margin="0,5,0,5"/>
+                <TextBlock Text="- Reorders Needed – Highlights items that need immediate restocking." Margin="0,5,0,5"/>
+                <TextBlock Text="- Low Stock – Indicates items that are at critically low levels and may require attention soon." Margin="0,5,0,5"/>
+                <TextBlock Text="💡 Interactivity: Clicking on a card can provide detailed breakdowns of stock levels, enabling further analysis." TextWrapping="Wrap" Margin="0,10,0,20"/>
+
+                <TextBlock Text="3. Inventory Overview Charts" FontSize="14" FontWeight="Bold" Margin="0,20,0,5"/>
+                <TextBlock Text="To visualize inventory trends, two charts are provided:" TextWrapping="Wrap" Margin="0,5,0,10"/>
+
+                <TextBlock Text="A. Stock Levels (Bar Chart)" FontWeight="Bold" Margin="0,10,0,5"/>
+                <TextBlock Text="- Displays stock quantities for different items." Margin="0,5,0,5"/>
+                <TextBlock Text="- Helps users analyze which products are well-stocked and which need attention." Margin="0,5,0,5"/>
+
+                <TextBlock Text="B. Category Distribution (Pie Chart)" FontWeight="Bold" Margin="0,10,0,5"/>
+                <TextBlock Text="- Shows the percentage of stock distributed among different categories (e.g., Electronics, Automotive Parts, Tools, etc.)." Margin="0,5,0,5"/>
+                <TextBlock Text="- Helps users identify which category has the most or least stock available." Margin="0,5,0,5"/>
+
+                <TextBlock Text="💡 Insight: These charts provide a quick analytical overview of inventory trends." TextWrapping="Wrap" Margin="0,10,0,20"/>
+
+                <TextBlock Text="4. Inventory Data Table" FontSize="14" FontWeight="Bold" Margin="0,20,0,5"/>
+                <TextBlock Text="A detailed table listing all inventory items with key attributes:" TextWrapping="Wrap" Margin="0,5,0,10"/>
+                <TextBlock Text="- Item Name – The name of the product." Margin="0,5,0,5"/>
+                <TextBlock Text="- SKU (Stock Keeping Unit) – Unique identification number for each item." Margin="0,5,0,5"/>
+                <TextBlock Text="- Stock Level – The current quantity available in inventory." Margin="0,5,0,5"/>
+                <TextBlock Text="- Supplier – Name of the supplier providing the item." Margin="0,5,0,5"/>
+                <TextBlock Text="- Category – The category under which the item is classified." Margin="0,5,0,5"/>
+                <TextBlock Text="- Reorder Level – The minimum stock quantity before restocking is needed." Margin="0,5,0,5"/>
+                <TextBlock Text="- Price – The cost of the item." Margin="0,5,0,10"/>
+
+                <TextBlock Text="Actions Available" FontWeight="Bold" Margin="0,20,0,5"/>
+                <TextBlock Text="Each row includes two action buttons:" Margin="0,5,0,5"/>
+                <TextBlock Text="- Edit – Allows modifying item details." Margin="0,5,0,5"/>
+                <TextBlock Text="- Delete – Permanently removes the item from inventory." Margin="0,5,0,10"/>
+
+                <TextBlock Text="💡 User Tip: The table supports sorting and filtering, making it easier to locate specific items." TextWrapping="Wrap" Margin="0,10,0,20"/>
+
+                <TextBlock Text="5. Frame Container for Additional Views" FontSize="14" FontWeight="Bold" Margin="0,20,0,5"/>
+                <TextBlock Text="A frame container at the bottom dynamically loads different inventory-related views." TextWrapping="Wrap" Margin="0,5,0,10"/>
+                <TextBlock Text="This allows users to navigate to detailed item information, reorder management, or other inventory-specific tasks." Margin="0,5,0,10"/>
+
+                <TextBlock Text="Navigation and User Interactions" FontSize="14" FontWeight="Bold" Margin="0,20,0,5"/>
+                <TextBlock Text="✔ Scrollable Interface – Users can navigate through the interface smoothly." Margin="0,5,0,5"/>
+                <TextBlock Text="✔ Clickable Cards and Buttons – Clicking on any metric or button triggers further actions or detailed views." Margin="0,5,0,5"/>
+                <TextBlock Text="✔ Interactive Charts – Hovering over charts displays more insights." Margin="0,5,0,10"/>
+
+                <TextBlock Text="Overall Purpose" FontSize="14" FontWeight="Bold" Margin="0,20,0,5"/>
+                <TextBlock Text="The Inventory View provides a clear, structured, and interactive way to monitor stock, track trends, and manage inventory efficiently." TextWrapping="Wrap" Margin="0,5,0,10"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

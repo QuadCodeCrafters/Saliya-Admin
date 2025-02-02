@@ -31,7 +31,8 @@
                             <StackPanel>
                                 <TextBlock Text="Sales" FontSize="18" FontWeight="SemiBold" Foreground="#007aff"/>
                                 <TextBlock Text="Process transactions, issue receipts, and manage refunds effectively with the Sales module." FontSize="14" TextWrapping="Wrap"/>
-                                <Button Name="BtnHelpSales" Content="➔" Foreground="#007aff" FontSize="14" FontWeight="SemiBold" Margin="0,5,0,0" Cursor="Hand" HorizontalAlignment="Right" Click="BtnHelpSales_Click"/>
+                                <Button Name="BtnHelpSales" Content="➔" Foreground="White" FontSize="14" FontWeight="SemiBold" Margin="0,5,0,0" Cursor="Hand" HorizontalAlignment="Right" Click="BtnHelpSales_Click"/>
+
                             </StackPanel>
                         </Border>
 
@@ -40,7 +41,7 @@
                             <StackPanel>
                                 <TextBlock Text="Inventory" FontSize="18" FontWeight="SemiBold" Foreground="#007aff"/>
                                 <TextBlock Text="Track stock levels, manage products, and organize categories in the Inventory module." FontSize="14" TextWrapping="Wrap"/>
-                                <Button Content="➔" Foreground="#007aff" FontSize="14" FontWeight="SemiBold" Margin="0,5,0,0" Cursor="Hand" HorizontalAlignment="Right" Click="Button_Click"/>
+                                <Button Content="➔" Foreground="White" FontSize="14" FontWeight="SemiBold" Margin="0,5,0,0" Cursor="Hand" HorizontalAlignment="Right" Click="BtnHelpInventory_Click"/>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -57,7 +58,7 @@
                             <StackPanel>
                                 <TextBlock Text="Employee" FontSize="18" FontWeight="SemiBold" Foreground="#007aff"/>
                                 <TextBlock Text="Add and manage employees, assign roles, and monitor user activity securely." FontSize="14" TextWrapping="Wrap"/>
-                                <Button Content="➔" Foreground="#007aff" FontSize="14" FontWeight="SemiBold" Margin="0,5,0,0" Cursor="Hand" HorizontalAlignment="Right"/>
+                                <Button Content="➔"  Foreground="White" FontSize="14" FontWeight="SemiBold" Margin="0,5,0,0" Cursor="Hand" HorizontalAlignment="Right" Click="BtnHelpEmployee_Click"/>
                             </StackPanel>
                         </Border>
 
@@ -66,7 +67,7 @@
                             <StackPanel>
                                 <TextBlock Text="Reports" FontSize="18" FontWeight="SemiBold" Foreground="#007aff"/>
                                 <TextBlock Text="Generate detailed reports on sales, inventory, and employee performance." FontSize="14" TextWrapping="Wrap"/>
-                                <Button Content="➔" Foreground="#007aff" FontSize="14" FontWeight="SemiBold" Margin="0,5,0,0" Cursor="Hand" HorizontalAlignment="Right"/>
+                                <Button Content="➔"  Foreground="White" FontSize="14" FontWeight="SemiBold" Margin="0,5,0,0" Cursor="Hand" HorizontalAlignment="Right" Click="BtnHelpReports_Click"/>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -83,7 +84,7 @@
                             <StackPanel>
                                 <TextBlock Text="System" FontSize="18" FontWeight="SemiBold" Foreground="#007aff"/>
                                 <TextBlock Text="Customize POS system configurations to suit your business requirements." FontSize="14" TextWrapping="Wrap"/>
-                                <Button Content="➔" Foreground="#007aff" FontSize="14" FontWeight="SemiBold" Margin="0,5,0,0" Cursor="Hand" HorizontalAlignment="Right"/>
+                                <Button Content="➔"  Foreground="White" FontSize="14" FontWeight="SemiBold" Margin="0,5,0,0" Cursor="Hand" HorizontalAlignment="Right" Click="BtnHelpSystem_Click"/>
                             </StackPanel>
                         </Border>
 
@@ -92,7 +93,7 @@
                             <StackPanel>
                                 <TextBlock Text="Settings" FontSize="18" FontWeight="SemiBold" Foreground="#007aff"/>
                                 <TextBlock Text="Adjust and manage application preferences and advanced system settings." FontSize="14" TextWrapping="Wrap"/>
-                                <Button Content="➔" Foreground="#007aff" FontSize="14" FontWeight="SemiBold" Margin="0,5,0,0" Cursor="Hand" HorizontalAlignment="Right"/>
+                                <Button Content="➔"  Foreground="White" FontSize="14" FontWeight="SemiBold" Margin="0,5,0,0" Cursor="Hand" HorizontalAlignment="Right" Click="BtnHelpSettings_Click"/>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -109,7 +110,7 @@
                             <StackPanel>
                                 <TextBlock Text="Help" FontSize="18" FontWeight="SemiBold" Foreground="#007aff"/>
                                 <TextBlock Text="Browse user guides and tutorials to get the most out of your POS system." FontSize="14" TextWrapping="Wrap"/>
-                                <Button Content="➔" Foreground="#007aff" FontSize="14" FontWeight="SemiBold" Margin="0,5,0,0" Cursor="Hand" HorizontalAlignment="Right"/>
+                                <Button Content="➔"  Foreground="White" FontSize="14" FontWeight="SemiBold" Margin="0,5,0,0" Cursor="Hand" HorizontalAlignment="Right" Click="BtnHelpHelp_Click"/>
                             </StackPanel>
                         </Border>
 
@@ -118,7 +119,7 @@
                             <StackPanel>
                                 <TextBlock Text="Support" FontSize="18" FontWeight="SemiBold" Foreground="#007aff"/>
                                 <TextBlock Text="Contact customer support for assistance or troubleshooting." FontSize="14" TextWrapping="Wrap"/>
-                                <Button Content="➔" Foreground="#007aff" FontSize="14" FontWeight="SemiBold" Margin="0,5,0,0" Cursor="Hand" HorizontalAlignment="Right"/>
+                                <Button Content="➔"  Foreground="White" FontSize="14" FontWeight="SemiBold" Margin="0,5,0,0" Cursor="Hand" HorizontalAlignment="Right" Click="BtnHelpSupport_Click"/>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -135,8 +136,8 @@
                 <TextBlock Text="© 2024 Saliya Outo Plus. All rights reserved." Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12"/>
             </Grid>
             <!-- Border with a Frame for loading UserControls -->
-            <Border  Margin="0,2,144,117" CornerRadius="10" BorderThickness="1">
-                <Frame Name="FHelpViewContainer" Margin="-20,-1,198,116"/>
+            <Border  Margin="0,2,0,40" CornerRadius="10" BorderThickness="1">
+                <Frame Name="FHelpViewContainer" Margin="-1,-1,-1,-1"/>
             </Border>
         </Grid>
 

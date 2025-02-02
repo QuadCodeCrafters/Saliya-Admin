@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="ModernApp.MVC.View.HelpSubViews.HelpSupportSubView"
+                                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ModernApp.MVC.View.HelpSubViews"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!-- Header -->
+            <RowDefinition Height="*" />
+            <!-- Content -->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Place the StackPanel in the correct row -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,10,10,20">
+            <Button Name="btnBackSupportDashboard"
+                    Background="{DynamicResource PrimaryHueMidBrush}"
+                    Foreground="White"
+                    Padding="10,5"
+                    VerticalAlignment="Center"
+                    Click="btnBackSupportDashboard_Click">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20"
+                                             Margin="0,0,5,0" Foreground="White"/>
+                    <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" Foreground="White"/>
+                </StackPanel>
+            </Button>
+
+            <!-- Title -->
+            <TextBlock Text="SupportView Help Menu"
+                      Grid.Column="1"
+                      FontSize="24"
+                      FontWeight="Bold"
+                      Foreground="{DynamicResource PrimaryHueMidBrush}"
+                      VerticalAlignment="Center"
+                      Padding="10,0,0,0"/>
+        </StackPanel>
+
+        <GridSplitter HorizontalAlignment="Center" Background="#e3e3e5" Height="5" VerticalAlignment="Top" Width="1797" Margin="0,47,0,0"/>
+
+        <!-- Description Section -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="10,20,10,10">
+            <StackPanel>
+                <TextBlock Text="1. Support" FontSize="18" FontWeight="Bold" Foreground="Black"/>
+                <TextBlock Text="We are committed to providing you with the best assistance possible. If you encounter any issues or need help with Auto Plus, you can reach us through the following channels:" Margin="0,10,0,10" Foreground="Black"/>
+
+                <TextBlock Text="2. Customer Service Number" FontSize="16" FontWeight="Bold" Foreground="Black"/>
+                <TextBlock Text="0743680627" Margin="0,0,0,10" Foreground="Black"/>
+
+                <TextBlock Text="3. Email" FontSize="16" FontWeight="Bold" Foreground="Black"/>
+                <TextBlock Text="Autoplas@gmail.com" Margin="0,0,0,10" Foreground="Black"/>
+
+                <TextBlock Text="4. Social Media Support" FontSize="16" FontWeight="Bold" Foreground="Black"/>
+                <TextBlock Text="Facebook: Auto Plus" Margin="0,0,0,5" Foreground="Black"/>
+                <TextBlock Text="WhatsApp: Message Us" Margin="0,0,0,5" Foreground="Black"/>
+                <TextBlock Text="Instagram: @AutoPlus" Margin="0,0,0,5" Foreground="Black"/>
+                <TextBlock Text="Twitter/X: @AutoPlus" Margin="0,0,0,10" Foreground="Black"/>
+
+                <TextBlock Text="5. Availability" FontSize="16" FontWeight="Bold" Foreground="Black"/>
+                <TextBlock Text="For general inquiries, troubleshooting, or technical support, our team is ready to help you via phone, email, or through our social media channels. We're here to ensure you get the most out of your experience with Auto Plus!" Margin="0,10,0,0" Foreground="Black"/>
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</UserControl>

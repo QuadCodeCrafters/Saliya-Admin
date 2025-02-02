@@ -19,23 +19,127 @@
         </Grid.ColumnDefinitions>
 
         <!-- Place the StackPanel in the correct row -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,10,10,20">
-            <Button Name="btnBackEmployeeDashboard"
-                Style="{StaticResource MaterialDesignFlatButton}"
-                VerticalAlignment="Center"
-                Click="btnBackEmployeeDashboard_Click">
+        <Grid Grid.Row="0" Margin="10,10,10,20" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Back Button -->
+            <Button Name="btnBackSalesDashboard"
+                    Background="{DynamicResource PrimaryHueMidBrush}" 
+                    Foreground="White"
+                    Padding="10,5"
+                    VerticalAlignment="Center"
+                    Click="btnBackEmployeeDashboard_Click">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20" Margin="0,0,5,0" />
-                    <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" />
+                    <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20" 
+                                             Margin="0,0,5,0" Foreground="White"/>
+                    <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" Foreground="White"/>
                 </StackPanel>
             </Button>
-            <TextBlock Text="Sales Help"
-                   FontSize="24"
-                   FontWeight="Bold"
-                   Foreground="#007AFF"
-                   VerticalAlignment="Center"
-                   Margin="20,0,0,0" />
-        </StackPanel>
-    </Grid>
 
+            <!-- Title -->
+            <TextBlock Text="SalesView Help Menu"
+               Grid.Column="1"
+               FontSize="24"
+               FontWeight="Bold"
+               Foreground="{DynamicResource PrimaryHueMidBrush}"
+               VerticalAlignment="Center"
+               Padding="10,0,0,0"/>
+        </Grid>
+
+        <!-- GridSplitter -->
+        <GridSplitter HorizontalAlignment="Center" Background="#e3e3e5" Height="5" VerticalAlignment="Top" Width="1797" Margin="0,47,0,0"/>
+
+        <!-- Content Section Below GridSplitter -->
+        <ScrollViewer Grid.Row="1" Margin="10">
+            <TextBlock TextWrapping="Wrap">
+                <Run FontSize="18" FontWeight="Bold">1. ViewModel and Data Binding</Run>
+                <LineBreak/>
+                <LineBreak/>
+                <Run FontWeight="Bold">INotifyPropertyChanged</Run>
+                <LineBreak/>
+                Keeps the UI updated whenever data changes. If total sales or chart values are updated, the UI will automatically reflect these changes.
+                <LineBreak/>
+                <LineBreak/>
+                <Run FontWeight="Bold">Binding</Run>
+                <LineBreak/>
+                UI elements like charts and labels are linked to properties (e.g., LineValues, BarValues). When a property changes, the UI automatically updates.
+                <LineBreak/>
+                <LineBreak/>
+                
+                <Run FontSize="18" FontWeight="Bold">2. Chart Setup</Run>
+                <LineBreak/>
+                <Run FontWeight="Bold">Line and Bar Charts</Run>
+                <LineBreak/>
+                Uses LiveCharts.Wpf to display sales data. The line chart shows sales trends, and the bar chart shows sales by service type (e.g., "Paint Jobs" or "Vehicle Services").
+                <LineBreak/>
+                <LineBreak/>
+                <Run FontWeight="Bold">SeriesCollection</Run>
+                <LineBreak/>
+                Combines both line and bar charts, allowing them to be displayed together on the same graph.
+                <LineBreak/>
+                <LineBreak/>
+                
+                <Run FontSize="18" FontWeight="Bold">3. Loading Sales Data</Run>
+                <LineBreak/>
+                <Run FontWeight="Bold">Fetch Data</Run>
+                <LineBreak/>
+                The LoadSalesData method retrieves sales data (total sales, daily sales, etc.) from the SalesController.
+                <LineBreak/>
+                <LineBreak/>
+                <Run FontWeight="Bold">Chart Data</Run>
+                <LineBreak/>
+                Uses the fetched data to update the charts, like setting monthly sales for LineValues and sales by category for BarValues.
+                <LineBreak/>
+                <LineBreak/>
+                
+                <Run FontSize="18" FontWeight="Bold">4. Sales Updates</Run>
+                <LineBreak/>
+                <Run FontWeight="Bold">Real-time Updates</Run>
+                <LineBreak/>
+                The SalesController_OnSalesUpdated method is called whenever sales change, ensuring the total sales display updates automatically.
+                <LineBreak/>
+                <LineBreak/>
+                
+                <Run FontSize="18" FontWeight="Bold">5. ComboBox Selection</Run>
+                <LineBreak/>
+                <Run FontWeight="Bold">Time Range Filter</Run>
+                <LineBreak/>
+                Users can select a time range (e.g., "This Year", "This Month", "Today") from a combo box. The chart and sales details will update to reflect the selected range.
+                <LineBreak/>
+                <LineBreak/>
+                <Run FontWeight="Bold">Category Sales</Run>
+                <LineBreak/>
+                The selected range affects the sales data displayed by category (e.g., "Paint Jobs", "Vehicle Services").
+                <LineBreak/>
+                <LineBreak/>
+                
+                <Run FontSize="18" FontWeight="Bold">6. UI Components</Run>
+                <LineBreak/>
+                <Run FontWeight="Bold">DataGrid</Run>
+                <LineBreak/>
+                Displays the top sales data.
+                <LineBreak/>
+                <LineBreak/>
+                <Run FontWeight="Bold">Sales Summary</Run>
+                <LineBreak/>
+                Updates the sales details based on the selected range (today, this month, or this year).
+                <LineBreak/>
+                <LineBreak/>
+                
+                <Run FontSize="18" FontWeight="Bold">Key Tips</Run>
+                <LineBreak/>
+                <LineBreak/>
+                <Run FontWeight="Bold">Binding:</Run> Make sure UI elements are linked to the properties to ensure they update when data changes.
+                <LineBreak/>
+                <Run FontWeight="Bold">SalesController:</Run> The SalesController fetches the data, and the UI simply displays it. Make sure the controller methods are correctly fetching the data.
+                <LineBreak/>
+                <Run FontWeight="Bold">ComboBox Logic:</Run> Selecting a date range from the combo box will update the chart and sales details accordingly.
+                <LineBreak/>
+                <Run FontWeight="Bold">Chart Configuration:</Run> Ensure the chart values (LineValues and BarValues) are set correctly before updating the display.
+            </TextBlock>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

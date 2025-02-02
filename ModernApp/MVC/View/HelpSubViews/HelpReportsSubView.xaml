@@ -1,0 +1,206 @@
+﻿<UserControl x:Class="ModernApp.MVC.View.HelpSubViews.HelpReportsSubView"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+              xmlns:local="clr-namespace:ModernApp.MVC.View.HelpSubViews"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+              mc:Ignorable="d" 
+              d:DesignHeight="450" d:DesignWidth="800" Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!-- Header -->
+            <RowDefinition Height="*" />
+            <!-- Content -->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Place the StackPanel in the correct row -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,10,10,20">
+            <Button Name="btnBackReportsDashboard"
+                    Background="{DynamicResource PrimaryHueMidBrush}"
+                    Foreground="White"
+                    Padding="10,5"
+                    VerticalAlignment="Center"
+                    Click="btnBackReportsDashboard_Click">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20"
+                                             Margin="0,0,5,0" Foreground="White"/>
+                    <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" Foreground="White"/>
+                </StackPanel>
+            </Button>
+
+            <!-- Title -->
+            <TextBlock Text="ReportsView Help Menu"
+                       Grid.Column="1"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Foreground="{DynamicResource PrimaryHueMidBrush}"
+                       VerticalAlignment="Center"
+                       Padding="10,0,0,0"/>
+        </StackPanel>
+
+        <GridSplitter HorizontalAlignment="Center" Background="#e3e3e5" Height="5" VerticalAlignment="Top" Width="1797" Margin="0,47,0,0"/>
+
+        <!-- ScrollViewer wrapping the description section, only vertical scrollbar -->
+        <ScrollViewer Grid.Row="1" Margin="20,20,20,20" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
+            <StackPanel>
+                <!-- Key Topic 1: Header Section -->
+                <TextBlock Text="1. Header Section:"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Foreground="Black"
+                           Margin="0,10,0,5"/>
+
+                <TextBlock Text="Title: At the top, there is a large header text that reads 'Report Dashboard.' This is styled with a bold font and a blue color (#007AFF), making it prominent."
+                           FontSize="14"
+                           Foreground="Black"
+                           Margin="0,5"
+                           MaxWidth="750"
+                           TextWrapping="Wrap"/>
+
+                <TextBlock Text="Subtitle: Below the title, there is a smaller text offering a description: 'Generate detailed reports to manage and analyze your business effectively.' This gives context for the dashboard and helps users understand its purpose."
+                           FontSize="14"
+                           Foreground="Black"
+                           Margin="0,5"
+                           MaxWidth="750"
+                           TextWrapping="Wrap"/>
+
+                <!-- Key Topic 2: Buttons Section -->
+                <TextBlock Text="2. Buttons Section:"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Foreground="Black"
+                           Margin="0,15,0,5"/>
+
+                <TextBlock Text="The main feature of the page is a grid with interactive buttons to generate different types of reports. Each button has a specific report title and a uniform design using Material Design styles."
+                           FontSize="14"
+                           Foreground="Black"
+                           Margin="0,5"
+                           MaxWidth="750"
+                           TextWrapping="Wrap"/>
+
+                <!-- Key Topic 3: First Row -->
+                <TextBlock Text="3. First Row:"
+                           FontSize="16"
+                           FontWeight="Bold"
+                           Foreground="Black"
+                           Margin="0,15,0,5"/>
+
+                <TextBlock Text="Sales Report: A button for generating the Sales Report with a gradient background (green to blue)."
+                           FontSize="14"
+                           Foreground="Black"
+                           Margin="0,5"
+                           MaxWidth="750"
+                           TextWrapping="Wrap"/>
+                <TextBlock Text="Employee Report: A button for generating the Employee Report."
+                           FontSize="14"
+                           Foreground="Black"
+                           Margin="0,5"
+                           MaxWidth="750"
+                           TextWrapping="Wrap"/>
+                <TextBlock Text="Attendance Report: A button for generating the Attendance Report."
+                           FontSize="14"
+                           Foreground="Black"
+                           Margin="0,5"
+                           MaxWidth="750"
+                           TextWrapping="Wrap"/>
+                <TextBlock Text="Gross Profit Report: A button for generating the Gross Profit Report."
+                           FontSize="14"
+                           Foreground="Black"
+                           Margin="0,5"
+                           MaxWidth="750"
+                           TextWrapping="Wrap"/>
+
+                <!-- Key Topic 4: Second Row -->
+                <TextBlock Text="4. Second Row:"
+                           FontSize="16"
+                           FontWeight="Bold"
+                           Foreground="Black"
+                           Margin="0,15,0,5"/>
+
+                <TextBlock Text="Customer History Report: A button for generating the Customer History Report."
+                           FontSize="14"
+                           Foreground="Black"
+                           Margin="0,5"
+                           MaxWidth="750"
+                           TextWrapping="Wrap"/>
+                <TextBlock Text="Service Summary Report: A button for generating the Service Summary Report."
+                           FontSize="14"
+                           Foreground="Black"
+                           Margin="0,5"
+                           MaxWidth="750"
+                           TextWrapping="Wrap"/>
+                <TextBlock Text="Inventory Report: A button for generating the Inventory Report."
+                           FontSize="14"
+                           Foreground="Black"
+                           Margin="0,5"
+                           MaxWidth="750"
+                           TextWrapping="Wrap"/>
+                <TextBlock Text="Technician Performance: A button for generating the Technician Performance Report."
+                           FontSize="14"
+                           Foreground="Black"
+                           Margin="0,5"
+                           MaxWidth="750"
+                           TextWrapping="Wrap"/>
+
+                <!-- Key Topic 5: Third Row -->
+                <TextBlock Text="5. Third Row:"
+                           FontSize="16"
+                           FontWeight="Bold"
+                           Foreground="Black"
+                           Margin="0,15,0,5"/>
+
+                <TextBlock Text="Marketing Analysis: A button for generating the Marketing Analysis Report."
+                           FontSize="14"
+                           Foreground="Black"
+                           Margin="0,5"
+                           MaxWidth="750"
+                           TextWrapping="Wrap"/>
+                <TextBlock Text="Attendance Report: Another button for generating Attendance Reports (this one may be redundant with the one in the first row)."
+                           FontSize="14"
+                           Foreground="Black"
+                           Margin="0,5"
+                           MaxWidth="750"
+                           TextWrapping="Wrap"/>
+                <TextBlock Text="Compliance Report: A button for generating the Compliance Report."
+                           FontSize="14"
+                           Foreground="Black"
+                           Margin="0,5"
+                           MaxWidth="750"
+                           TextWrapping="Wrap"/>
+                <TextBlock Text="KPI Dashboard: A button for generating the Key Performance Indicator Dashboard."
+                           FontSize="14"
+                           Foreground="Black"
+                           Margin="0,5"
+                           MaxWidth="750"
+                           TextWrapping="Wrap"/>
+
+                <!-- Key Topic 6: Preview Container -->
+                <TextBlock Text="6. Preview Container:"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Foreground="Black"
+                           Margin="0,15,0,5"/>
+
+                <TextBlock Text="At the bottom of the layout, there's a bordered section that contains a Frame. This is used to display the preview of the selected report after clicking on one of the buttons."
+                           FontSize="14"
+                           Foreground="Black"
+                           Margin="0,5"
+                           MaxWidth="750"
+                           TextWrapping="Wrap"/>
+
+                <TextBlock Text="This layout is clean and uses Material Design principles to create a visually appealing and user-friendly interface. Each button is distinct and large enough for easy interaction, and the color gradient on the Sales Report button helps highlight it as a key feature. The rest of the buttons are consistent in style to maintain uniformity."
+                           FontSize="14"
+                           Foreground="Black"
+                           Margin="0,5"
+                           MaxWidth="750"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</UserControl>

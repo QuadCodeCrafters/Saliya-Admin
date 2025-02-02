@@ -1,0 +1,92 @@
+﻿<UserControl x:Class="ModernApp.MVC.View.HelpSubViews.HelpSystemSubView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ModernApp.MVC.View.HelpSubViews"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!-- Header -->
+            <RowDefinition Height="*" />
+            <!-- Content -->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Place the StackPanel in the correct row -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,10,10,20">
+            <Button Name="btnBackSystemDashboard"
+                    Background="{DynamicResource PrimaryHueMidBrush}"
+                    Foreground="White"
+                    Padding="10,5"
+                    VerticalAlignment="Center"
+                    Click="btnBackSystemDashboard_Click">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20"
+                                             Margin="0,0,5,0" Foreground="White"/>
+                    <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" Foreground="White"/>
+                </StackPanel>
+            </Button>
+
+            <!-- Title -->
+            <TextBlock Text="SystemView Help Menu"
+                      Grid.Column="1"
+                      FontSize="24"
+                      FontWeight="Bold"
+                      Foreground="{DynamicResource PrimaryHueMidBrush}"
+                      VerticalAlignment="Center"
+                      Padding="10,0,0,0"/>
+        </StackPanel>
+
+        <GridSplitter HorizontalAlignment="Center" Background="#e3e3e5" Height="5" VerticalAlignment="Top" Width="1797" Margin="0,47,0,0"/>
+
+        <!-- Description Area Below GridSplitter -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,10,10,10" Grid.Row="1">
+            <StackPanel>
+                <TextBlock Text="1. System Information" FontSize="18" FontWeight="Bold" Foreground="Black" Margin="0,10,0,5"/>
+                <TextBlock Text="An overview of your system's performance and health through key hardware and software details." FontSize="14" Foreground="Black" Margin="0,0,0,10"/>
+
+                <TextBlock Text="2. GPU (Graphics Processing Unit)" FontSize="16" FontWeight="Bold" Foreground="Black" Margin="0,5,0,5"/>
+                <TextBlock Text="Displays the model, memory, and current utilization of the graphics card. Helps identify performance capabilities for graphics-intensive applications." FontSize="14" Foreground="Black" Margin="0,0,0,10"/>
+
+                <TextBlock Text="3. RAM (Random Access Memory)" FontSize="16" FontWeight="Bold" Foreground="Black" Margin="0,5,0,5"/>
+                <TextBlock Text="Shows the total RAM installed, how much is currently in use, and how much is available. It helps track memory usage for running applications." FontSize="14" Foreground="Black" Margin="0,0,0,10"/>
+
+                <TextBlock Text="4. Storage" FontSize="16" FontWeight="Bold" Foreground="Black" Margin="0,5,0,5"/>
+                <TextBlock Text="Provides detailed information about your hard drives or SSDs, including total space, used space, and available free space. A useful tool to manage storage needs." FontSize="14" Foreground="Black" Margin="0,0,0,10"/>
+
+                <TextBlock Text="5. Heat (Temperature)" FontSize="16" FontWeight="Bold" Foreground="Black" Margin="0,5,0,5"/>
+                <TextBlock Text="Monitors the system's core temperatures, including CPU and GPU. Keeping track of these ensures that your system is operating within safe temperature ranges to prevent overheating and potential damage." FontSize="14" Foreground="Black" Margin="0,0,0,10"/>
+
+                <TextBlock Text="6. Operating System" FontSize="16" FontWeight="Bold" Foreground="Black" Margin="0,5,0,5"/>
+                <TextBlock Text="Lists your system's OS version, build number, and architecture (32-bit/64-bit), ensuring compatibility with software and hardware requirements." FontSize="14" Foreground="Black" Margin="0,0,0,10"/>
+
+                <TextBlock Text="7. CPU (Central Processing Unit)" FontSize="16" FontWeight="Bold" Foreground="Black" Margin="0,5,0,5"/>
+                <TextBlock Text="Provides the processor’s details, including its model, speed (clock rate), number of cores, and threads. It gives insight into the system's computational capabilities." FontSize="14" Foreground="Black" Margin="0,0,0,10"/>
+
+                <TextBlock Text="8. Network" FontSize="16" FontWeight="Bold" Foreground="Black" Margin="0,5,0,5"/>
+                <TextBlock Text="Displays the status of your internet or local network connection, including connection type (Wi-Fi, Ethernet), signal strength, and current speed." FontSize="14" Foreground="Black" Margin="0,0,0,10"/>
+
+                <TextBlock Text="9. Battery (if applicable)" FontSize="16" FontWeight="Bold" Foreground="Black" Margin="0,5,0,5"/>
+                <TextBlock Text="Shows the current battery percentage, whether it's charging, and the estimated remaining battery life." FontSize="14" Foreground="Black" Margin="0,0,0,10"/>
+
+                <TextBlock Text="10. Motherboard and BIOS" FontSize="16" FontWeight="Bold" Foreground="Black" Margin="0,5,0,5"/>
+                <TextBlock Text="Lists information about the motherboard, including manufacturer, model, and BIOS version, crucial for troubleshooting hardware-related issues." FontSize="14" Foreground="Black" Margin="0,0,0,10"/>
+
+                <TextBlock Text="11. System Uptime" FontSize="16" FontWeight="Bold" Foreground="Black" Margin="0,5,0,5"/>
+                <TextBlock Text="Displays how long the system has been running since the last reboot. Useful for monitoring system stability." FontSize="14" Foreground="Black" Margin="0,0,0,10"/>
+
+                <TextBlock Text="12. Sensors (if applicable)" FontSize="16" FontWeight="Bold" Foreground="Black" Margin="0,5,0,5"/>
+                <TextBlock Text="Shows various system sensors, including fan speed, voltage readings, and power usage. Helps track hardware performance and identify potential problems." FontSize="14" Foreground="Black" Margin="0,0,0,10"/>
+
+                <TextBlock Text="13. External Devices" FontSize="16" FontWeight="Bold" Foreground="Black" Margin="0,5,0,5"/>
+                <TextBlock Text="Identifies any connected peripherals (USB, printers, external storage) and their status." FontSize="14" Foreground="Black" Margin="0,0,0,10"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

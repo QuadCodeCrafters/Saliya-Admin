@@ -189,11 +189,35 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MVC\View\HelpSubViews\HelpEmployeeSubView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVC\View\HelpSubViews\HelpHelpSubView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVC\View\HelpSubViews\HelpInventroySubViews.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MVC\View\HelpSubViews\HelpReportsSubView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVC\View\HelpSubViews\HelpSalesSubView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVC\View\HelpSubViews\HelpSettingsSubView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVC\View\HelpSubViews\HelpSupportSubView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVC\View\HelpSubViews\HelpSystemSubView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -303,11 +327,29 @@
     <Compile Include="MVC\View\EmployeeView.xaml.cs">
       <DependentUpon>EmployeeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MVC\View\HelpSubViews\HelpEmployeeSubView.xaml.cs">
+      <DependentUpon>HelpEmployeeSubView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVC\View\HelpSubViews\HelpHelpSubView.xaml.cs">
+      <DependentUpon>HelpHelpSubView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MVC\View\HelpSubViews\HelpInventroySubViews.xaml.cs">
       <DependentUpon>HelpInventroySubViews.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MVC\View\HelpSubViews\HelpReportsSubView.xaml.cs">
+      <DependentUpon>HelpReportsSubView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MVC\View\HelpSubViews\HelpSalesSubView.xaml.cs">
       <DependentUpon>HelpSalesSubView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVC\View\HelpSubViews\HelpSettingsSubView.xaml.cs">
+      <DependentUpon>HelpSettingsSubView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVC\View\HelpSubViews\HelpSupportSubView.xaml.cs">
+      <DependentUpon>HelpSupportSubView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVC\View\HelpSubViews\HelpSystemSubView.xaml.cs">
+      <DependentUpon>HelpSystemSubView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVC\View\HelpView.xaml.cs">
       <DependentUpon>HelpView.xaml</DependentUpon>
