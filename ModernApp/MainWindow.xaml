@@ -10,14 +10,130 @@
         WindowState="Maximized"
         ResizeMode="CanResize"
 WindowStyle="SingleBorderWindow"
-  Height="751" Width="1223">
+  Height="751" Width="1223" Closing="Window_Closing">
     
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
 
 
-       
+
+
+    <!--The message box of Loyality Unlock-->
+    <materialDesign:DialogHost x:Name="logoutcallDialog" BorderBrush="{DynamicResource MaterialDesignDivider}">
+
+
+
+
+        <materialDesign:DialogHost.DialogContent>
+            <StackPanel Width="300">
+                <TextBlock Text="Are you sure you want to logout?"
+                   FontSize="16"
+                   TextAlignment="Center"
+                   Margin="20"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="btnconfirmedYes" Content="Yes" 
+                    Width="100"
+                    Background="Red"
+                    Foreground="White"
+                    Style="{StaticResource MaterialDesignRaisedButton}" 
+                    Click="btnconfirmedYes_Click" />
+
+                    <Button Content="No" 
+                    Width="100"
+                    Margin="10,0,0,0"
+                    Style="{StaticResource MaterialDesignFlatButton}" 
+                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+                </StackPanel>
+            </StackPanel>
+        </materialDesign:DialogHost.DialogContent>
+        
+        <materialDesign:DialogHost x:Name="ChangePasswordDialog">
+        <materialDesign:DialogHost.DialogContent>
+            <materialDesign:Card Width="450" Padding="20" materialDesign:ShadowAssist.Darken="True"  
+                                     Background="{DynamicResource MaterialDesignPaper}">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                    <StackPanel Orientation="Horizontal">
+                        <Button Name="btnBackInventoryDashboard" Margin="0,0,0,50"
+Style="{StaticResource MaterialDesignFlatButton}"
+VerticalAlignment="Center" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" HorizontalAlignment="Left"
+Click="btnBackDashboard_Click">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20" Margin="0,0,5,0" />
+                                <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" />
+                            </StackPanel>
+                        </Button>
+                        <TextBlock Text="Change Admin Password"
+                          FontSize="20"  Margin="0,0,120,50"
+                          FontWeight="Bold"
+                          Foreground="{DynamicResource MaterialDesignBody}"
+                          HorizontalAlignment="Left"/>
+                    </StackPanel>
+
+                    <!-- Username Input -->
+                    <TextBox x:Name="txtUsername"
+                                 Width="200" Height="55" FontSize="15"
+                                 materialDesign:HintAssist.Hint="Enter Username"
+                                 BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                    <!-- Old Password -->
+                    <PasswordBox x:Name="txtOldpassword" Margin="10"
+                                     Width="200" Height="50" FontSize="15"
+                                     materialDesign:HintAssist.Hint="Enter Old Password"
+                                     BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                     Style="{StaticResource MaterialDesignOutlinedPasswordBox}"/>
+
+                    <!-- Change Password Button (Auto-triggers Windows Hello) -->
+                    <Button x:Name="CheckPasswordButton"
+                                Content="Login"
+                                Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                Padding="8"
+                                Margin="10"
+                                Click="CheckPasswordButton_Click" Height="40"
+                                Width="198"/>
+
+                    <!-- New Password (Disabled initially) -->
+                    <PasswordBox x:Name="txtNewpassword" Margin="10"
+                                     Width="200" Height="50" FontSize="15"
+                                     materialDesign:HintAssist.Hint="Enter New Password"
+                                     BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                     Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                                     IsEnabled="False"/>
+
+                    <!-- Confirm New Password (Disabled initially) -->
+                    <PasswordBox x:Name="txtNewConfirmpassword" Margin="10"
+                                     Width="200" Height="50" FontSize="15"
+                                     materialDesign:HintAssist.Hint="Confirm New Password"
+                                     BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                     Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                                     IsEnabled="False"/>
+
+                    
+
+                    <!-- Dialog Close Buttons -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                        <Button x:Name="btnCancel" Content="Cancel" Background="Red" Foreground="LightGray" FontWeight="Bold"
+                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                    Margin="15" Height="37" Width="100" Click="btnCancel_Click"/>
+
+                        <!-- Change Password Button -->
+                        <Button x:Name="ChangePasswordButton"
+            Content="Change" Foreground="White" Background="Green"
+            Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+            Padding="4"
+            Margin="15" Height="37" Width="100"
+            Click="ChangePasswordButton_Click"
+            IsEnabled="False"/>
+
+                    </StackPanel>
+
+                </StackPanel>
+            </materialDesign:Card>
+        </materialDesign:DialogHost.DialogContent>
 
         <!--The message box of Loyality Unlock-->
         <materialDesign:DialogHost x:Name="CancelDialogHost" BorderBrush="{DynamicResource MaterialDesignDivider}">
@@ -187,13 +303,13 @@ WindowStyle="SingleBorderWindow"
                         Style="{StaticResource MenuButtonTheme}"
                         Margin="10,10,6,3" Checked="RDBhr_Checked" />
 
-                            <RadioButton Grid.Row="4" Name="RDBCstomer" Content="Customer"
+                            <RadioButton Grid.Row="4" Name="RDBServices" Content="Services"
                         Tag="/Images/payment-method.png"
                         Height="45"
                         Foreground="White"
                         FontSize="9"
                         Style="{StaticResource MenuButtonTheme}"
-                        Margin="10,10,6,3" Checked="RDBhr_Checked" />
+                        Margin="10,10,6,3" Checked="RDBServices_Checked" />
 
                             <RadioButton Grid.Row="5" Name="RDBReport" Content="Report"
                         Tag="/Images/teamwork.png"
@@ -203,7 +319,9 @@ WindowStyle="SingleBorderWindow"
                         Style="{StaticResource MenuButtonTheme}"
                         Margin="10,10,6,3" Checked="RDBReport_Checked" />
 
-                            <RadioButton Grid.Row="6" Name="RDBSystem" Content="System"
+                                       
+
+                                        <RadioButton Grid.Row="6" Name="RDBSystem" Content="System"
                         Tag="/Images/report.png"
                         Height="45"
                         Foreground="White"
@@ -218,8 +336,9 @@ WindowStyle="SingleBorderWindow"
                         FontSize="9"
                         Style="{StaticResource MenuButtonTheme}"
                         Margin="10,10,6,3" Checked="RDBCarrier_Checked" />
+                                       
 
-                            <!-- SETTINGS Label -->
+                                        <!-- SETTINGS Label -->
                             <TextBlock Grid.Row="8" Text="SETTINGS"
                       Foreground="#ADE8F4" Margin="10,20,0,5" FontSize="14" />
 
@@ -300,7 +419,8 @@ WindowStyle="SingleBorderWindow"
        
        
         </materialDesign:DialogHost>
-            
-  
-   
+
+    </materialDesign:DialogHost>
+    </materialDesign:DialogHost>
+    
 </Window>

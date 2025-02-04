@@ -1,7 +1,10 @@
 ﻿using MaterialDesignThemes.Wpf;
+using ModernApp.Core;
 using ModernApp.MVC.Controller;
+using ModernApp.MVC.Model;
 using ModernApp.MVC.View.InventorySubviews;
 using ModernApp.MVVM.View;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,12 +30,13 @@ namespace ModernApp.MVC.View.EmployeeSubviews
     public partial class EmployeeDetails : UserControl
     {
         private readonly EmployeeController employeeController;
+        private readonly DBconnection dBconnection;
         private List<Employee> employees;
         public EmployeeDetails()
         {
             InitializeComponent();
             employeeController = new EmployeeController();
-           
+           dBconnection = new DBconnection();
             LoadEmployeeData();
 
            
@@ -40,116 +44,24 @@ namespace ModernApp.MVC.View.EmployeeSubviews
         }
         private void LoadEmployeeData()
         {
-            
-            employeeController.BindEmployeesToDataGrid(EmployeeDataGrid);
+            // Ensure employeeController is initialized
+            if (employeeController == null)
+            {
+                MessageBox.Show("Employee controller is not initialized.");
+                return;
+            }
+
+            employees = employeeController.GetAllEmployees(); // Ensure GetEmployees() returns a valid list
+            if (employees == null)
+            {
+                MessageBox.Show("No employees found.");
+                employees = new List<Employee>(); // Prevent null reference
+            }
+
+            EmployeeDataGrid.ItemsSource = employees;
         }
 
 
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
-        {
-
-            string searchText = SearchBox.Text;
-
-            if (!string.IsNullOrEmpty(searchText))
-            {
-                // Filter the employee list based on NIC number
-                var filteredEmployees = Employees.Where(emp => emp.NationalIdentificationNumber.Contains(searchText)).ToList();
-
-                // Update the DataGrid with filtered employees
-                EmployeeDataGrid.ItemsSource = filteredEmployees;
-
-                // If no employees match, show a message
-                if (filteredEmployees.Count == 0)
-                {
-                    MessageBox.Show("No matching records found.", "Search Results", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-            }
-            else
-            {
-                // If no NIC number is entered, show a warning
-                MessageBox.Show("Please enter a NIC Number to search.", "Input Required", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-            //string searchQuery = SearchBox.Text.ToLower();
-            //var filteredEmployees = _employees.Where(emp => emp.Name.ToLower().Contains(searchQuery)).ToList();
-            //EmployeeDataGrid.ItemsSource = filteredEmployees;
-        }
-
-        //private void EditButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    string profilepic = Employee.ProfielPicPath;
-        //    imgEmployee.Source = Employee.profilepic;
-        //    if (EmployeeDataGrid.SelectedItem is Employee selectedEmployee)
-        //    {
-        //        PermissionDialogHost.DataContext = selectedEmployee;
-
-        //        // Debug: Ensure Position matches ComboBoxItem.Content
-        //        MessageBox.Show($"Selected Employee Position: {selectedEmployee.Position}");
-        //        // Explicitly set ComboBox selection after setting DataContext
-        //        var position = selectedEmployee.Position;
-        //        foreach (ComboBoxItem item in ComboBoxPosiiton.Items)
-        //        {
-        //            if (item.Content.ToString() == position)
-        //            {
-        //                ComboBoxPosiiton.SelectedItem = item;
-        //                break;
-        //            }
-        //        }
-
-        //        // Open the dialog
-        //        DialogHost.OpenDialogCommand.Execute(null, PermissionDialogHost);
-        //    }   
-        //    //if (EmployeeDataGrid.SelectedItem is Employee selectedEmployee)
-        //    //{
-
-        //    //    // Assign the selected employee to the dialog host's data context
-        //    //    //PermissionDialogHost.DataContext = selectedEmployee;
-
-        //    //    //ComboBoxPosiiton.SelectedIndex = EmployeeDataGrid.SelectedIndex;
-        //    //    //// Pre-fill text fields directly (assuming they are inside the DialogHost)
-        //    //    txtname.Text = selectedEmployee.Name;
-        //    //    txtSalary.Text = selectedEmployee.Salary.ToString();
-        //    //    txtEmail.Text = selectedEmployee.Mail;
-        //    //    txtAddress.Text = selectedEmployee.Address;
-        //    //    txtPhoneNum.Text = selectedEmployee.Phone;
-        //    //    txtNIC.Text = selectedEmployee.NationalIdentificationNumber;
-        //    //    ComboBoxPosiiton.SelectedItem = selectedEmployee.Position;
-        //    //    MessageBox.Show(selectedEmployee.Position);
-
-        //    //    // Open the dialog (if using MaterialDesign's DialogHost.ShowDialog method)
-        //    //    DialogHost.OpenDialogCommand.Execute(null, PermissionDialogHost);
-        //    //}
-        //}
-
-
-        //        public static class VisualTreeHelperExtensions
-        //{
-        //    // Method to find a child control of a specific type
-        //    //public static T FindChild<T>(DependencyObject parent) where T : DependencyObject
-        //    //{
-        //    //    if (parent == null) return null;
-
-        //    //    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-        //    //    {
-        //    //        var child = VisualTreeHelper.GetChild(parent, i);
-        //    //        if (child is T t) return t;
-
-        //    //        // Recursively search for the child in the tree
-        //    //        var childOfChild = FindChild<T>(child);
-        //    //        if (childOfChild != null) return childOfChild;
-        //    //    }
-
-        //    //    return null;
-        //    //}
-
-        //    //// Method to find a parent control of a specific type
-        //    //public static T FindParent<T>(DependencyObject child) where T : DependencyObject
-        //    //{
-        //    //    DependencyObject parentObject = VisualTreeHelper.GetParent(child);
-        //    //    if (parentObject == null) return null;
-        //    //    if (parentObject is T parent) return parent;
-        //    //    return FindParent<T>(parentObject);
-        //    //}
-        //}
 
         public ObservableCollection<Employee> Employees { get; set; } = new ObservableCollection<Employee>();
 
@@ -192,103 +104,53 @@ namespace ModernApp.MVC.View.EmployeeSubviews
             
 
 
-            //// Find the EmployeeView parent
-            //var parentEmployeeView = FindParent<EmployeeView>(this);
-
-            //if (parentEmployeeView != null)
-            //{
-            //    parentEmployeeView.OpenEditEmployeeView(); // Call a method in EmployeeView
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Parent view not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
-
-
-
-            //if (EmployeeDataGrid.SelectedItem is Employee selectedEmployee)
-            //{
-            //    // Locate the parent EmployeeView UserControl
-            //    var parent = FindParent<EmployeeView>(this);
-            //    if (parent != null)
-            //    {
-            //        parent.SelectedEmployee = selectedEmployee;
-            //        DialogHost.OpenDialogCommand.Execute(null, parent.PermissionDialogHost);
-
-
-            //    }
-            //}
-            //else
-            //{
-            //    MessageBox.Show("No employee selected!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //}
-            //if (EmployeeDataGrid.SelectedItem is Employee selectedEmployee)
-            //{
-            //    EditEmployeeRequested?.Invoke(this, selectedEmployee);
-            //}
-            //else
-            //{
-            //    MessageBox.Show("No employee selected!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //}
-            //if (EmployeeDataGrid.SelectedItem is Employee selectedEmployee)
-            //{
-            //    // Set the DataContext for the dialog
-            //    PermissionDialogHost.DataContext = selectedEmployee;
-
-            //    // Load the profile picture
-            //    if (!string.IsNullOrEmpty(selectedEmployee.ProfilePicPath))
-            //    {
-            //        try
-            //        {
-            //            var bitmap = new BitmapImage();
-            //            bitmap.BeginInit();
-            //            bitmap.UriSource = new Uri(selectedEmployee.ProfilePicPath, UriKind.Absolute);
-            //            bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            //            bitmap.EndInit();
-            //            imgEmployee.Source = bitmap;
-
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            MessageBox.Show($"Error loading profile picture: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            //            //imgEmployee.Source = null; // Reset to default or blank
-            //        }
-            //    }
-            //    else
-            //    {
-            //        imgEmployee.Source = null; // Reset if no profile picture is available
-            //    }
-
-            //    // Pre-fill other fields
-            //    var position = selectedEmployee.Position;
-            //    foreach (ComboBoxItem item in ComboBoxPosiiton.Items)
-            //    {
-            //        if (item.Content.ToString() == position)
-            //        {
-            //            ComboBoxPosiiton.SelectedItem = item;
-            //            break;
-            //        }
-            //    }
-
-            //    // Open the dialog
-            //    DialogHost.OpenDialogCommand.Execute(null, PermissionDialogHost);
-            //}
-            //else
-            //{
-            //    MessageBox.Show("No employee selected!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //}
+          
         }
 
 
         private void TerminateButton_Click(object sender, RoutedEventArgs e)
         {
             var employee = ((Button)sender).DataContext as Employee;
-            MessageBox.Show($"Terminate Employee: {employee.Name}", "Terminate");
+            if (employee == null)
+                return;
+
+            // Confirmation before terminating
+            var result = MessageBox.Show($"Are you sure you want to terminate {employee.Name}?",
+                                         "Confirm Termination", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    // Update Employee Status to 'Inactive' in the database
+                    string query = "UPDATE Employee SET Status = 'Inactive' WHERE EmployeeID = @EmployeeID";
+
+                    using (var connection = dBconnection.GetConnection())  // Assuming GetConnection() returns an open MySQL connection
+                    using (var command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@EmployeeID", employee.EmployeeID);
+                        command.ExecuteNonQuery();
+                    }
+
+                    // Update the local employee object
+                    employee.Status = "Inactive";
+
+                    MessageBox.Show($"Employee {employee.Name} has been terminated.", "Termination Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                   
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error terminating employee: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
+        
 
-       
 
-       
+
+
+
 
         private void btnBackEmployeeDashboard_click(object sender, RoutedEventArgs e)
         {
@@ -316,30 +178,47 @@ namespace ModernApp.MVC.View.EmployeeSubviews
             }
         }
 
-        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void btnclear_Click(object sender, RoutedEventArgs e)
         {
-            string searchText = SearchBox.Text;
-
-            if (!string.IsNullOrEmpty(searchText))
-            {
-                // Filter the employee list based on NIC number dynamically as the user types
-                var filteredEmployees = Employees.Where(emp => emp.NationalIdentificationNumber.Contains(searchText)).ToList();
-
-                // Update the DataGrid with filtered employees
-                EmployeeDataGrid.ItemsSource = filteredEmployees;
-
-                // If no employees match, show a message
-                if (filteredEmployees.Count == 0)
-                {
-                    MessageBox.Show("No matching records found.", "Search Results", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-            }
-            else
-            {
-                // If search box is cleared, show all employees
-                EmployeeDataGrid.ItemsSource = Employees;
-            }
+            ClearHelper.ClearTextBoxesAndComboBoxes(this);
+            LoadEmployeeData();
         }
+
+        private void btnApply_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFilters();
+        }
+
+       
+
+
+        private void ApplyFilters()
+        {
+            if (employees == null || employees.Count == 0)
+            {
+                MessageBox.Show("No employee data available.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            string nameFilter = EmployeeNameTextBox.Text?.Trim().ToLower();
+            string jobTitleFilter = JobTitleComboBox.SelectedItem?.ToString(); // Get SelectedItem directly
+            string statusFilter = StatusComboBox.SelectedItem?.ToString();
+            DateTime? startDateFilter = StartDatePicker.SelectedDate;
+            DateTime? endDateFilter = EndDatePicker.SelectedDate;
+
+            var filteredEmployees = employees.Where(emp =>
+                (string.IsNullOrWhiteSpace(nameFilter) || emp.Name.ToLower().Contains(nameFilter)) &&
+                (JobTitleComboBox.SelectedIndex == -1 || emp.Position.Equals(jobTitleFilter, StringComparison.OrdinalIgnoreCase)) &&
+                (StatusComboBox.SelectedIndex == -1 || emp.Status.Equals(statusFilter, StringComparison.OrdinalIgnoreCase)) &&
+                (!startDateFilter.HasValue || emp.HireDate.Date >= startDateFilter.Value.Date) &&
+                (!endDateFilter.HasValue || emp.HireDate.Date <= endDateFilter.Value.Date)
+            ).ToList();
+
+            EmployeeDataGrid.ItemsSource = null;  // Refresh the DataGrid
+            EmployeeDataGrid.ItemsSource = filteredEmployees;
+        }
+
+
     }
 
     public class Employee

@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="ModernApp.MVC.View.ServicesSubviews.UpdateServicesSubviews"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ModernApp.MVC.View.ServicesSubviews"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"   
+             Background="White"
+             AllowDrop="True">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Header -->
+            <RowDefinition Height="Auto"/>
+            <!-- Filters -->
+            <RowDefinition Height="*"/>
+            <!-- Content -->
+            <RowDefinition Height="Auto"/>
+            <!-- Footer -->
+        </Grid.RowDefinitions>
+
+        <!-- Header Section -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20" VerticalAlignment="Center">
+            <Button Name="btnBackServicesDashboard" Style="{StaticResource MaterialDesignFlatButton}" Click="btnBackServicesDashboard_Click">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20" Margin="0,0,5,0" />
+                    <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" />
+                </StackPanel>
+            </Button>
+            <TextBlock Text="Service Update" FontSize="24" FontWeight="Bold" Foreground="#007AFF" Margin="20,0,0,0"  />
+        </StackPanel>
+
+        <!-- Filters Section -->
+        <materialDesign:Card Grid.Row="1" Padding="15" Background="{DynamicResource MaterialDesignPaper}" Margin="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBox x:Name="ServiceNameTextBox" Width="300" Margin="10"
+                         materialDesign:HintAssist.Hint="Search by service name"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                <Button Name="btnApply" Width="48" Height="40" Background="#3498DB" Foreground="White"
+                        BorderBrush="#2980B9" Command="{Binding ApplyFiltersCommand}" Click="btnApply_Click">
+                    <materialDesign:PackIcon Kind="Magnify" Width="28" Height="28" />
+                </Button>
+            </StackPanel>
+        </materialDesign:Card>
+
+        <!-- Content Section -->
+        <materialDesign:Card Grid.Row="2" Padding="20" Margin="10" Background="{DynamicResource MaterialDesignPaper}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Form Fields -->
+                <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Vertical" HorizontalAlignment="Center">
+                    <TextBox Name="txtItemPrice" Width="300" Padding="10" FontSize="15" Margin="10,5,0,5"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             materialDesign:HintAssist.Hint="Item Price" />
+                </StackPanel>
+            </Grid>
+        </materialDesign:Card>
+
+        <!-- Footer Buttons -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
+            <Button Name="btnCancelServiceUpdate" Content="Cancel" Width="150" Height="48" Background="Red"
+                    Style="{StaticResource MaterialDesignRaisedButton}" Margin="10,0" Click="btnCancelServiceUpdate_Click"  />
+            <Button Name="btnUpdateService" Content="Update Item" Width="150" Height="48" Background="Green"
+                    Style="{StaticResource MaterialDesignRaisedButton}" Click="btnUpdateService_Click" />
+        </StackPanel>
+    </Grid>
+</UserControl>

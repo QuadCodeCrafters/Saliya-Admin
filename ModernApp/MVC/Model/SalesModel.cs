@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using MySql.Data.MySqlClient;
+using LiveCharts;
 
 namespace ModernApp.MVC.Model
 {
     public class SalesModel
     {
         private readonly DBconnection _dbConnection;
+
         public class SalesEntry
         {
             public string ProductName { get; set; }
@@ -22,269 +20,32 @@ namespace ModernApp.MVC.Model
             _dbConnection = new DBconnection();
         }
 
-        public decimal GetTotalSales()
+        private decimal ExecuteScalarQuery(string query)
         {
-            decimal totalSales = 0;
-
-            using (var connection = _dbConnection.GetConnection())
+            try
             {
-                string query = "SELECT SUM(salesAmount) FROM SalesTableTestOne";
-                var command = new MySqlCommand(query, connection);
-
-                connection.Open();
-                var result = command.ExecuteScalar();
-
-                if (result != null && result != DBNull.Value)
-                {
-                    totalSales = Convert.ToDecimal(result);
-                }
-            }
-
-            return totalSales;
-        }
-
-
-        //DB connection to get all sales data
-        public List<double> GetSalesData()
-        {
-            var salesData = new List<double>();
-
-            using (var connection = _dbConnection.GetConnection())
-            {
-                string query = "SELECT SalesAmount FROM SalesTableTest"; // Replace with your actual column and table name
-                var command = new MySqlCommand(query, connection);
-
-                try
+                using (var connection = _dbConnection.GetConnection())
+                using (var command = new MySqlCommand(query, connection))
                 {
                     connection.Open();
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            if (double.TryParse(reader["salesAmount"].ToString(), out double value))
-                            {
-                                salesData.Add(value);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Handle exceptions appropriately
-                    Console.WriteLine($"Error fetching sales data: {ex.Message}");
+                    var result = command.ExecuteScalar();
+                    return result != null && result != DBNull.Value ? Convert.ToDecimal(result) : 0;
                 }
             }
-
-            return salesData;
-        }
-
-        //Get data to calculate todays sales 
-        public decimal GetTodaySales()
-        {
-            decimal todaySales = 0;
-
-            using (var connection = _dbConnection.GetConnection())
+            catch (Exception ex)
             {
-                string query = "SELECT SUM(SalesAmount) AS TodaySales FROM SalesTableTestOne WHERE SaleDate = CURDATE();";
-                var command = new MySqlCommand(query, connection);
-
-                connection.Open();
-                var result = command.ExecuteScalar();
-
-                if (result != null && result != DBNull.Value)
-                {
-                   
-                    todaySales = Convert.ToDecimal(result);
-                    
-
-                }
-                MessageBox.Show(Convert.ToString(todaySales));
+                Console.WriteLine($"Database error: {ex.Message}");
+                return 0;
             }
-
-            return todaySales;
         }
 
+        public decimal GetTotalSales() => ExecuteScalarQuery("SELECT SUM(TotalAmount) FROM Invoice;");
+        public decimal GetTodaySales() => ExecuteScalarQuery("SELECT SUM(TotalAmount) FROM Invoice WHERE Date = CURDATE();");
+        public decimal GetThisMonthSales() => ExecuteScalarQuery("SELECT SUM(TotalAmount) FROM Invoice WHERE MONTH(Date) = MONTH(CURDATE()) AND YEAR(Date) = YEAR(CURDATE());");
+        public decimal GetThisYearSales() => ExecuteScalarQuery("SELECT SUM(TotalAmount) FROM Invoice WHERE YEAR(Date) = YEAR(CURDATE());");
+        public decimal GetCustomersTotal() => ExecuteScalarQuery("SELECT COUNT(*) FROM vehicleregister;");
 
-        // Get data to calculate this month's sales
-        public decimal GetThisMonthSales()
-        {
-            decimal thisMonthSales = 0;
-
-            using (var connection = _dbConnection.GetConnection())
-            {
-                string query = @"
-            SELECT SUM(SalesAmount) AS ThisMonthSales 
-            FROM SalesTableTest 
-            WHERE MONTH(SaleDate) = MONTH(CURDATE()) 
-            AND YEAR(SaleDate) = YEAR(CURDATE());";
-
-                var command = new MySqlCommand(query, connection);
-
-                connection.Open();
-                var result = command.ExecuteScalar();
-
-                if (result != null && result != DBNull.Value)
-                {
-                    thisMonthSales = Convert.ToDecimal(result);
-                }
-
-                MessageBox.Show(Convert.ToString(thisMonthSales));
-            }
-
-            return thisMonthSales;
-        }
-
-
-        // Get data to calculate this month's sales
-        public decimal GetThisYearSales()
-        {
-            decimal thisYearSales = 0;
-
-            using (var connection = _dbConnection.GetConnection())
-            {
-                string query = @"
-            SELECT SUM(SalesAmount) AS ThisYearSales 
-            FROM SalesTableTest 
-            WHERE  YEAR(SaleDate) = YEAR(CURDATE());";
-
-                var command = new MySqlCommand(query, connection);
-
-                connection.Open();
-                var result = command.ExecuteScalar();
-
-                if (result != null && result != DBNull.Value)
-                {
-                    thisYearSales = Convert.ToDecimal(result);
-                }
-
-                MessageBox.Show(Convert.ToString(thisYearSales));
-            }
-
-            return thisYearSales;
-        }
-
-
-        // Get all this year sales data (individual sales amounts)
-        public List<double> GetAllthisYearSalesData()
-        {
-            var salesThisYearData = new List<double>();
-
-            using (var connection = _dbConnection.GetConnection())
-            {
-                string query = "SELECT SalesAmount FROM SalesTableTestOne WHERE YEAR(SaleDate) = YEAR(CURDATE()); "; 
-                var command = new MySqlCommand(query, connection);
-
-                try
-                {
-                    connection.Open();
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            if (double.TryParse(reader["SalesAmount"].ToString(), out double salesAmount))
-                            {
-                                salesThisYearData.Add(salesAmount);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Handle exceptions appropriately
-                    Console.WriteLine($"Error fetching all sales data: {ex.Message}");
-                }
-            }
-
-            return salesThisYearData;
-        }
-
-
-        // Get all this month sales data (individual sales amounts)
-        public List<double> GetAllthisMonthSalesData()
-        {
-            var salesThisMonthData = new List<double>();
-
-            using (var connection = _dbConnection.GetConnection())
-            {
-                string query = "SELECT SalesAmount FROM SalesTableTestOne WHERE MONTH(SaleDate) = MONTH(CURDATE()) AND YEAR(SaleDate) = YEAR(CURDATE()); ";
-
-
-                var command = new MySqlCommand(query, connection);
-
-                try
-                {
-                    connection.Open();
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            if (double.TryParse(reader["SalesAmount"].ToString(), out double salesAmount))
-                            {
-                                salesThisMonthData.Add(salesAmount);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Handle exceptions appropriately
-                    Console.WriteLine($"Error fetching all sales data: {ex.Message}");
-                }
-            }
-
-            return salesThisMonthData;
-        }
-
-
-        // Get all today sales data (individual sales amounts)
-        public List<double> GetAllTodaySalesData()
-        {
-            var salesTodayData = new List<double>();
-
-            using (var connection = _dbConnection.GetConnection())
-            {
-                string query = "SELECT SalesAmount FROM SalesTableTestOne WHERE SaleDate = CURDATE();";
-
-
-                var command = new MySqlCommand(query, connection);
-
-                try
-                {
-                    connection.Open();
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            if (double.TryParse(reader["SalesAmount"].ToString(), out double salesAmount))
-                            {
-                                salesTodayData.Add(salesAmount);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Handle exceptions appropriately
-                    Console.WriteLine($"Error fetching all sales data: {ex.Message}");
-                }
-            }
-
-            return salesTodayData;
-        }
-
-
-
-
-
-        /// <summary>
-        /// Gets the sum of sales for each product type.
-        /// </summary>
-        /// <returns>A dictionary with product types as keys and their sales sums as values.</returns>
-        public Dictionary<string, decimal> GetSalesSumByCategory()
+        private Dictionary<string, decimal> GetSalesByCategory(string dateFilter)
         {
             var salesData = new Dictionary<string, decimal>
             {
@@ -295,279 +56,117 @@ namespace ModernApp.MVC.Model
                 { "Spare Services", 0 }
             };
 
-            using (var connection = _dbConnection.GetConnection())
+            string query = $@"
+            SELECT 
+                CASE 
+                    WHEN ps.name IS NOT NULL THEN 'Paint Jobs'
+                    WHEN s.name IS NOT NULL THEN 'Vehicle Services'
+                    WHEN r.name IS NOT NULL THEN 'Vehicle Repairs'
+                    ELSE 'Other'
+                END AS Category,
+                SUM(id.Amount) AS TotalSales
+            FROM InvoiceDetails id
+            LEFT JOIN paintservices ps ON id.Description = ps.name
+            LEFT JOIN services s ON id.Description = s.name
+            LEFT JOIN repairs r ON id.Description = r.name
+            JOIN Invoice i ON id.InvoiceID = i.InvoiceID
+            {dateFilter}
+            GROUP BY Category;";
+
+            try
             {
-                string query = @"
-                    SELECT ProductType, SUM(SalesAmount) AS TotalSales 
-                    FROM SalesTableTestOne 
-                    WHERE ProductType IN ('Paint Jobs', 'Vehicle Services', 'Vehicle Repairs', 'Carrier Service', 'Spare Services') 
-                    GROUP BY ProductType;";
-
-                var command = new MySqlCommand(query, connection);
-
-                try
+                using (var connection = _dbConnection.GetConnection())
+                using (var command = new MySqlCommand(query, connection))
                 {
                     connection.Open();
-
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            string category = reader["ProductType"].ToString();
-                            if (decimal.TryParse(reader["TotalSales"].ToString(), out decimal totalSales)
-                                && salesData.ContainsKey(category))
+                            string category = reader["Category"].ToString();
+                            if (decimal.TryParse(reader["TotalSales"].ToString(), out decimal totalSales))
                             {
                                 salesData[category] = totalSales;
                             }
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error fetching sales sums by category: {ex.Message}");
-                }
             }
-
-            return salesData;
-        }
-
-
-
-
-        /// <summary>
-        /// Gets the sum of sales for each product type for the current month.
-        /// </summary>
-        /// <returns>A dictionary with product types as keys and their sales sums as values.</returns>
-        public Dictionary<string, decimal> GetSalesSumByCategoryForCurrentMonth()
-        {
-            var salesData = new Dictionary<string, decimal>
-        {
-            { "Paint Jobs", 0 },
-            { "Vehicle Services", 0 },
-            { "Vehicle Repairs", 0 },
-            { "Carrier Service", 0 },
-            { "Spare Services", 0 }
-        };
-
-            using (var connection = _dbConnection.GetConnection())
+            catch (Exception ex)
             {
-                string query = @"
-            SELECT ProductType, SUM(SalesAmount) AS TotalSales 
-            FROM SalesTableTestOne 
-            WHERE ProductType IN ('Paint Jobs', 'Vehicle Services', 'Vehicle Repairs', 'Carrier Service', 'Spare Services') 
-              AND MONTH(SaleDate) = MONTH(CURRENT_DATE())
-              AND YEAR(SaleDate) = YEAR(CURRENT_DATE())
-            GROUP BY ProductType;";
-
-                var command = new MySqlCommand(query, connection);
-
-                try
-                {
-                    connection.Open();
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            string category = reader["ProductType"].ToString();
-                            if (decimal.TryParse(reader["TotalSales"].ToString(), out decimal totalSales)
-                                && salesData.ContainsKey(category))
-                            {
-                                salesData[category] = totalSales;
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error fetching sales sums by category for current month: {ex.Message}");
-                }
+                Console.WriteLine($"Error fetching sales sums: {ex.Message}");
             }
 
             return salesData;
         }
 
-
-
-        /// <summary>
-        /// Gets the sum of sales for each product type for the current year.
-        /// </summary>
-        /// <returns>A dictionary with product types as keys and their sales sums as values.</returns>
-        public Dictionary<string, decimal> GetSalesSumByCategoryForCurrentYear()
-        {
-            var salesData = new Dictionary<string, decimal>
-        {
-            { "Paint Jobs", 0 },
-            { "Vehicle Services", 0 },
-            { "Vehicle Repairs", 0 },
-            { "Carrier Service", 0 },
-            { "Spare Services", 0 }
-        };
-
-            using (var connection = _dbConnection.GetConnection())
-            {
-                string query = @"
-            SELECT ProductType, SUM(SalesAmount) AS TotalSales 
-            FROM SalesTableTestOne 
-            WHERE ProductType IN ('Paint Jobs', 'Vehicle Services', 'Vehicle Repairs', 'Carrier Service', 'Spare Services') 
-            AND YEAR(SaleDate) = YEAR(CURRENT_DATE())
-            GROUP BY ProductType;";
-
-                var command = new MySqlCommand(query, connection);
-
-                try
-                {
-                    connection.Open();
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            string category = reader["ProductType"].ToString();
-                            if (decimal.TryParse(reader["TotalSales"].ToString(), out decimal totalSales)
-                                && salesData.ContainsKey(category))
-                            {
-                                salesData[category] = totalSales;
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error fetching sales sums by category for current month: {ex.Message}");
-                }
-            }
-
-            return salesData;
-        }
-
-
-        /// <summary>
-        /// Gets the sum of sales for each product type for today.
-        /// </summary>
-        /// <returns>A dictionary with product types as keys and their sales sums as values.</returns>
-        public Dictionary<string, decimal> GetSalesSumByCategoryForToday()
-        {
-            var salesData = new Dictionary<string, decimal>
-        {
-            { "Paint Jobs", 0 },
-            { "Vehicle Services", 0 },
-            { "Vehicle Repairs", 0 },
-            { "Carrier Service", 0 },
-            { "Spare Services", 0 }
-        };
-
-            using (var connection = _dbConnection.GetConnection())
-            {
-                string query = @"
-            SELECT ProductType, SUM(SalesAmount) AS TotalSales 
-            FROM SalesTableTestOne 
-            WHERE ProductType IN ('Paint Jobs', 'Vehicle Services', 'Vehicle Repairs', 'Carrier Service', 'Spare Services') 
-              AND DATE(SaleDate) = CURRENT_DATE()
-            GROUP BY ProductType;";
-
-                var command = new MySqlCommand(query, connection);
-
-                try
-                {
-                    connection.Open();
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            string category = reader["ProductType"].ToString();
-                            if (decimal.TryParse(reader["TotalSales"].ToString(), out decimal totalSales)
-                                && salesData.ContainsKey(category))
-                            {
-                                salesData[category] = totalSales;
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error fetching sales sums by category for today: {ex.Message}");
-                }
-            }
-
-            return salesData;
-        }
-
-
+        public Dictionary<string, decimal> GetSalesSumByCategory() => GetSalesByCategory("");
+        public Dictionary<string, decimal> GetSalesSumByCategoryForToday() => GetSalesByCategory("WHERE DATE(i.Date) = CURDATE()");
+        public Dictionary<string, decimal> GetSalesSumByCategoryForCurrentMonth() => GetSalesByCategory("WHERE MONTH(i.Date) = MONTH(CURDATE()) AND YEAR(i.Date) = YEAR(CURDATE())");
+        public Dictionary<string, decimal> GetSalesSumByCategoryForCurrentYear() => GetSalesByCategory("WHERE YEAR(i.Date) = YEAR(CURDATE())");
 
         public List<SalesEntry> GetSalesWithProductDetails()
         {
             var salesData = new List<SalesEntry>();
+            string query = "SELECT id.Description AS ProductName, SUM(id.Amount) AS TotalSales FROM InvoiceDetails id GROUP BY id.Description ORDER BY TotalSales DESC LIMIT 10;";
 
-            using (var connection = _dbConnection.GetConnection())
+            try
             {
-                string query = @"
-            SELECT ProductType, SUM(SalesAmount) AS TotalSales 
-            FROM SalesTableTestOne 
-            GROUP BY ProductType 
-            ORDER BY TotalSales DESC 
-            LIMIT 10;";
-
-                var command = new MySqlCommand(query, connection);
-
-                try
+                using (var connection = _dbConnection.GetConnection())
+                using (var command = new MySqlCommand(query, connection))
                 {
                     connection.Open();
-
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            string productType = reader["ProductType"].ToString();
-                            if (decimal.TryParse(reader["TotalSales"].ToString(), out decimal totalSales))
+                            salesData.Add(new SalesEntry
                             {
-                                salesData.Add(new SalesEntry
-                                {
-                                    ProductName = productType,
-                                    SalesAmount = totalSales
-                                });
-                            }
+                                ProductName = reader["ProductName"].ToString(),
+                                SalesAmount = Convert.ToDecimal(reader["TotalSales"])
+                            });
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error fetching top sales data: {ex.Message}");
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching top sales data: {ex.Message}");
             }
 
             return salesData;
         }
 
-
-
-
-
-        public decimal GetCustomersTotal()
+        private List<decimal> GetSalesChartValues(string dateFilter)
         {
-            decimal totalCustomers = 0;
+            var salesValues = new List<decimal>();
+            string query = $"SELECT SUM(TotalAmount) FROM Invoice {dateFilter} GROUP BY Date ORDER BY Date;";
 
-            using (var connection = _dbConnection.GetConnection())
+            try
             {
-                string query = "SELECT COUNT(*) FROM customers;";
-                var command = new MySqlCommand(query, connection);
-
-                connection.Open();
-                var result = command.ExecuteScalar();
-
-                if (result != null && result != DBNull.Value)
+                using (var connection = _dbConnection.GetConnection())
+                using (var command = new MySqlCommand(query, connection))
                 {
-
-                    totalCustomers = Convert.ToDecimal(result);
-
-
+                    connection.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            salesValues.Add(Convert.ToDecimal(reader[0]));
+                        }
+                    }
                 }
-                MessageBox.Show(Convert.ToString(totalCustomers));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching sales chart data: {ex.Message}");
             }
 
-            return totalCustomers;
+            return salesValues;
         }
 
+        public List<decimal> GetTodaySalesChartValues() => GetSalesChartValues("WHERE Date = CURDATE()");
+        public List<decimal> GetThisMonthSalesChartValues() => GetSalesChartValues("WHERE MONTH(Date) = MONTH(CURDATE()) AND YEAR(Date) = YEAR(CURDATE())");
+        public List<decimal> GetThisYearSalesChartValues() => GetSalesChartValues("WHERE YEAR(Date) = YEAR(CURDATE())");
     }
 }

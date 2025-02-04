@@ -8,154 +8,105 @@
     x:Class="ModernApp.MVC.View.EmployeeSubviews.AddNewEmployeeView"
     Background="White"
     AllowDrop="True"
-             DragEnter="ProfileImage_DragEnter"
-             Drop="ProfileImage_Drop">
+    DragEnter="ProfileImage_DragEnter"
+    Drop="ProfileImage_Drop">
 
-    <Grid >
+    <Grid>
         <!-- Main Layout -->
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="84*" />
-            <ColumnDefinition Width="229*" />
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <!-- Header -->
             <RowDefinition />
-            <!-- Form and Image -->
-            <RowDefinition Height="Auto" MinHeight="68" />
-            <!-- Footer -->
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,578,20" Grid.ColumnSpan="2">
-            <Button Name="btnBackEmployeeDashboard"
-                    Style="{StaticResource MaterialDesignFlatButton}"
-                    VerticalAlignment="Center"
-                    Click="btnBackEmployeeDashboard_click">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20" Margin="0,0,5,0" />
-                    <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" />
-                </StackPanel>
-            </Button>
-            <TextBlock Text="Employee Registration"
-                       FontSize="24"
-                       FontWeight="Bold"
-                       Foreground="#007AFF"
-                       VerticalAlignment="Center"
-                       Margin="20,0,0,0" />
-        </StackPanel>
-
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Height="247" Width="176">
-            <!-- Circular Profile Image with Drag-and-Drop -->
-            <Border Width="150" Height="150" CornerRadius="10" BorderBrush="#E0E0E0" BorderThickness="2" VerticalAlignment="Center" Margin="10"
-                AllowDrop="True"
-                Drop="ProfileImage_Drop"
-                DragEnter="ProfileImage_DragEnter"
-                ClipToBounds="True">
-                <Image Name="imgEmployee" Stretch="UniformToFill" />
-            </Border>
-
-            <!-- Upload Button -->
-            <Button Content="Upload Image"
-                Click="UploadImage_Click"
-                Style="{StaticResource MaterialDesignFlatButton}" />
-            <!-- Upload Button -->
-            <Button  Content="Change"
-                     Click="ChangeImage_Click"
-                 Style="{StaticResource MaterialDesignFlatButton}"  />
-        </StackPanel>
-
-
-        <!-- Form Section -->
-        <Grid Grid.Row="1" Grid.Column="1" Margin="0,0,0,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
-            <!-- Full Name -->
-            <TextBox Grid.Row="0" Grid.ColumnSpan="2"
-                      Height="49"
-                     Style="{DynamicResource MaterialDesignOutlinedTextBox}"
-                     materialDesign:HintAssist.Hint="Full Name"
-                     Margin="0,0,18,0"
-                     Name="txtFullname" Padding="10" FontSize="15" />
-
-            <!-- phone-->
-            <TextBox Grid.Row="3" Grid.Column="1"
-           Height="49"
-          Style="{DynamicResource MaterialDesignOutlinedTextBox}"
-          materialDesign:HintAssist.Hint="Phone"
-          Margin="11,0,17,10"
-          Name="txtPhone"  Padding="10" FontSize="15"  />
-
-            <!-- Email -->
-            <TextBox Grid.Row="3" Grid.Column="0" Height="49"
-                     Style="{DynamicResource MaterialDesignOutlinedTextBox}"
-                     materialDesign:HintAssist.Hint="Email"
-                     Margin="0,0,28,10"
-                     Name="txtEmail"  Padding="10" FontSize="15"  />
-
-            <!-- Date of Birth -->
-            <DatePicker Name="DPDOB" Grid.Row="1" Grid.Column="1" Height="49"
-                        Style="{DynamicResource MaterialDesignDatePicker}"
-                        materialDesign:HintAssist.Hint="Date of Birth"
-                        DisplayDateStart="1940-01-01"
-                        DisplayDateEnd="2000-12-31"
-                        DisplayDate="1940-01-01"
-                        SelectedDateFormat="Short"
-                        Margin="10,0,17,0" VerticalAlignment="Top"  Padding="10" FontSize="15"  />
-
-            <!-- Address -->
-            <TextBox x:Name="txtAddress" Grid.Row="2" Grid.ColumnSpan="2" Height="49"
-                     Style="{DynamicResource MaterialDesignOutlinedTextBox}"
-                     materialDesign:HintAssist.Hint="Address"
-                     Margin="0,0,18,10"  Padding="10" FontSize="15"  />
-
-            <!-- NIC Number -->
-            <TextBox Name="txtNICnumber" Grid.Row="1" Grid.Column="0" Height="49"
-                     Style="{DynamicResource MaterialDesignOutlinedTextBox}"
-                     materialDesign:HintAssist.Hint="NIC Number"
-                    Margin="0,0,28,10"  Padding="10" FontSize="15" />
-
-            <!-- Position -->
-            <ComboBox Name="CBXPosition" Grid.Row="4" Grid.Column="0" Height="49"
-                      Style="{DynamicResource MaterialDesignFloatingHintComboBox}"
-                      materialDesign:HintAssist.Hint="Position"
-                      Margin="0,0,28,0" VerticalAlignment="Top"    FontSize="15" >
-                <ComboBoxItem Content="Manager" />
-                <ComboBoxItem Content="Developer" />
-                <ComboBoxItem Content="Designer" />
-                <ComboBoxItem Content="Sales" />
-            </ComboBox>
-
-            <!-- Salary -->
-            <TextBox x:Name="txtSalary" Grid.Row="4" Grid.Column="1" Height="49"
-                     Style="{DynamicResource MaterialDesignOutlinedTextBox}"
-                     materialDesign:HintAssist.Hint="Salary"
-                     Margin="10,0,17,10"  Padding="10" FontSize="15"  />
+            <Button Name="btnBackEmployeeDashboard"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Click="btnBackEmployeeDashboard_click">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20" />
+                    <TextBlock Text="Back" FontSize="14" />
+                </StackPanel>
+            </Button>
+            <TextBlock Text="Employee Registration" Grid.Column="1"
+                       FontSize="24" FontWeight="Bold" Foreground="#007AFF"
+                       VerticalAlignment="Center" HorizontalAlignment="Center" />
         </Grid>
 
-        <!-- Footer Buttons -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="58,0,0,0" Width="310">
-            <Button Content="Cancel"
-                    Width="150" Height="48"
-                    Margin="0,20,10,0"
-                    Background="Red"
-                    Style="{StaticResource MaterialDesignRaisedButton}" />
-            <Button Name="btnEmployeeRegister"
-                    Content="Register"
-                    Width="150" Height="48"
-                    Margin="0,20,0,0"
-                    Background="Green"
-                    Style="{StaticResource MaterialDesignRaisedButton}" Click="btnEmployeeRegister_Click" />
-        </StackPanel>
+        <!-- Profile and Form Section -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*" />
+                <ColumnDefinition Width="2.5*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Profile Image & Upload -->
+            <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                <Border Width="150" Height="150" CornerRadius="10" BorderBrush="#E0E0E0" BorderThickness="2"
+                        AllowDrop="True" Drop="ProfileImage_Drop" DragEnter="ProfileImage_DragEnter" ClipToBounds="True">
+                    <Image Name="imgEmployee" Stretch="UniformToFill" />
+                </Border>
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <Button Content="Upload" Click="UploadImage_Click" Style="{StaticResource MaterialDesignFlatButton}" />
+                    <Button Content="Change" Click="ChangeImage_Click" Style="{StaticResource MaterialDesignFlatButton}" />
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Form Section -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Row="0" Grid.ColumnSpan="2" Height="49" Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                         materialDesign:HintAssist.Hint="Full Name" Name="txtFullname" Padding="10" FontSize="15" />
+                <TextBox Grid.Row="1" Grid.Column="0" Height="49" Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                         materialDesign:HintAssist.Hint="NIC Number" Name="txtNICnumber" Padding="10" FontSize="15" />
+                <DatePicker  Name="DPDOB" Grid.Row="1" Grid.Column="1" Height="49" Style="{DynamicResource MaterialDesignDatePicker}"
+                            materialDesign:HintAssist.Hint="Date of Birth" DisplayDateStart="1940-01-01" DisplayDateEnd="2000-12-31"
+                            DisplayDate="1940-01-01" SelectedDateFormat="Short" Padding="10" FontSize="15" />
+                <TextBox Grid.Row="2" Grid.ColumnSpan="2" Height="49" Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                         materialDesign:HintAssist.Hint="Address" Name="txtAddress" Padding="10" FontSize="15" />
+                <TextBox Grid.Row="3" Grid.Column="0" Height="49" Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                         materialDesign:HintAssist.Hint="Email" Name="txtEmail" Padding="10" FontSize="15" />
+                <TextBox Grid.Row="3" Grid.Column="1" Height="49" Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                         materialDesign:HintAssist.Hint="Phone" Name="txtPhone" Padding="10" FontSize="15" />
+                <ComboBox Grid.Row="4" Grid.Column="0" Height="49" Style="{DynamicResource MaterialDesignOutlinedComboBox}"
+                          materialDesign:HintAssist.Hint="Position" Name="CBXPosition" FontSize="15">
+                    <ComboBoxItem Content="Manager" />
+                    <ComboBoxItem Content="Cashier" />
+                    <ComboBoxItem Content="Designer" />
+                    <ComboBoxItem Content="Sales" />
+                </ComboBox>
+                <TextBox Grid.Row="4" Grid.Column="1" Height="49" Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                         materialDesign:HintAssist.Hint="Salary" Name="txtSalary" Padding="10" FontSize="15" />
+
+                <!-- Footer Buttons -->
+                <Grid Grid.Row="5" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button Content="Cancel" Width="150" Height="48" Background="Red"
+                            Style="{StaticResource MaterialDesignRaisedButton}" Grid.Column="0" />
+                    <Button Name="btnEmployeeRegister" Content="Register" Width="150" Height="48" Background="Green"
+                            Style="{StaticResource MaterialDesignRaisedButton}" Click="btnEmployeeRegister_Click" Grid.Column="1" />
+                </Grid>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>

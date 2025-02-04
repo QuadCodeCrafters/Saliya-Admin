@@ -1,4 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
+using ModernApp.Core;
+using ModernApp.MVC.Model;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -23,34 +25,85 @@ namespace ModernApp
     /// </summary>
     public partial class loginPage : Window
     {
+        private readonly DBconnection dBconnection;
         public loginPage()
         {
             InitializeComponent();
+            dBconnection = new DBconnection();
         }
 
         private void btnlogin_Click(object sender, RoutedEventArgs e)
         {
-            if (txtusername.Text == "" && txtpassword.Password == "")
+            string username = txtusername.Text.Trim();
+            string password = txtpassword.Password.Trim();
+
+            if (string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password))
             {
                 accError.Text = "Please fill in the required fields";
+                return;
             }
-            else if (txtusername.Text == "")
+
+            if (string.IsNullOrEmpty(username))
             {
                 accError.Text = "Please fill the Username";
                 ShowUsernameErrorAnimation();
+                return;
             }
-            else if (txtpassword.Password == "")
+
+            if (string.IsNullOrEmpty(password))
             {
                 accError.Text = "Please fill the password";
                 ShowPasswordErrorAnimation();
+                return;
+            }
+
+            // Validate user credentials
+            if (ValidateAdminCredentials(username, password))
+            {
+                MainWindow mainWin = new MainWindow();
+                mainWin.Show();
+                this.Close();
             }
             else
             {
-               MainWindow m1 = new MainWindow();
-                m1.Show();
-                this.Close();
+                accError.Text = "Incorrect username or password";
+                ShowUsernameErrorAnimation();
+                ShowPasswordErrorAnimation();
             }
         }
+
+
+
+        private bool ValidateAdminCredentials(string username, string password)
+        {
+            try
+            {
+                using (var conn = dBconnection.GetConnection())
+                {
+                    conn.Open();
+                    string query = "SELECT password_hash FROM admin_credentials WHERE username = @username";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@username", username);
+                        object result = cmd.ExecuteScalar();
+
+                        if (result != null)
+                        {
+                            string storedPassword = result.ToString();
+                            return password == storedPassword; // Direct comparison since it's not hashed
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error connecting to database: " + ex.Message);
+            }
+
+            return false;
+        }
+
 
         private void ShowUsernameErrorAnimation()
         {

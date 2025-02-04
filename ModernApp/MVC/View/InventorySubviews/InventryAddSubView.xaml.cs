@@ -233,7 +233,7 @@ namespace ModernApp.MVC.View.InventorySubviews
                 }
 
                 int quantityValue = string.IsNullOrWhiteSpace(txtQuantity.Text) ? 0 : Convert.ToInt32(txtQuantity.Text);
-                string category = cmbCategory.SelectedItem?.ToString();
+                string category = (cmbCategory.SelectedItem as ComboBoxItem)?.Content.ToString();
                 string description = txtDescription.Text ?? string.Empty; // Ensure it's not null
                 string manufacturer = txtManufacturer.Text;
                 string modelNumber = txtModelNumber.Text;

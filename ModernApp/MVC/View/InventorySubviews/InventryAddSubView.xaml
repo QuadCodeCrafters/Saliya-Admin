@@ -15,14 +15,15 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <!-- Header -->
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <!-- Main Content (Image Upload + Form) -->
 
             <!-- Footer Buttons -->
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" >
             <Button Name="btnBackInventoryDashboard"
                     Style="{StaticResource MaterialDesignFlatButton}"
                     VerticalAlignment="Center"
@@ -37,11 +38,11 @@
                        FontWeight="Bold"
                        Foreground="#007AFF"
                        VerticalAlignment="Center"
-                       Margin="20,0,0,0"  />
+                         />
         </StackPanel>
 
         <!-- Main Content -->
-        <Grid Grid.Row="1" Margin="0,0,0,11">
+        <Grid Grid.Row="1" Margin="10" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1.5*"/>
                 <ColumnDefinition Width="2.5*"/>
@@ -149,7 +150,7 @@
         </Grid>
 
         <!-- Footer Buttons -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,299,0,0">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center" >
             <Button Name="btnCancelInventroyReg" Content="Cancel"
                     Width="150" Height="48"
                     Background="Red"

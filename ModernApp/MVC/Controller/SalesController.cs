@@ -3,6 +3,7 @@ using ModernApp.MVC.Model;
 using System;
 using System.Collections.Generic;
 using System.Timers;
+using System.Windows.Threading;
 using static ModernApp.MVC.Model.SalesModel;
 
 namespace ModernApp.MVC.Controller
@@ -11,86 +12,33 @@ namespace ModernApp.MVC.Controller
     {
         private readonly SalesModel _salesModel;
         private readonly Timer _refreshTimer;
-        private readonly System.Windows.Threading.Dispatcher _dispatcher;
+        private readonly Dispatcher _dispatcher;
 
         public event Action<decimal> OnSalesUpdated;
 
-        public SalesController(System.Windows.Threading.Dispatcher dispatcher)
+        public SalesController(Dispatcher dispatcher)
         {
             _salesModel = new SalesModel();
             _dispatcher = dispatcher;
 
-            _refreshTimer = new Timer(60000); // 1 minute in milliseconds
+            _refreshTimer = new Timer(60000); // 1-minute refresh
             _refreshTimer.Elapsed += RefreshSalesData;
             //_refreshTimer.Start();
 
-            // Initial load of sales data
+            // Initial data load
             RefreshSalesData(null, null);
         }
 
-        //Get todays sales data
-        public decimal GetTodaySales()
+        public decimal GetTodaySales() => _salesModel.GetTodaySales();
+        public decimal GetThisMonthSales() => _salesModel.GetThisMonthSales();
+        public decimal GetThisYearSales() => _salesModel.GetThisYearSales();
+        public decimal GetTotalSales() => _salesModel.GetTotalSales();
+        public decimal GetCustomersTotal() => _salesModel.GetCustomersTotal();
+
+        // Fetch category sales with error handling
+        private Dictionary<string, decimal> SafeFetch(Func<Dictionary<string, decimal>> fetchFunction)
         {
-            return _salesModel.GetTodaySales();
-        }
-
-        //Get thisMonth sales data
-        public decimal GetThisMonthSales()
-        {
-            return _salesModel.GetThisMonthSales();
-        }
-
-        //Get this year sales data
-        public decimal GetThisYearSales()
-        {
-            return _salesModel.GetThisYearSales();
-        }
-
-        public decimal GetCustomersTotal()
-        {
-            return _salesModel.GetCustomersTotal();
-        }
-
-
-        // Get data for the bar chart
-        public ChartValues<double> GetSalesChartValues()
-        {
-            var salesData = _salesModel.GetSalesData();
-            return new ChartValues<double>(salesData);
-        }
-
-        // Get data for the line chart(This year sales data)
-        public ChartValues<double> GetThisYearSalesChartValues()
-        {
-            var salesThisyearData = _salesModel.GetAllthisYearSalesData();
-            return new ChartValues<double>(salesThisyearData);
-        }
-
-        // Get data for the line chart(This month sales data)
-        public ChartValues<double> GetThisMonthSalesChartValues()
-        {
-            var salesThisMonthData = _salesModel.GetAllthisMonthSalesData();
-            return new ChartValues<double>(salesThisMonthData);
-        }
-
-        // Get data for the line chart(This today sales data)
-        public ChartValues<double> GetTodaySalesChartValues()
-        {
-            var salesTodayData = _salesModel.GetAllTodaySalesData();
-            return new ChartValues<double>(salesTodayData);
-        }
-
-
-        /// <summary>
-        /// Retrieves the sales sum for each product type.
-        /// </summary>
-        /// <returns>A dictionary with product types as keys and their sales sums as values.</returns>
-        public Dictionary<string, decimal> GetSalesSumByCategory()
-        {
-            try
-            {
-                return _salesModel.GetSalesSumByCategory();
-            }
+            try { return fetchFunction(); }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error in SalesController: {ex.Message}");
@@ -98,91 +46,28 @@ namespace ModernApp.MVC.Controller
             }
         }
 
+        public Dictionary<string, decimal> GetSalesSumByCategory() => SafeFetch(_salesModel.GetSalesSumByCategory);
+        public Dictionary<string, decimal> GetSalesSumByCategoryForCurrentYear() => SafeFetch(_salesModel.GetSalesSumByCategoryForCurrentYear);
+        public Dictionary<string, decimal> GetSalesSumByCategoryForCurrentMonth() => SafeFetch(_salesModel.GetSalesSumByCategoryForCurrentMonth);
+        public Dictionary<string, decimal> GetSalesSumByCategoryForToday() => SafeFetch(_salesModel.GetSalesSumByCategoryForToday);
+        public List<SalesEntry> GetSalesWithProductDetails() => _salesModel.GetSalesWithProductDetails();
 
-        /// <summary>
-        /// Retrieves the sales sum for each product type by this year.
-        /// </summary>
-        /// <returns>A dictionary with product types as keys and their sales sums as values.</returns>
-        public Dictionary<string, decimal> GetSalesSumByCategoryForCurrentYear()
+        // Fetch line chart values
+        private ChartValues<double> ConvertToChartValues(List<decimal> data)
         {
-            try
-            {
-                return _salesModel.GetSalesSumByCategoryForCurrentYear();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error in SalesController: {ex.Message}");
-                return new Dictionary<string, decimal>();
-            }
+            return new ChartValues<double>(data.ConvertAll(d => (double)d));
         }
 
-        /// <summary>
-        /// Retrieves the sales sum for each product type by this month.
-        /// </summary>
-        /// <returns>A dictionary with product types as keys and their sales sums as values.</returns>
-        public Dictionary<string, decimal> GetSalesSumByCategoryForCurrentMonth()
-        {
-            try
-            {
-                return _salesModel.GetSalesSumByCategoryForCurrentMonth();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error in SalesController: {ex.Message}");
-                return new Dictionary<string, decimal>();
-            }
-        }
+        public ChartValues<double> GetTodaySalesChartValues() => ConvertToChartValues(_salesModel.GetTodaySalesChartValues());
+        public ChartValues<double> GetThisMonthSalesChartValues() => ConvertToChartValues(_salesModel.GetThisMonthSalesChartValues());
+        public ChartValues<double> GetThisYearSalesChartValues() => ConvertToChartValues(_salesModel.GetThisYearSalesChartValues());
 
-        /// <summary>
-        /// Retrieves the sales sum for each product type by today.
-        /// </summary>
-        /// <returns>A dictionary with product types as keys and their sales sums as values.</returns>
-        public Dictionary<string, decimal> GetSalesSumByCategoryForToday()
-        {
-            try
-            {
-                return _salesModel.GetSalesSumByCategoryForToday();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error in SalesController: {ex.Message}");
-                return new Dictionary<string, decimal>();
-            }
-        }
-
-
-
-
-
-        //Get all top sales data 
-        public List<SalesEntry> GetSalesWithProductDetails()
-        {
-            return _salesModel.GetSalesWithProductDetails();
-        }
-
-        // Refresh sales data on timer
         private void RefreshSalesData(object sender, ElapsedEventArgs e)
         {
             decimal latestSales = _salesModel.GetTotalSales();
-
-            // Use dispatcher to ensure UI thread execution
-            _dispatcher.Invoke(() =>
-            {
-                OnSalesUpdated?.Invoke(latestSales); // Notify the view with the updated sales value
-            });
+            _dispatcher.Invoke(() => OnSalesUpdated?.Invoke(latestSales));
         }
 
-        // Get total sales from the model
-        public decimal GetTotalSales()
-        {
-            return _salesModel.GetTotalSales();
-        }
-
-
-
-
-        
-        // Dispose resources
         public void Dispose()
         {
             _refreshTimer?.Stop();

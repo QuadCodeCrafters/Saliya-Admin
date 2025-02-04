@@ -11,7 +11,7 @@ namespace ModernApp.MVC.Model
 {
     internal class DBconnection
     {
-        private readonly string _connectionString = "Server=localhost; Database=POSDBTEST; Uid=root; Pwd=Pavan@2006;";
+        private readonly string _connectionString = "Server=localhost; Database=POSDBTEST; Uid=root; Pwd=QWE12as@;";
 
         public MySqlConnection GetConnection()
         {

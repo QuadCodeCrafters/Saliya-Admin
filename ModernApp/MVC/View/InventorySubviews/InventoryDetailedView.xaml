@@ -102,100 +102,78 @@ Content="Items no: 0" />
           AlternatingRowBackground="#F9F9F9"
           VerticalGridLinesBrush="#E5E5EA"
           HorizontalGridLinesBrush="#E5E5EA"
-          ItemsSource="{Binding InventoryItems}">
+          ItemsSource="{Binding InventoryItems}"
+                  HorizontalScrollBarVisibility="Visible">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID"
                             Binding="{Binding ID}"
-                            Width="Auto"
+                           
                             FontSize="14"
                             FontWeight="Normal"
                                     />
                 <DataGridTextColumn Header="Availability"
                             Binding="{Binding Availability}"
-                            Width="Auto"
+                           
                             FontSize="14"
                             FontWeight="Normal" />
                 <DataGridTextColumn Header="Item Name"
                             Binding="{Binding ItemName}"
-                            Width="*"
+                            
+                            FontSize="14"
+                            FontWeight="Normal" />
+                <DataGridTextColumn Header="Quantity"
+                            Binding="{Binding Quantity}"
+             
                             FontSize="14"
                             FontWeight="Normal" />
                 <DataGridTextColumn Header="SKU"
                             Binding="{Binding SKU}"
-                            Width="*"
-                            FontSize="14"
-                            FontWeight="Normal" />
-                <DataGridTextColumn Header="Item Price"
-                            Binding="{Binding ItemPrice, StringFormat=C}"
-                            Width="*"
-                            FontSize="14"
-                            FontWeight="Normal" />
-                <DataGridTextColumn Header="Category"
-                            Binding="{Binding Category}"
-                            Width="*"
-                            FontSize="14"
-                            FontWeight="Normal" />
-                <DataGridTextColumn Header="Description"
-                            Binding="{Binding Description}"
-                            Width="200"
-                            FontSize="14"
-                            FontWeight="Normal" />
-                <DataGridTextColumn Header="Manufacturer"
-                            Binding="{Binding Manufacturer}"
-                            Width="*"
+                                    
+                            
                             FontSize="14"
                             FontWeight="Normal" />
                 <DataGridTextColumn Header="Model Number"
                             Binding="{Binding ModelNumber}"
-                            Width="*"
+             
                             FontSize="14"
                             FontWeight="Normal" />
+                <DataGridTextColumn Header="Item Price(Rs.)"
+                            Binding="{Binding ItemPrice}"
+                           
+                            FontSize="14"
+                            FontWeight="Normal" />
+                <DataGridTextColumn Header="Category"
+                            Binding="{Binding Category}"
+                            
+                            FontSize="14"
+                            FontWeight="Normal" />
+                <DataGridTextColumn Header="Description"
+                            Binding="{Binding Description}"
+                           
+                            FontSize="14"
+                            FontWeight="Normal" />
+                <DataGridTextColumn Header="Manufacturer"
+                            Binding="{Binding Manufacturer}"
+                           
+                            FontSize="14"
+                            FontWeight="Normal" />
+              
                 <DataGridTextColumn Header="Warranty"
                             Binding="{Binding Warranty}"
-                            Width="*"
+                           
                             FontSize="14"
                             FontWeight="Normal" />
                 <DataGridTextColumn Header="Storage Location"
                             Binding="{Binding StorageLocation}"
-                            Width="*"
+                          
                             FontSize="14"
                             FontWeight="Normal" />
                 <DataGridTextColumn Header="Pic Location"
                             Binding="{Binding PicLocation}"
-                            Width="200"
+                          
                             FontSize="14"
                             FontWeight="Normal" />
-                <DataGridTemplateColumn Header="Actions" Width="150">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <!-- Edit Button -->
-                                <Button Content="Edit"
-                                Width="60"
-                                Height="30"
-                                Background="#34C759"
-                                Foreground="White"
-                                Margin="0,0,5,0"
-                                FontWeight="Bold"
-                                BorderThickness="0"
-                                Cursor="Hand"
-                                Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                CommandParameter="{Binding}" />
-                                <!-- Delete Button -->
-                                <Button Content="Delete"
-                                Width="60"
-                                Height="30"
-                                Background="#FF3B30"
-                                Foreground="White"
-                                FontWeight="Bold"
-                                BorderThickness="0"
-                                Cursor="Hand"
-                                Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                CommandParameter="{Binding}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+               
             </DataGrid.Columns>
         </DataGrid>
 

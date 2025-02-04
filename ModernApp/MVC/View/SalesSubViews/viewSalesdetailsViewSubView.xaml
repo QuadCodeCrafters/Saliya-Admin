@@ -1,0 +1,144 @@
+﻿<UserControl x:Class="ModernApp.MVC.View.SalesSubViews.viewSalesdetailsViewSubView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ModernApp.MVC.View.SalesSubViews"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             Background="#F5F5F7">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Section -->
+        <Grid VerticalAlignment="Top" Margin="0,0,485,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Back Button -->
+            <Button Name="btnBackSalesDashboard"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    VerticalAlignment="Top" Margin="-5,4,5,0" Click="btnBackSalesDashboard_Click"  >
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20" Margin="0,0,5,0" />
+                    <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" />
+                </StackPanel>
+            </Button>
+
+            <!-- Header Title -->
+            <StackPanel Grid.Column="1" Orientation="Vertical">
+                <TextBlock Text="Sales Details" FontSize="30" FontWeight="Bold" Foreground="#2C3E50"/>
+                <TextBlock Text="{Binding CurrentDate, StringFormat='Date: {0:MMMM dd, yyyy}'}" 
+                           FontSize="14" Foreground="#7F8C8D" HorizontalAlignment="Left" Height="25"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Filters Section -->
+        <!-- Filters Section -->
+        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="10" HorizontalAlignment="Center">
+            <materialDesign:Card Padding="10" Background="{DynamicResource MaterialDesignPaper}" Height="299">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Filters" FontSize="20" FontWeight="Bold" 
+                       Foreground="{DynamicResource MaterialDesignBody}" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+
+                    <Label Name="TotalSalesLabel" FontSize="16" FontWeight="Bold"
+                   Foreground="#2C3E50" VerticalAlignment="Center" Margin="10,0,0,0"
+                   Content="Total Sales: 0" />
+
+                    <!-- Filters Row -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
+                        <!-- Product Type Filter -->
+                        <ComboBox x:Name="cbProductType" Width="180" Margin="10"
+                          materialDesign:HintAssist.Hint="Select Product Type"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                            <ComboBoxItem Content="All"/>
+                            <ComboBoxItem Content="Painting"/>
+                            <ComboBoxItem Content="Carrier Service"/>
+                            <ComboBoxItem Content="Auto Care Services"/>
+                            <ComboBoxItem Content="Tires and Wheels"/>
+                            <ComboBoxItem Content="Car Interior Accessories"/>
+                            <ComboBoxItem Content="Vehicle Maintenance"/>
+                        </ComboBox>
+
+                        <!-- Minimum Price Filter -->
+                        <TextBox x:Name="txtMinPrice" Width="100" Margin="10"
+                         materialDesign:HintAssist.Hint="Min Price"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                        <!-- Maximum Price Filter -->
+                        <TextBox x:Name="txtMaxPrice" Width="100" Margin="10"
+                         materialDesign:HintAssist.Hint="Max Price"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                    </StackPanel>
+
+                    <!-- Additional Filters Row -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
+                        <TextBox x:Name="txtSearchVehicleNumber" Width="180" Margin="10" 
+                         materialDesign:HintAssist.Hint="Search by vehicle number" 
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+
+                        <TextBox x:Name="txtSearchVehicleModel" Width="180" Margin="10"
+                         materialDesign:HintAssist.Hint="Search by vehicle model"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+
+                        <DatePicker x:Name="dpRegistrationDateFilter"
+                            Width="180"
+                            Margin="10"
+                            materialDesign:HintAssist.Hint="Filter by registration date"
+                            Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
+                    </StackPanel>
+
+                    <!-- Filter Buttons -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                        <Button Name="btnApplyFilters" Content="Apply Filters"
+                        Width="150" Height="40" Margin="10"
+                        FontWeight="Bold" Background="#3498DB" Foreground="White" Click="btnApplyFilters_Click" 
+                        />
+                        <Button Name="btnClearFilters" Content="Clear Filters"
+                        Width="150" Height="40" Margin="10"
+                        FontWeight="Bold" Background="#E74C3C" Foreground="White" Click="btnClearFilters_Click" 
+                        />
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+        </StackPanel>
+
+        <!-- Data Grid with ScrollViewer -->
+
+        <!-- Invoice Data Grid -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="2">
+
+            <DataGrid Name="InvoiceDataGrid"
+
+AutoGenerateColumns="False"
+Margin="10"
+Background="White"
+Foreground="Black"
+RowHeight="50"
+CanUserAddRows="False"
+ColumnHeaderHeight="40"
+AlternatingRowBackground="#F9F9F9"
+ItemsSource="{Binding InvoiceList}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Invoice ID" Binding="{Binding InvoiceID}" Width="Auto" FontSize="14"/>
+                        <DataGridTextColumn Header="Customer Name" Binding="{Binding CustomerName}" Width="*" FontSize="14"/>
+                        <DataGridTextColumn Header="Vehicle Model" Binding="{Binding VehicleModel}" Width="*" FontSize="14"/>
+                        <DataGridTextColumn Header="Vehicle Number" Binding="{Binding VehicleNumber}" Width="*" FontSize="14"/>
+                        <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="*" FontSize="14"/>
+                        <DataGridTextColumn Header="Total Amount" Binding="{Binding TotalAmount}" Width="*" FontSize="14"/>
+                        <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*" FontSize="14"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+           
+        </ScrollViewer>
+
+
+
+    </Grid>
+</UserControl>

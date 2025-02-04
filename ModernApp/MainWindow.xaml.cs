@@ -23,6 +23,12 @@ using ModernApp.MVC.View.InventorySubviews;
 using MaterialDesignThemes.Wpf;
 using Prism.Events;
 using ModernApp.Events;
+using MySql.Data.MySqlClient;
+using Windows.Security.Credentials.UI;
+using ModernApp.MVC.Model;
+using System.Security.Cryptography;
+using ModernApp.MVC.View;
+using ModernApp.MVC.Controller;
 
 namespace ModernApp
 {
@@ -31,7 +37,9 @@ namespace ModernApp
     /// </summary>
     public partial class MainWindow : Window
     {
-      
+        private bool isAuthenticated = false;
+        private readonly DBconnection dbConnection;
+        private readonly DashboardView dashboardView;
         public MainWindow()
         {
             InitializeComponent();
@@ -39,9 +47,193 @@ namespace ModernApp
             fTopBoxContainer.Navigate(new Uri("pack://application:,,,/Top-Control-Bar/Top-Bar-Controls.xaml", UriKind.Absolute));
             // Subscribe to DialogOpenEvent
             App.EventAggregator.GetEvent<DialogOpenEvent>().Subscribe(OpenDialog);
-
+            App.EventAggregator.GetEvent<ChangeAdminPasswordEvent>().Subscribe(OpenPasswordChanegDialog);
+            App.EventAggregator.GetEvent<logoutConfirmationEvent>().Subscribe(OpenlogoutConfirmDialog);
+            dbConnection = new DBconnection();
+            dashboardView = new DashboardView();
         }
-        private void OpenDialog(string message)
+
+        private async void CheckPasswordButton_Click(object sender, RoutedEventArgs e)
+        {
+            string username = txtUsername.Text.Trim();
+            string oldPassword = txtOldpassword.Password.Trim();
+
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(oldPassword))
+                return;
+
+            // Hash the entered old password
+            string hashedOldPassword = txtOldpassword.Password.Trim();
+
+            try
+            {
+                using (var connection = dbConnection.GetConnection())
+                {
+                    connection.Open();
+                    string query = "SELECT COUNT(*) FROM admin_credentials WHERE username = @username AND password_hash = @passwordHash";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@username", username);
+                        cmd.Parameters.AddWithValue("@passwordHash", hashedOldPassword);
+
+                        // Execute the query and check if the username and hashed password match
+                        int count = Convert.ToInt32(await cmd.ExecuteScalarAsync());
+                        if (count > 0)
+                        {
+                            txtNewpassword.IsEnabled = true;
+                            txtNewConfirmpassword.IsEnabled = true;
+                            ChangePasswordButton.IsEnabled = true;
+                            MessageBox.Show("Old password is correct! You can now enter a new password.");
+                        }
+                        else
+                        {
+                            txtNewpassword.IsEnabled = false;
+                            txtNewConfirmpassword.IsEnabled = false;
+                            MessageBox.Show("Incorrect old password!");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Database Error: " + ex.Message);
+            }
+        }
+
+
+        private async void ChangePasswordButton_Click(object sender, RoutedEventArgs e)
+        {
+            string username = txtUsername.Text.Trim();
+            string oldPassword = txtOldpassword.Password.Trim();
+            string newPassword = txtNewpassword.Password.Trim();
+            string confirmPassword = txtNewConfirmpassword.Password.Trim();
+
+            if (string.IsNullOrWhiteSpace(newPassword) || string.IsNullOrWhiteSpace(confirmPassword))
+            {
+                MessageBox.Show("New password fields cannot be empty!");
+                return;
+            }
+
+            if (newPassword != confirmPassword)
+            {
+                MessageBox.Show("New passwords do not match!");
+                return;
+            }
+
+            // Authenticate with Windows Hello before proceeding
+            if (!isAuthenticated)
+            {
+                var result = await AuthenticateWithWindowsHello();
+                if (!result)
+                {
+                    MessageBox.Show("Windows Hello Authentication Failed!");
+                    return;
+                }
+            }
+
+            // If authentication is successful, proceed with password update
+            bool isUpdated = await UpdatePasswordAsync(username, newPassword);
+            if (isUpdated)
+            {
+               
+                
+                txtNewpassword.Password = "";
+                txtNewConfirmpassword.Password = "";
+                txtOldpassword.Password = "";
+                txtUsername.Text = "";
+                txtNewpassword.IsEnabled = false;
+                txtNewConfirmpassword.IsEnabled = false;
+                ChangePasswordButton.IsEnabled = false;
+                MessageBox.Show("Password changed successfully!");
+            }
+            else
+            {
+                MessageBox.Show("Failed to update password!");
+            }
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            txtNewpassword.Password = "";
+            txtNewConfirmpassword.Password = "";
+            txtOldpassword.Password = "";
+            txtUsername.Text = "";
+            txtNewpassword.IsEnabled = false;
+            txtNewConfirmpassword.IsEnabled = false;
+            ChangePasswordButton.IsEnabled = false;
+        }
+
+        private async Task<bool> AuthenticateWithWindowsHello()
+        {
+            var availability = await UserConsentVerifier.CheckAvailabilityAsync();
+            if (availability == UserConsentVerifierAvailability.Available)
+            {
+                var result = await UserConsentVerifier.RequestVerificationAsync("Confirm your identity to proceed.");
+                return result == UserConsentVerificationResult.Verified;
+            }
+            return false;
+        }
+
+        private async Task<bool> ValidateOldPasswordAsync(string username, string oldPassword)
+        {
+            try
+            {
+                using (var connection = dbConnection.GetConnection())
+                {
+                    connection.Open();
+                    string query = "SELECT password_hash FROM admin_credentials WHERE username = @username";
+                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@username", username);
+                        object result = await cmd.ExecuteScalarAsync();
+                        if (result != null)
+                        {
+                            string storedHash = result.ToString();
+                            return VerifyPassword(oldPassword, storedHash);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Database Error: " + ex.Message);
+            }
+            return false;
+        }
+
+        private async Task<bool> UpdatePasswordAsync(string username, string newPassword)
+        {
+            try
+            {
+                string hashedPassword = newPassword;
+                using (var connection = dbConnection.GetConnection())
+                {
+                    connection.Open();
+                    string query = "UPDATE admin_credentials SET password_hash = @newPassword WHERE username = @username";
+                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@newPassword", hashedPassword);
+                        cmd.Parameters.AddWithValue("@username", username);
+                        int rowsAffected = await cmd.ExecuteNonQueryAsync();
+                        return rowsAffected > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Database Error: " + ex.Message);
+            }
+            return false;
+        }
+
+        private string HashPassword(string password) =>
+            Convert.ToBase64String(SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(password)));
+
+        private bool VerifyPassword(string enteredPassword, string storedHash) =>
+            HashPassword(enteredPassword) == storedHash;
+    
+
+    private void OpenDialog(string message)
         {
             if (message == "OpenCancelDialog")
             {
@@ -56,6 +248,40 @@ namespace ModernApp
                 }
             }
         }
+
+        private void OpenPasswordChanegDialog(string message)
+        {
+            if (message == "OpenChangePasswordDialog")
+            {
+                // Find the DialogHost in MainWindow
+                if (ChangePasswordDialog != null)
+                {
+                    ChangePasswordDialog.IsOpen = true;
+                }
+                else
+                {
+                    MessageBox.Show("DialogHost not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void OpenlogoutConfirmDialog(string message)
+        {
+            if (message == "OpenlogoutConfirmDialog")
+            {
+                // Find the DialogHost in MainWindow
+                if (logoutcallDialog != null)
+                {
+                    logoutcallDialog.IsOpen = true;
+                }
+                else
+                {
+                    MessageBox.Show("DialogHost not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+
 
         private void ConfirmCancel_Click(object sender, RoutedEventArgs e)
         {
@@ -324,9 +550,22 @@ namespace ModernApp
         }
 
 
-
-
-
+        private void RDBServices_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Ensure fInventoryContainer is a Frame control
+                if (fContainer != null)
+                {
+                    // Navigate to the InventoryDetailedView UserControl
+                    fContainer.Navigate(new ServicesView());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+        }
 
 
 
@@ -411,6 +650,30 @@ namespace ModernApp
             }
 
 
+        }
+
+        private void btnBackDashboard_Click(object sender, RoutedEventArgs e)
+        {
+            txtNewpassword.Password = "";
+            txtNewConfirmpassword.Password = "";
+            txtOldpassword.Password = "";
+            txtUsername.Text = "";
+            txtNewpassword.IsEnabled = false;
+            txtNewConfirmpassword.IsEnabled = false;
+            ChangePasswordButton.IsEnabled = false;
+        }
+
+        private void btnconfirmedYes_Click(object sender, RoutedEventArgs e)
+        {
+            loginPage loginPage = new loginPage();
+            loginPage.Show();
+            this.Close();
+            dashboardView.stoptimer();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+          
         }
     }
 }

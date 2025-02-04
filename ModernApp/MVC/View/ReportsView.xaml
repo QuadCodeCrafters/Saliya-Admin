@@ -2,11 +2,17 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ModernApp.MVVM.View"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+ xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:packIcon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              Background="White">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
         <!-- Header Section -->
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0,20,0,337">
+        <StackPanel Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Left" Margin="20">
             <TextBlock Text="Report Dashboard"
                        FontSize="28"
                        FontWeight="Bold"
@@ -21,45 +27,117 @@
                        Height="30" />
         </StackPanel>
 
-        <!-- Buttons Section -->
-        <Grid Margin="10,116,10,41">
-            <!-- Define Rows and Columns -->
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+        <!-- Cards Section for Reports -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <UniformGrid Columns="4" HorizontalAlignment="Center" VerticalAlignment="Top"  >
+                <!-- Report Cards -->
+                <materialDesign:Card Padding="10" Margin="10" Width="180" Height="160">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <packIcon:PackIconMaterial Kind="ChartBar" Width="40" Height="40" Foreground="#007AFF" />
+                        <Button Content="Sales Report"
+                                Command="{Binding RevenueReportCommand}" 
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Click="btnSalesReportGenerate_Click"
+                                Margin="10" Padding="5" />
+                    </StackPanel>
+                </materialDesign:Card>
 
-            <!-- Buttons with Material Design -->
-            <Button Name="btnSalesReportGenerate" Content="Sales Report" Style="{StaticResource MaterialDesignRaisedButton}"
-                    Command="{Binding RevenueReportCommand}" Grid.Row="0" Grid.Column="0"
-                    Margin="10" Padding="10" Height="70" Click="btnSalesReportGenerate_Click" >
-                <Button.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#3CBA54" Offset="0.0" />
-                        <GradientStop Color="#32CDFF" Offset="1.0" />
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <Button Name="btnEmployeeReportGenerate" Content="Employee Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="0" Grid.Column="1" Margin="10" Height="70" Click="btnEmployeeReportGenerate_Click" />
-            <Button Name="btnAttendenceReportGenerate" Content="Attendence Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="0" Grid.Column="2" Margin="10" Height="70" Click="btnAttendenceReportGenerate_Click" />
-            <Button Name="btnGrossProfitReportGenerate" Content="Gross Profit Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="0" Grid.Column="3" Margin="10" Height="70" Click="btnGrossProfitReportGenerate_Click" />
-            <Button Content="Customer History Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="1" Grid.Column="0" Margin="10" Height="70" />
-            <Button Content="Service Summary Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="1" Grid.Column="1" Margin="10" Height="70" />
-            <Button Content="Inventory Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="1" Grid.Column="2" Margin="10" Height="70" />
-            <Button Content="Technician Performance" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="1" Grid.Column="3" Margin="10" Height="70" />
-            <Button Content="Marketing Analysis" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="2" Grid.Column="0" Margin="10" Height="70" />
-            <Button Content="Attendance Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="2" Grid.Column="1" Margin="10" Height="70" />
-            <Button Content="Compliance Report" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="2" Grid.Column="2" Margin="10" Height="70" />
-            <Button Content="KPI Dashboard" Style="{StaticResource MaterialDesignRaisedButton}" Grid.Row="2" Grid.Column="3" Margin="10" Height="70" />
-        </Grid>
-        <Border CornerRadius="10" BorderThickness="1">
+                <materialDesign:Card Padding="10" Margin="10" Width="180" Height="160">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <packIcon:PackIconMaterial Kind="AccountGroup" Width="40" Height="40" Foreground="#007AFF" />
+                        <Button Content="Employee Report"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Click="btnEmployeeReportGenerate_Click"
+                                Margin="10" Padding="5" />
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Padding="10" Margin="10" Width="180" Height="160">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <packIcon:PackIconMaterial Kind="ClipboardCheck" Width="40" Height="40" Foreground="#007AFF" />
+                        <Button Content="Attendance Report"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Click="btnAttendenceReportGenerate_Click"
+                                Margin="10" Padding="5" />
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Padding="10" Margin="10" Width="180" Height="160">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <packIcon:PackIconMaterial Kind="CurrencyUsd" Width="40" Height="40" Foreground="#007AFF" />
+                        <Button Content="Gross Profit Report"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Click="btnGrossProfitReportGenerate_Click"
+                                Margin="10" Padding="5" />
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Padding="10" Margin="10" Width="180" Height="160">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <packIcon:PackIconMaterial Kind="AccountBox" Width="40" Height="40" Foreground="#007AFF" />
+                        <Button Content="Customer History Report"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Margin="10" Padding="5" />
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Padding="10" Margin="10" Width="180" Height="160">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <packIcon:PackIconMaterial Kind="FormatListBulletedSquare" Width="40" Height="40" Foreground="#007AFF" />
+                        <Button Content="Service Summary Report"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Margin="10" Padding="5" />
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Padding="10" Margin="10" Width="180" Height="160">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <packIcon:PackIconMaterial Kind="Warehouse" Width="40" Height="40" Foreground="#007AFF" />
+                        <Button Content="Inventory Report"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Margin="10" Padding="5" />
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Padding="10" Margin="10" Width="180" Height="160">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <packIcon:PackIconMaterial Kind="Star" Width="40" Height="40" Foreground="#007AFF" />
+                        <Button Content="Technician Performance"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Margin="10" Padding="5" />
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Padding="10" Margin="10" Width="180" Height="160">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <packIcon:PackIconMaterial Kind="ChartLine" Width="40" Height="40" Foreground="#007AFF" />
+                        <Button Content="Marketing Analysis"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Margin="10" Padding="5" />
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Padding="10" Margin="10" Width="180" Height="160">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <packIcon:PackIconMaterial Kind="ShieldCheck" Width="40" Height="40" Foreground="#007AFF" />
+                        <Button Content="Compliance Report"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Margin="10" Padding="5" />
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Padding="10" Margin="10" Width="180" Height="160">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <packIcon:PackIconMaterial Kind="ChartPie" Width="40" Height="40" Foreground="#007AFF" />
+                        <Button Content="KPI Dashboard"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Margin="10" Padding="5" />
+                    </StackPanel>
+                </materialDesign:Card>
+            </UniformGrid>
+        </ScrollViewer>
+
+        <Border CornerRadius="10" Grid.RowSpan="2" BorderThickness="1">
             <Frame Name="freportpreviewContainer" Margin="-1,-1,-1,-1" />
         </Border>
     </Grid>

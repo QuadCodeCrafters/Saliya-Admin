@@ -16,9 +16,22 @@
     <ScrollViewer>
         <Grid Background="#F4F6F9" Margin="10">
             <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                <!-- Header -->
-                <TextBlock Text="Sales Dashboard" FontSize="24" FontWeight="Bold" Foreground="#333" Margin="30,20,0,40" HorizontalAlignment="Left" />
+                <StackPanel Orientation="Horizontal">
+                    <!-- Header -->
+                    <TextBlock Text="Sales Dashboard" FontSize="24" FontWeight="Bold" Foreground="#333" Margin="30,20,0,40" HorizontalAlignment="Left" />
 
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="530,0,0,0">
+
+
+                        <Button Name="btnCustomersDetails" Content="View Customers" Width="150" Height="40" 
+                        Background="#4CAF50" Foreground="White" Margin="5"
+                       Click="btnCustomersDetails_Click"/>
+                        <Button Name="btnSalesDetails" Content="View Sales" Width="150" Height="40" 
+                        Background="#FF3B30" Foreground="White" Margin="5" Click="btnSalesDetails_Click" />
+
+
+                    </StackPanel>
+                </StackPanel>
                 <!-- Sales Metrics Section -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
                     <Border Style="{StaticResource HoverableBorderStyle}" 
@@ -49,13 +62,6 @@
                         </StackPanel>
                     </Border>
 
-                    <Border Style="{StaticResource HoverableBorderStyle}" 
-            Background="White" CornerRadius="12" Width="190" Height="120" Padding="20" Margin="30,10,0,20">
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock Text="Profit" FontSize="14" Foreground="#888" HorizontalAlignment="Center" />
-                            <TextBlock Text="+$20000" FontSize="32" FontWeight="Bold" Foreground="LightGreen" HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
 
                     <Border Style="{StaticResource HoverableBorderStyle}" 
             Background="White" CornerRadius="12" Width="190" Height="120" Padding="20" Margin="30,10,0,20">
@@ -68,7 +74,7 @@
 
 
                 <!-- Sales Performance Chart Section -->
-                <Border Background="White" CornerRadius="8" Margin="10" Padding="20" Height="892" Effect="{StaticResource ShadowEffect}">
+                <Border Background="White" CornerRadius="8" Margin="10" Padding="20"  Effect="{StaticResource ShadowEffect}">
                     <Grid Background="#F4F6F9" Margin="10">
                         <!-- Title -->
                         <TextBlock Text="Sales Performance" FontSize="20" FontWeight="Bold" Foreground="#333" Margin="10,10,0,20" />
@@ -117,31 +123,11 @@
                                 </StackPanel>
                             </Border>
 
-                            <!-- Card 3: Pie Chart -->
-                            <Border CornerRadius="15" Width="400" Height="360" Margin="10"
-                                    Background="#ffffff" Effect="{StaticResource ShadowEffect}" Grid.Row="1" Grid.Column="0">
-                                <StackPanel>
-                                    <TextBlock Text="Revenue Distribution" FontSize="16" FontWeight="Bold" Foreground="#333" Margin="10" />
-                                    
-                                </StackPanel>
-                            </Border>
 
-                            <!-- Card 4: Summary -->
-                            <Border CornerRadius="15" Width="400" Height="360" Margin="10"
-                                    Background="#ffffff" Effect="{StaticResource ShadowEffect}" Grid.Row="1" Grid.Column="1">
-                                <StackPanel>
-                                    <TextBlock Text="Monthly Summary" FontSize="16" FontWeight="Bold" Foreground="#333" Margin="10" />
-                                    <StackPanel Margin="10" Height="275">
-                                        <TextBlock Name="txtBSummaryTotsales" Text="Total Sales: $12,345" FontSize="14" Foreground="#333" Margin="5" />
-                                        <TextBlock Name="txtBSummaryNewCus" Text="New Customers: 124" FontSize="14" Foreground="#333" Margin="5" />
-                                        <TextBlock Name="txtBSummaryProfit" Text="Profit: $5,678" FontSize="14" Foreground="Green" Margin="5" />
-                                        <TextBlock Name="txtBSummaryGrowth" Text="Growth: +12%" FontSize="14" Foreground="Green" Margin="5" />
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
                         </Grid>
-                        <ComboBox Name="GraphStateManipulateComboBox" HorizontalAlignment="Left" Margin="880,16,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged_1" >
-                            <ComboBoxItem Content="This Year"/>
+                        <ComboBox Padding="5" Foreground="Black" Name="GraphStateManipulateComboBox" HorizontalAlignment="Right" VerticalAlignment="Top" 
+                                  SelectionChanged="ComboBox_SelectionChanged_1"   Style="{StaticResource MaterialDesignOutlinedComboBox}" >
+                            <ComboBoxItem  Content="This Year"/>
                             <ComboBoxItem Content="This Month"/>
                             <ComboBoxItem Content="Today"/>
                         </ComboBox>
@@ -155,13 +141,17 @@
                         <DataGrid  x:Name="TopSalesDataGrid"  AutoGenerateColumns="False" BorderThickness="0" HeadersVisibility="Column" GridLinesVisibility="None">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Product Name" Width="800" Binding="{Binding ProductName}" />
-                                <DataGridTextColumn Header="Sales ($)" Width="100" Binding="{Binding SalesAmount, StringFormat=C}"  />
+                                <DataGridTextColumn Header="Sales (Rs.)" Width="100" Binding="{Binding SalesAmount}"  />
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
                 </Border>
 
             </StackPanel>
+            <!-- Border with a Frame for loading UserControls -->
+            <Border  Margin="0,93,0,0" CornerRadius="10" BorderThickness="1" Grid.RowSpan="2" Grid.Column="1">
+                <Frame Name="fCustomerDetailsContainer"  />
+            </Border>
         </Grid>
     </ScrollViewer>
 </UserControl>

@@ -4,343 +4,197 @@ using ModernApp.MVC.Controller;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows;
+using System;
+using System.Collections.Generic;
+using ModernApp.MVC.View.SalesSubViews;
 
 namespace ModernApp.MVVM.View
 {
     public partial class SalesView : UserControl, INotifyPropertyChanged
     {
-        // Properties for chart values
+        private readonly SalesController _salesController;
+
+        // Chart Data
         private ChartValues<double> _lineValues;
         private ChartValues<double> _barValues;
-        
+        private SeriesCollection _seriesCollection;
+
+        // UI Bindings
         private string[] _xLabels;
         private string _totalSalesDisplay;
-        private SeriesCollection _seriesCollection;
+        private string _todaySalesDisplay;
+        private string _graphSalesDetails;
+        private string _totalCustomerDisplay;
 
         public ChartValues<double> LineValues
         {
             get => _lineValues;
-            set
-            {
-                _lineValues = value;
-                OnPropertyChanged(nameof(LineValues));
-            }
+            set { _lineValues = value; OnPropertyChanged(nameof(LineValues)); }
         }
 
         public ChartValues<double> BarValues
         {
             get => _barValues;
-            set
-            {
-                _barValues = value;
-                OnPropertyChanged(nameof(BarValues));
-            }
+            set { _barValues = value; OnPropertyChanged(nameof(BarValues)); }
         }
 
         public string[] XLabels
         {
             get => _xLabels;
-            set
-            {
-                _xLabels = value;
-                OnPropertyChanged(nameof(XLabels));
-            }
+            set { _xLabels = value; OnPropertyChanged(nameof(XLabels)); }
         }
 
         public string TotalSalesDisplay
         {
             get => _totalSalesDisplay;
-            set
-            {
-                if (_totalSalesDisplay != value)
-                {
-                    _totalSalesDisplay = value;
-                    OnPropertyChanged(nameof(TotalSalesDisplay));
-                }
-            }
+            set { _totalSalesDisplay = value; OnPropertyChanged(nameof(TotalSalesDisplay)); }
+        }
+
+        public string TodaySalesDisplay
+        {
+            get => _todaySalesDisplay;
+            set { _todaySalesDisplay = value; OnPropertyChanged(nameof(TodaySalesDisplay)); }
+        }
+
+        public string GraphSalesDetails
+        {
+            get => _graphSalesDetails;
+            set { _graphSalesDetails = value; OnPropertyChanged(nameof(GraphSalesDetails)); }
+        }
+
+        public string TotalCustomerDisplay
+        {
+            get => _totalCustomerDisplay;
+            set { _totalCustomerDisplay = value; OnPropertyChanged(nameof(TotalCustomerDisplay)); }
         }
 
         public SeriesCollection SeriesCollection
         {
             get => _seriesCollection;
-            set
-            {
-                _seriesCollection = value;
-                OnPropertyChanged(nameof(SeriesCollection));
-            }
+            set { _seriesCollection = value; OnPropertyChanged(nameof(SeriesCollection)); }
         }
-
-        private readonly SalesController _salesController;
 
         public SalesView()
         {
             InitializeComponent();
-
-            // Pass the current application's Dispatcher to the SalesController
             _salesController = new SalesController(Application.Current.Dispatcher);
-
-            // Subscribe to the sales update event
             _salesController.OnSalesUpdated += SalesController_OnSalesUpdated;
-
-            // Set the DataContext for binding
             DataContext = this;
 
-            // Load initial sales data and set up the chart
             LoadSalesData();
+            
         }
 
-        
-        // Method to load sales data and update charts
         private void LoadSalesData()
         {
-            // Get total sales data
-            decimal totalSales = _salesController.GetTotalSales();
-            TotalSalesDisplay = $"${totalSales:N0}";
+            // Load sales metrics
+            TotalSalesDisplay = $"Rs.{_salesController.GetTotalSales():N0}";
+            TodaySalesDisplay = $"Rs.{_salesController.GetTodaySales():N0}";
+            TotalCustomerDisplay = $"{_salesController.GetCustomersTotal():N0}";
 
-            // Get today's sales data
-            decimal todaySales = _salesController.GetTodaySales();
-            TodaySalesDisplay = $"${todaySales:N0}";
-
-            // Get total customers data
-            decimal totalCus = _salesController.GetCustomersTotal();
-            TotalCustomerDisplay = $"{totalCus:N0}";
-
-            //// Get chart data for the bar series
-            //BarValues = _salesController.GetSalesChartValues();
+            // Load sales chart data
             LineValues = _salesController.GetThisMonthSalesChartValues();
+            BarValues = GetBarChartValues(_salesController.GetSalesSumByCategory());
 
-            //// Set up series collection
-            //SeriesCollection = new SeriesCollection
-            //{
-            //    new LineSeries
-            //    {
-            //        Title = "Sales Trend",
-            //        Values = LineValues
-            //    },
-            //    new ColumnSeries
-            //    {
-            //        Title = "Daily Sales",
-            //        Values = BarValues
-            //    }
-            //};
-
-            //// Configure X-axis labels
-            //XLabels = new[] { "Paint Job", "Vehicle Service", "Vehicle Repair", "Carrier Service", "Spare Parts" };
-
-            // Retrieve sales data by category
-            var salesDataByCategory = _salesController.GetSalesSumByCategory();
-            var salesDateByCategoryThisYear = _salesController.GetSalesSumByCategoryForCurrentYear();
-            var salesDateByCategoryThisMonth = _salesController.GetSalesSumByCategoryForCurrentMonth();
-            var salesDateByCategoryToday = _salesController.GetSalesSumByCategoryForToday();
-
-
-            // Ensure the order of categories matches the desired X-axis labels
-            var categories = new[] { "Paint Jobs", "Vehicle Services", "Vehicle Repairs", "Carrier Service", "Spare Services" };
-            var barChartValues = new ChartValues<double>();
-
-            foreach (var category in categories)
-            {
-                if (salesDataByCategory.TryGetValue(category, out decimal salesSum))
-                {
-                    barChartValues.Add((double)salesSum);
-                }
-                else
-                {
-                    // Default to 0 if the category is missing from the data
-                    barChartValues.Add(0);
-                }
-            }
-
-            // Set BarValues to update the chart
-            BarValues = barChartValues;
-
-            // Update the SeriesCollection to reflect changes in BarValues
+            // Setup Series Collection
             SeriesCollection = new SeriesCollection
             {
-                new LineSeries
-            {
-                Title = "Sales Trend",
-                Values = LineValues
-            },
-                new ColumnSeries
-            {
-                Title = "Category Sales",
-                Values = BarValues
-            }
-        };
+                new LineSeries { Title = "Sales Trend", Values = LineValues },
+                new ColumnSeries { Title = "Category Sales", Values = BarValues }
+            };
 
-            // Configure X-axis labels to match categories
-            XLabels = categories;
-        
+            // Setup category labels
+            XLabels = new[] { "Paint Jobs", "Vehicle Services", "Vehicle Repairs", "Carrier Service", "Spare Services" };
 
-        //Load all Top sales data to Grid 
-        var salesData = _salesController.GetSalesWithProductDetails();
+            // Load top sales data
+            var salesData = _salesController.GetSalesWithProductDetails();
             TopSalesDataGrid.ItemsSource = salesData;
-            // Check if there's data and get the first item's ProductName
-            if (salesData != null && salesData.Count > 0)
-            {
-                txtTopProduct.Text = salesData[0].ProductName;
-            }
-            else
-            {
-                txtTopProduct.Text = "No data available"; // Optional: handle empty case
-            }
+            txtTopProduct.Text = salesData.Count > 0 ? salesData[0].ProductName : "No data available";
         }
 
-        // Event handler for sales updates
+       
+
+
+        private ChartValues<double> GetBarChartValues(Dictionary<string, decimal> salesData)
+        {
+            var categories = new[] { "Paint Jobs", "Vehicle Services", "Vehicle Repairs", "Carrier Service", "Spare Services" };
+            var barValues = new ChartValues<double>();
+
+            foreach (var category in categories)
+                barValues.Add(salesData.TryGetValue(category, out var salesSum) ? (double)salesSum : 0);
+
+            return barValues;
+        }
+
         private void SalesController_OnSalesUpdated(decimal totalSales)
         {
-            // Update the total sales display
             TotalSalesDisplay = $"${totalSales:N0}";
         }
 
-        // INotifyPropertyChanged implementation
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        // Today's sales total
-        private string _todaySalesDisplay;
-        public string TodaySalesDisplay
-        {
-            get => _todaySalesDisplay;
-            set
-            {
-                if (_todaySalesDisplay != value)
-                {
-                    _todaySalesDisplay = value;
-                    OnPropertyChanged(nameof(TodaySalesDisplay));
-                }
-            }
-        }
-
-        // Sales details based on selected range
-        private string _graphSalesDetails;
-        public string GraphSalesDetails
-        {
-            get => _graphSalesDetails;
-            set
-            {
-                if (_graphSalesDetails != value)
-                {
-                    _graphSalesDetails = value;
-                    OnPropertyChanged(nameof(GraphSalesDetails));
-                }
-            }
-        }
-
-        // Total customers display
-        private string _totalCustomerDisplay;
-        public string TotalCustomerDisplay
-        {
-            get => _totalCustomerDisplay;
-            set
-            {
-                if (_totalCustomerDisplay != value)
-                {
-                    _totalCustomerDisplay = value;
-                    OnPropertyChanged(nameof(TotalCustomerDisplay));
-                }
-            }
-        }
-
-        // ComboBox Selection Changed Event Handler
         private void ComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
-
-            // Retrieve sales data by category
-            var salesDataByCategory = _salesController.GetSalesSumByCategory();
-            var salesDateByCategoryThisYear = _salesController.GetSalesSumByCategoryForCurrentYear();
-            var salesDateByCategoryThisMonth = _salesController.GetSalesSumByCategoryForCurrentMonth();
-            var salesDateByCategoryToday = _salesController.GetSalesSumByCategoryForToday();
-
-
-            // Ensure the order of categories matches the desired X-axis labels
-            var categories = new[] { "Paint Jobs", "Vehicle Services", "Vehicle Repairs", "Carrier Service", "Spare Services" };
-            var barChartValues = new ChartValues<double>();
-
-           
             if (GraphStateManipulateComboBox.SelectedItem is ComboBoxItem selectedItem)
             {
                 string selectedRange = selectedItem.Content.ToString();
+                Dictionary<string, decimal> salesData;
 
-                // Update GraphSalesDetails based on the selected range
                 switch (selectedRange)
                 {
                     case "This Year":
-                        decimal thisYearSales = _salesController.GetThisYearSales(); // Ensure this method exists
-                        GraphSalesDetails = $"Yearly Sales: ${thisYearSales:N0}";
-                        txtBSummaryTotsales.Text = thisYearSales.ToString();
+                        GraphSalesDetails = $"Yearly Sales: ${_salesController.GetThisYearSales():N0}";
                         LineValues = _salesController.GetThisYearSalesChartValues();
-                        foreach (var category in categories)
-                        {
-                            if (salesDateByCategoryThisYear.TryGetValue(category, out decimal salesSum))
-                            {
-                                barChartValues.Add((double)salesSum);
-                            }
-                            else
-                            {
-                                // Default to 0 if the category is missing from the data
-                                barChartValues.Add(0);
-                            }
-                        }
-
-                        // Set BarValues to update the chart
-                        BarValues = barChartValues;
+                        salesData = _salesController.GetSalesSumByCategoryForCurrentYear();
                         break;
 
                     case "This Month":
-                        decimal thisMonthSales = _salesController.GetThisMonthSales(); // Ensure this method exists
-                        GraphSalesDetails = $"Monthly Sales: ${thisMonthSales:N0}";
-                        txtBSummaryTotsales.Text = thisMonthSales.ToString();
+                        GraphSalesDetails = $"Monthly Sales: ${_salesController.GetThisMonthSales():N0}";
                         LineValues = _salesController.GetThisMonthSalesChartValues();
-                        foreach (var category in categories)
-                        {
-                            if (salesDateByCategoryThisMonth.TryGetValue(category, out decimal salesSum))
-                            {
-                                barChartValues.Add((double)salesSum);
-                            }
-                            else
-                            {
-                                // Default to 0 if the category is missing from the data
-                                barChartValues.Add(0);
-                            }
-                        }
-
-                        // Set BarValues to update the chart
-                        BarValues = barChartValues;
+                        salesData = _salesController.GetSalesSumByCategoryForCurrentMonth();
                         break;
 
                     case "Today":
-                        decimal todaySales = _salesController.GetTodaySales();
-                        GraphSalesDetails = $"Today's Sales: ${todaySales:N0}";
-                        txtBSummaryTotsales.Text = todaySales.ToString();
+                        GraphSalesDetails = $"Today's Sales: ${_salesController.GetTodaySales():N0}";
                         LineValues = _salesController.GetTodaySalesChartValues();
-                        foreach (var category in categories)
-                        {
-                            if (salesDateByCategoryToday.TryGetValue(category, out decimal salesSum))
-                            {
-                                barChartValues.Add((double)salesSum);
-                            }
-                            else
-                            {
-                                // Default to 0 if the category is missing from the data
-                                barChartValues.Add(0);
-                            }
-                        }
-
-                        // Set BarValues to update the chart
-                        BarValues = barChartValues;
+                        salesData = _salesController.GetSalesSumByCategoryForToday();
                         break;
 
                     default:
                         MessageBox.Show("Please select a valid option.");
-                        break;
+                        return;
                 }
+
+                BarValues = GetBarChartValues(salesData);
             }
+        }
+
+        private void btnCustomersDetails_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                fCustomerDetailsContainer?.Navigate(new CustomerDetailsViewSubView());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+        }
+
+        private void btnSalesDetails_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                fCustomerDetailsContainer?.Navigate(new viewSalesdetailsViewSubView());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

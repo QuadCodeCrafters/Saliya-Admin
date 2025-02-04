@@ -21,7 +21,11 @@ using ModernApp.MVC.View.EmployeeSubviews;
 using ModernApp.MVC;
 using MaterialDesignThemes.Wpf;
 using Mysqlx.Notice;
-
+using LiveCharts;
+using LiveCharts.Wpf;
+using MySql.Data.MySqlClient;
+using System.Data;
+using ModernApp.MVC.Model;
 
 namespace ModernApp.MVVM.View
 {
@@ -30,11 +34,14 @@ namespace ModernApp.MVVM.View
     /// </summary>
     public partial class EmployeeView : UserControl
     {
+        private readonly DBconnection dBconnection;
         public EmployeeView()
         {
             InitializeComponent();
+            dBconnection = new DBconnection();
             DataContext = this;
-
+            LoadDashboardData();
+            LoadCharts();
             // Find the EmployeeDetails UserControl
             //EmployeeDetails employeeDetails = VisualTreeHelperExtensions.FindChild<EmployeeDetails>(this);
             //if (employeeDetails != null)
@@ -43,6 +50,149 @@ namespace ModernApp.MVVM.View
             //    employeeDetails.EditEmployeeRequested += OnEditEmployeeRequested;
             //}
 
+        }
+
+        private void EmployeeReportDataGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            
+        }
+        private void LoadDashboardData()
+        {
+            using (var connection = dBconnection.GetConnection())
+            {
+                connection.Open();
+
+                // Get total employees count
+                string totalQuery = "SELECT COUNT(*) FROM Employee";
+                using (MySqlCommand cmd = new MySqlCommand(totalQuery, connection))
+                {
+                    TotalItemsTextBlock.Text = cmd.ExecuteScalar().ToString();
+                }
+
+                // Get employees on leave count
+                string onLeaveQuery = "SELECT COUNT(*) FROM Employee WHERE Status='On Leave'";
+                using (MySqlCommand cmd = new MySqlCommand(onLeaveQuery, connection))
+                {
+                    TotalOnLeaveTextBlock.Text = cmd.ExecuteScalar().ToString();
+                }
+
+                // Get new employees count (last 30 days)
+                string newEmployeesQuery = "SELECT COUNT(*) FROM Employee WHERE HireDate >= CURDATE() - INTERVAL 30 DAY";
+                using (MySqlCommand cmd = new MySqlCommand(newEmployeesQuery, connection))
+                {
+                    TotalNewEmployeesTextBlock.Text = cmd.ExecuteScalar().ToString();
+                }
+
+                // Get employees needing attention count (e.g., under probation)
+                string attentionNeededQuery = "SELECT COUNT(*) FROM Employee WHERE Status='Probation'";
+                using (MySqlCommand cmd = new MySqlCommand(attentionNeededQuery, connection))
+                {
+                    TotalAttentionNeededTextBlock.Text = cmd.ExecuteScalar().ToString();
+                }
+            }
+        }
+
+        private void LoadCharts()
+        {
+            using (var connection = dBconnection.GetConnection())
+            {
+                connection.Open();
+
+                // ✅ Load Attendance Overview (Bar Chart)
+                string attendanceQuery = @"
+            SELECT a.Status, COUNT(a.AttendanceID) as Total 
+            FROM Attendance a
+            WHERE a.AttendanceDate >= CURDATE() - INTERVAL 30 DAY 
+            GROUP BY a.Status";
+
+                using (MySqlCommand cmd = new MySqlCommand(attendanceQuery, connection))
+                {
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    var labels = new List<string>();
+                    var values = new ChartValues<int>();
+
+                    while (reader.Read())
+                    {
+                        labels.Add(reader["Status"].ToString());  // Present, Absent, On Leave
+                        values.Add(Convert.ToInt32(reader["Total"]));
+                    }
+                    reader.Close();
+
+                    // ✅ Update Bar Chart
+                    BarChart.Series = new SeriesCollection
+            {
+                new ColumnSeries
+                {
+                    Title = "Attendance",
+                    Values = values,
+                    Fill = System.Windows.Media.Brushes.Blue
+                }
+            };
+
+                    BarChart.AxisX[0].Labels = labels;
+                }
+
+                // ✅ Load Salary Distribution (Pie Chart)
+                string salaryQuery = "SELECT Position, COUNT(*) as Total FROM Employee GROUP BY Position";
+
+                using (MySqlCommand cmd = new MySqlCommand(salaryQuery, connection))
+                {
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    var pieSeries = new SeriesCollection();
+
+                    while (reader.Read())
+                    {
+                        pieSeries.Add(new PieSeries
+                        {
+                            Title = reader["Position"].ToString(),  // Uses Position instead of JobTitle
+                            Values = new ChartValues<int> { Convert.ToInt32(reader["Total"]) }
+                        });
+                    }
+                    reader.Close();
+
+                    // ✅ Update Pie Chart
+                    CategoryPieChart.Series = pieSeries;
+                }
+            }
+        }
+
+
+
+        private void PopulateEmployeeGrid(string query)
+        {
+            using (var connection = dBconnection.GetConnection())
+            {
+                connection.Open();
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                EmployeeReportDataGrid.ItemsSource = dt.DefaultView;
+            }
+        }
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            string query = "SELECT * FROM Employee"; // Default query (all employees)
+            PopulateEmployeeGrid(query);
+        }
+
+        private void borderOnLeave_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            string query = "SELECT * FROM Employee WHERE Status='On Leave'";
+            PopulateEmployeeGrid(query);
+        }
+
+        private void boarderNewEmployees_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            string query = "SELECT * FROM Employee WHERE HireDate >= CURDATE() - INTERVAL 30 DAY";
+            PopulateEmployeeGrid(query);
+        }
+
+        private void borderAttentionNeeded_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            string query = "SELECT * FROM Employee WHERE Status='Probation'";
+            PopulateEmployeeGrid(query);
         }
 
         //public static class VisualTreeHelperExtensions
@@ -115,15 +265,9 @@ namespace ModernApp.MVVM.View
         }
 
 
-        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            // Simulate a change in the employee count
-            Random random = new Random();
-            int newCount = random.Next(-100, 1000); // Random new value
-            UpdateEmployeeCount(newCount);
-        }
+      
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             //Notificationbox.ShowSuccess();
             try
@@ -144,9 +288,9 @@ namespace ModernApp.MVVM.View
 
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void btnEmployeeDetails_Click(object sender, RoutedEventArgs e)
         {
-            Notificationbox.ShowError();
+           
             try
             {
                 // Ensure fInventoryContainer is a Frame control
@@ -162,9 +306,21 @@ namespace ModernApp.MVVM.View
             }
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Notificationbox.ShowInfo();
+            try
+            {
+                // Ensure fInventoryContainer is a Frame control
+                if (fEmployeeDetailsContainer != null)
+                {
+                    // Navigate to the InventoryDetailedView UserControl
+                    fEmployeeDetailsContainer.Navigate(new AttendenceSubView());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
         }
 
         private void fEmployeeDetailsContainer_Navigated(object sender, NavigationEventArgs e)

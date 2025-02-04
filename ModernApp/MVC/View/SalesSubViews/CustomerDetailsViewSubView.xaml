@@ -1,0 +1,127 @@
+﻿<UserControl x:Class="ModernApp.MVC.View.SalesSubViews.CustomerDetailsViewSubView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ModernApp.MVC.View.SalesSubViews"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             Background="#F5F5F7">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Section -->
+        <Grid VerticalAlignment="Top" Margin="0,0,485,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Back Button -->
+            <Button Name="btnBackInventoryDashboard"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    VerticalAlignment="Top" Margin="-5,4,5,0" Click="btnBackInventoryDashboard_Click" >
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20" Margin="0,0,5,0" />
+                    <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" />
+                </StackPanel>
+            </Button>
+
+            <!-- Header Title -->
+            <StackPanel Grid.Column="1" Orientation="Vertical">
+                <TextBlock Text="Customer Details" FontSize="30" FontWeight="Bold" Foreground="#2C3E50"/>
+                <TextBlock Text="{Binding CurrentDate, StringFormat='Date: {0:MMMM dd, yyyy}'}" 
+                           FontSize="14" Foreground="#7F8C8D" HorizontalAlignment="Left" Height="25"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Filters Section -->
+        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="10" HorizontalAlignment="Center">
+            <materialDesign:Card Padding="10" Background="{DynamicResource MaterialDesignPaper}" Height="207">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Filters" FontSize="20" FontWeight="Bold" 
+                               Foreground="{DynamicResource MaterialDesignBody}" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+
+                    <Label Name="TotalCustomersLabel" FontSize="16" FontWeight="Bold"
+                           Foreground="#2C3E50" VerticalAlignment="Center" Margin="10,0,0,0"
+                           Content="Total Customers: 0" />
+
+                    <!-- Filters Row -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
+                        <TextBox x:Name="txtSearchVehicleNumber" Width="180" Margin="10" 
+                                 materialDesign:HintAssist.Hint="Search by vehicle number" 
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+
+                        <TextBox x:Name="txtSearchVehicleModel" Width="180" Margin="10"
+                                 materialDesign:HintAssist.Hint="Search by vehicle model"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+
+                        <DatePicker x:Name="dpRegistrationDateFilter"
+                                    Width="180"
+                                    Margin="10"
+                                    materialDesign:HintAssist.Hint="Filter by registration date"
+                                    Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
+                    </StackPanel>
+
+                    <!-- Filter Buttons -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
+                        <Button Name="btnApplyFilters" Content="Apply Filters"
+                                Width="150" Height="40" Margin="10"
+                                FontWeight="Bold" Background="#3498DB" Foreground="White" Click="btnApplyFilters_Click"
+                                />
+                        <Button Name="btnClearFilters" Content="Clear Filters"
+                                Width="150" Height="40" Margin="10"
+                                FontWeight="Bold" Background="#E74C3C" Foreground="White" Click="btnClearFilters_Click"
+                                />
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+        </StackPanel>
+        <!-- Data Grid with ScrollViewer -->
+        
+            <!-- Customer Data Grid -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="2">
+            
+                <DataGrid Name="CustomerDataGrid"
+AutoGenerateColumns="False"
+Margin="10"
+                          
+Background="White"
+Foreground="Black"
+RowHeight="50"
+CanUserAddRows="False"
+ColumnHeaderHeight="40"
+AlternatingRowBackground="#F9F9F9"
+ItemsSource="{Binding CustomerList}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="Auto" FontSize="14"/>
+                        <DataGridTextColumn Header="Customer Name" Binding="{Binding CustomerName}" Width="*" FontSize="14"/>
+                        <DataGridTextColumn Header="NIC" Binding="{Binding CustomerNIC}" Width="*" FontSize="14"/>
+                        <DataGridTextColumn Header="Phone" Binding="{Binding CustomerPhone}" Width="*" FontSize="14"/>
+                        <DataGridTextColumn Header="Email" Binding="{Binding CustomerEmail}" Width="*" FontSize="14"/>
+                        <DataGridTextColumn Header="Address" Binding="{Binding CustomerAddress}" Width="*" FontSize="14"/>
+
+                        <DataGridTextColumn Header="Vehicle Number" Binding="{Binding VehicleNumber}" Width="*" FontSize="14"/>
+                        <DataGridTextColumn Header="Category" Binding="{Binding VehicleCategory}" Width="*" FontSize="14"/>
+                        <DataGridTextColumn Header="Model" Binding="{Binding VehicleModel}" Width="*" FontSize="14"/>
+                        <DataGridTextColumn Header="Type" Binding="{Binding VehicleType}" Width="*" FontSize="14"/>
+
+                        <DataGridTextColumn Header="Special Notes" Binding="{Binding SpecialNotes}" Width="*" FontSize="14"/>
+                        <DataGridTextColumn Header="Registration Date" 
+      Binding="{Binding RegistrationDate, StringFormat='{}{0:yyyy-MM-dd}'}" 
+      Width="*" FontSize="14"/>
+
+
+                    </DataGrid.Columns>
+
+                </DataGrid>
+         
+        </ScrollViewer>
+    
+
+    </Grid>
+</UserControl>

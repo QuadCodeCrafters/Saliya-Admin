@@ -36,7 +36,7 @@ namespace ModernApp.MVC.View.InventorySubviews
                     connection.Open();
                     string query = @"
                 SELECT ID, Availability, ItemName, SKU, ItemPrice, Category, 
-                       Description, Manufacturer, ModelNumber, Warranty, 
+                       Description, Quantity, Manufacturer, ModelNumber, Warranty, 
                        StorageLocation, PicLocation 
                 FROM inventory";
                     using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -51,6 +51,7 @@ namespace ModernApp.MVC.View.InventorySubviews
                                 Availability = reader.GetString("Availability"),
                                 ItemName = reader.GetString("ItemName"),
                                 SKU = reader.GetString("SKU"),
+                                Quantity = reader.GetDouble("Quantity"),
                                 ItemPrice = reader.GetDouble("ItemPrice"),
                                 Category = reader.GetString("Category"),
                                 Description = reader.IsDBNull(reader.GetOrdinal("Description")) ? null : reader.GetString("Description"),
@@ -69,6 +70,9 @@ namespace ModernApp.MVC.View.InventorySubviews
                 MessageBox.Show($"Error loading inventory: {ex.Message}", "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
+        
 
         // Refresh Button Click - Reloads the data
         private void btnRefresh_Click(object sender, RoutedEventArgs e)

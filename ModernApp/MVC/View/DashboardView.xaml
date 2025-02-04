@@ -4,208 +4,131 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:ModernApp.MVC.Controller"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d"
-             d:DesignHeight="600" d:DesignWidth="900"
-             Background="{DynamicResource MaterialDesignPaper}">
+             Background="{DynamicResource MaterialDesignPaper}"
+             ContextMenuClosing="Window_Closing">
+
+    
+ 
+
     <Grid>
-        <!-- Main Grid Layout -->
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <!-- Fixed KPI Row -->
-                <RowDefinition Height="*" />
-                <!-- Scrollable Content -->
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-            <!-- KPI Section -->
-            <Grid Grid.Row="0"
-                  Background="White"
-                  Effect="{DynamicResource MaterialDesignElevationShadow}">
-                <UniformGrid Rows="1" Columns="4" HorizontalAlignment="Stretch" Margin="10">
-                    <!-- Highlighted KPI Cards -->
-                    <Border Background="#1E88E5" CornerRadius="10" Padding="20" Margin="10" Style="{StaticResource HoverableBorderStyle}">
-                        <StackPanel>
-                            <TextBlock Text="Daily Sales" FontSize="16" FontWeight="Bold" Foreground="White" />
-                            <TextBlock Text="$1,200" FontSize="24" FontWeight="Bold" Foreground="White" />
-                            <TextBlock Text="10% Increase Today" FontSize="12" Foreground="#B3E5FC" />
-                        </StackPanel>
-                    </Border>
-                    <Border Background="#43A047" CornerRadius="10" Padding="20" Margin="10"  Style="{StaticResource HoverableBorderStyle}">
-                        <StackPanel>
-                            <TextBlock Text="Monthly Revenue" FontSize="16" FontWeight="Bold" Foreground="White" />
-                            <TextBlock Text="$45,000" FontSize="24" FontWeight="Bold" Foreground="White" />
-                            <TextBlock Text="8% Growth from Last Month" FontSize="12" Foreground="#C8E6C9" />
-                        </StackPanel>
-                    </Border>
-                    <Border Background="#FFB300" CornerRadius="10" Padding="20" Margin="10"  Style="{StaticResource HoverableBorderStyle}">
-                        <StackPanel>
-                            <TextBlock Text="Employee Attendance" FontSize="16" FontWeight="Bold" Foreground="White" />
-                            <TextBlock Text="95%" FontSize="24" FontWeight="Bold" Foreground="White" />
-                            <TextBlock Text="Good Attendance Rate" FontSize="12" Foreground="#FFE082" />
-                        </StackPanel>
-                    </Border>
-                    <Border Background="#D32F2F" CornerRadius="10" Padding="20" Margin="10"  Style="{StaticResource HoverableBorderStyle}">
-                        <StackPanel>
-                            <TextBlock Text="Stock Alerts" FontSize="16" FontWeight="Bold" Foreground="White" />
-                            <TextBlock Text="5 Items Low" FontSize="24" FontWeight="Bold" Foreground="White" />
-                            <TextBlock Text="Restock Required" FontSize="12" Foreground="#FFCDD2" />
-                        </StackPanel>
-                    </Border>
-                </UniformGrid>
-            </Grid>
-
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-               
-
-                <Grid Margin="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <!-- Graph Section -->
-                        <RowDefinition Height="*" />
-                        <!-- Sales Data Section -->
-                        <RowDefinition Height="*" />
-                        <!-- Recent Orders Section -->
-                        <RowDefinition Height="*" />
-                        <!-- Performance Summary Section -->
-                    </Grid.RowDefinitions>
-                    
-                    <!-- Graph Section -->
-                    <Border Background="White"
-                CornerRadius="10"
-                Margin="10"
-                Padding="20"
-                Effect="{DynamicResource MaterialDesignElevationShadow}"
-                Grid.Row="0">
-                        <StackPanel>
-
-                            <Button x:Name="btnMarkAttendence" Content="Start Scanning"
-FontSize="14"
-Padding="10,5"
-Background="#1565C0"
-Foreground="White"
-Margin="10"
-Style="{DynamicResource MaterialDesignRaisedButton}" Click="btnMarkAttendence_Click"
- />
-                            <TextBlock Text="Sales Overview"
-                           FontSize="18"
-                           FontWeight="SemiBold"
-                           Foreground="#1565C0"
-                           Margin="0,0,0,20" />
-                            <TextBlock Text="Graph Placeholder"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           FontSize="14"
-                           Foreground="Gray" />
-                        </StackPanel>
-                    </Border>
-
-                    <!-- Sales Data Section -->
-                    <Border Background="White"
-                CornerRadius="10"
-                Margin="10"
-                Padding="20"
-                Effect="{DynamicResource MaterialDesignElevationShadow}"
-                Grid.Row="1">
-                        <StackPanel>
-                            <TextBlock Text="Today's Sales Data"
-                           FontSize="18"
-                           FontWeight="SemiBold"
-                           Foreground="#1565C0"
-                           Margin="0,0,0,20" />
-                            <DataGrid AutoGenerateColumns="True" IsReadOnly="True"
-                          ColumnHeaderStyle="{DynamicResource MaterialDesignDataGridColumnHeader}"
-                          Style="{DynamicResource MaterialDesignDataGrid}">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" />
-                                    <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" />
-                                    <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" />
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- Recent Orders Section -->
-                    <Border Background="White"
-                CornerRadius="10"
-                Margin="10"
-                Padding="20"
-                Effect="{DynamicResource MaterialDesignElevationShadow}"
-                Grid.Row="2">
-                        <StackPanel>
-                            <TextBlock Text="Recent Orders"
-                           FontSize="18"
-                           FontWeight="SemiBold"
-                           Foreground="#1565C0"
-                           Margin="0,0,0,20" />
-                            <DataGrid AutoGenerateColumns="True" IsReadOnly="True"
-                          ColumnHeaderStyle="{DynamicResource MaterialDesignDataGridColumnHeader}"
-                          Style="{DynamicResource MaterialDesignDataGrid}">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Order ID" Binding="{Binding OrderId}" />
-                                    <DataGridTextColumn Header="Customer Name" Binding="{Binding CustomerName}" />
-                                    <DataGridTextColumn Header="Order Total" Binding="{Binding OrderTotal}" />
-                                    <DataGridTextColumn Header="Order Date" Binding="{Binding OrderDate}" />
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- Performance Summary Section -->
-                    <Border Background="White"
-                CornerRadius="10"
-                Margin="10"
-                Padding="20"
-                Effect="{DynamicResource MaterialDesignElevationShadow}"
-                Grid.Row="3">
-                        <StackPanel>
-                            <TextBlock Text="Performance Summary"
-                           FontSize="18"
-                           FontWeight="SemiBold"
-                           Foreground="#1565C0"
-                           Margin="0,0,0,20" />
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                                <Border Background="#1E88E5"  Style="{StaticResource HoverableBorderStyle}" CornerRadius="10" Padding="20" Margin="10">
-                                    <StackPanel>
-                                        <TextBlock Text="Revenue Growth"
-                                       FontSize="16"
-                                       FontWeight="Bold"
-                                       Foreground="White" />
-                                        <TextBlock Text="15% Increase"
-                                       FontSize="24"
-                                       FontWeight="Bold"
-                                       Foreground="White" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Background="#43A047"  Style="{StaticResource HoverableBorderStyle}" CornerRadius="10" Padding="20" Margin="10">
-                                    <StackPanel>
-                                        <TextBlock Text="Customer Retention"
-                                       FontSize="16"
-                                       FontWeight="Bold"
-                                       Foreground="White" />
-                                        <TextBlock Text="85%"
-                                       FontSize="24"
-                                       FontWeight="Bold"
-                                       Foreground="White" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Background="#FFB300"  Style="{StaticResource HoverableBorderStyle}" CornerRadius="10" Padding="20" Margin="10">
-                                    <StackPanel>
-                                        <TextBlock Text="Inventory Turnover"
-                                       FontSize="16"
-                                       FontWeight="Bold"
-                                       Foreground="White" />
-                                        <TextBlock Text="20 Days"
-                                       FontSize="24"
-                                       FontWeight="Bold"
-                                       Foreground="White" />
-                                    </StackPanel>
-                                </Border>
-                            </StackPanel>
-                        </StackPanel>
-                    </Border>
-                </Grid>
-            </ScrollViewer>
-
+        <!-- KPI Section -->
+        <Grid Grid.Row="0"
+              Background="White"
+              Effect="{DynamicResource MaterialDesignElevationShadow}">
+            <UniformGrid Rows="1" Columns="4" HorizontalAlignment="Stretch" Margin="10">
+                <Border Background="#1E88E5" CornerRadius="10" Padding="20" Margin="10" Style="{StaticResource HoverableBorderStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Daily Sales" FontSize="16" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="{Binding DailySales}" FontSize="24" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="10% Increase Today" FontSize="12" Foreground="#B3E5FC"/>
+                    </StackPanel>
+                </Border>
+                <Border Background="#43A047" CornerRadius="10" Padding="20" Margin="10" Style="{StaticResource HoverableBorderStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Monthly Revenue" FontSize="16" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="{Binding MonthlyRevenue}" FontSize="24" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="8% Growth from Last Month" FontSize="12" Foreground="#C8E6C9"/>
+                    </StackPanel>
+                </Border>
+                <Border Background="#FFB300" CornerRadius="10" Padding="20" Margin="10" Style="{StaticResource HoverableBorderStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Employee Attendance" FontSize="16" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="{Binding AttendanceRate}" FontSize="24" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="Good Attendance Rate" FontSize="12" Foreground="#FFE082"/>
+                    </StackPanel>
+                </Border>
+                <Border Background="#D32F2F" CornerRadius="10" Padding="20" Margin="10" Style="{StaticResource HoverableBorderStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Stock Alerts" FontSize="16" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="{Binding StockAlerts}" FontSize="24" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="Restock Required" FontSize="12" Foreground="#FFCDD2"/>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
         </Grid>
+        <!-- Scrollable Dashboard Content -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!-- Sales Overview and Today's Sales Data Side by Side -->
+                <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,30">
+                    <!-- Graph: Sales Overview -->
+                    <Border Background="White"  CornerRadius="10" Margin="10" Padding="20"
+                    Effect="{DynamicResource HoverShadowEffect}" >
+                        <StackPanel Margin="0,0,0,0">
+                            <TextBlock Text="Sales Overview" FontSize="18" FontWeight="SemiBold"
+               Foreground="#1565C0" Margin="0,0,0,20"/>
+                            <lvc:CartesianChart  Series="{Binding SalesChartData}" Width="500" Height="300">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Title="Date" Labels="{Binding SalesLabels}" />
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis Title="Sales ($)" MinValue="0" />
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                        </StackPanel>
+
+                    </Border>
+
+                    <Border Background="White" CornerRadius="10" Margin="30,0,0,0" Padding="20"
+        Effect="{DynamicResource HoverShadowEffect}" Width="500" >
+                        <StackPanel>
+                            <TextBlock Text="Service Sales Overview" FontSize="18" FontWeight="SemiBold"
+                   Foreground="#1565C0" Margin="0,20,0,10"/>
+
+                            <!-- Bar Chart for Service Sales -->
+                            <lvc:CartesianChart Series="{Binding ServiceSalesChartData}" Width="418"
+                                                Height="300">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Title="Service Type" Labels="{Binding ServiceLabels}" />
+                                </lvc:CartesianChart.AxisX>
+
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis Title="Sales Count"/>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+
+                <!-- Performance Summary -->
+                <Border Background="White" CornerRadius="10" Margin="10" Padding="20"
+                Effect="{DynamicResource MaterialDesignElevationShadow}" Grid.Row="2">
+                    <StackPanel>
+                        <TextBlock Text="Performance Summary" FontSize="18" FontWeight="SemiBold"
+                           Foreground="#1565C0" Margin="0,0,0,20"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Border Background="#1E88E5" CornerRadius="10" Padding="20" Margin="10">
+                                <StackPanel>
+                                    <TextBlock Text="Revenue Growth" FontSize="16" FontWeight="Bold" Foreground="White"/>
+                                    <TextBlock Text="{Binding RevenueGrowth}" FontSize="24" FontWeight="Bold" Foreground="White"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Background="#43A047" CornerRadius="10" Padding="20" Margin="10">
+                                <StackPanel>
+                                    <TextBlock Text="Customer Retention" FontSize="16" FontWeight="Bold" Foreground="White"/>
+                                    <TextBlock Text="{Binding CustomerRetention}" FontSize="24" FontWeight="Bold" Foreground="White"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </ScrollViewer>
+
     </Grid>
 </UserControl>

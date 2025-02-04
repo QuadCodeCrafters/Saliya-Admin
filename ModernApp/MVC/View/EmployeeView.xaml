@@ -6,173 +6,150 @@
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-             Background="#F8F8F8" >
-    <Grid>
+             Background="#F8F8F8">
 
+    <UserControl.Resources>
+        <DropShadowEffect x:Key="ShadowEffect" ShadowDepth="1" BlurRadius="9" Color="#888" Opacity="0.3" />
+    </UserControl.Resources>
+    <ScrollViewer>
+        
+    
+    <Grid Margin="40">
+        <!-- Define Row and Column Structure -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="40" />
+            <!-- Header -->
+            <RowDefinition Height="Auto" MinHeight="150" />
+            <!-- Top Stats -->
+            <RowDefinition Height="Auto" MinHeight="400" />
+            <!-- Main Content -->
+            <RowDefinition Height="*" />
+            <!-- Employee List -->
+        </Grid.RowDefinitions>
 
-
-
-
-
-
-
-
-
-
-        <Grid Margin="20">
-            <!-- Define Row and Column Structure -->
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" MinHeight="30.817" />
-                <!-- Header -->
-                <RowDefinition Height="Auto" MinHeight="141.183" />
-                <!-- Top Stats -->
-                <RowDefinition Height="Auto" MinHeight="389.47" />
-                <!-- Main Content -->
-                <RowDefinition Height="0*" />
-                <!-- Employee List -->
-            </Grid.RowDefinitions>
-
-            <!-- Header Section -->
-            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,-18,0,141" Grid.RowSpan="2">
-                <TextBlock Text="Employee Dashboard" 
-                   FontSize="24" 
-                   FontWeight="Bold" 
-                   Foreground="#007AFF" 
-                   />
-                <StackPanel Orientation="Horizontal" Margin="476,0,0,0" VerticalAlignment="Center" Width="360" Height="52">
-                    <Button Content="Attendance" 
-                Width="110" Height="40" 
-                Style="{StaticResource MaterialDesignRaisedButton}" 
-                Background="#007AFF" 
-                Foreground="White" 
-                Margin="0,0,12,0" Click="Button_Click_2" />
-
-                    <Button Content="Employee" x:Name="btnEmployeeDetails"
-                Width="110" Height="40" 
-                Style="{StaticResource MaterialDesignRaisedButton}" 
-                Background="#4CAF50" 
-                Foreground="White" 
-                Margin="0,0,12,0" Click="Button_Click_1" />
-
-                    <Button Content="Add" 
-                Width="110" Height="40" 
-                Style="{StaticResource MaterialDesignRaisedButton}" 
-                Background="#FF3B30" 
-                Foreground="White" 
-               Margin="0,0,12,0" Click="Button_Click"  />
-
-                </StackPanel>
+        <!-- Header Section -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Stretch">
+            <TextBlock Text="Employee Dashboard" FontSize="24" FontWeight="Bold" Foreground="#007AFF" VerticalAlignment="Center" />
+            <StackPanel Orientation="Horizontal" Margin="400,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <Button Content="Attendance" Width="110" Height="40" Style="{StaticResource MaterialDesignRaisedButton}" Background="#007AFF" Foreground="White" Margin="0,0,12,0" Click="Button_Click" />
+                <Button Content="Employee" x:Name="btnEmployeeDetails" Width="110" Height="40" Style="{StaticResource MaterialDesignRaisedButton}" Background="#4CAF50" Foreground="White" Margin="0,0,12,0" Click="btnEmployeeDetails_Click" />
+                <Button Content="Add" Width="110" Height="40" Style="{StaticResource MaterialDesignRaisedButton}" Background="#FF3B30" Foreground="White" Margin="0,0,12,0" Click="Button_Click_1" />
             </StackPanel>
+        </StackPanel>
 
-            <!-- Top Statistics Section -->
-            <Grid Grid.Row="1" Margin="0,0,0,20">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+        <!-- Inventory Metrics Section -->
+        <Grid Grid.Row="1" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
 
-                <Border Style="{StaticResource HoverableBorderStyle}" 
-                Background="White" CornerRadius="12" Padding="20" 
-                Margin="10" Grid.Column="0">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="Total Employees" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
-                        <TextBlock Name="TotalEmployeesBlock" Text="500" 
-                           FontSize="32" FontWeight="Bold" Foreground="#333333" HorizontalAlignment="Center" />
-                    </StackPanel>
-                </Border>
-
-                <Border Style="{StaticResource HoverableBorderStyle}" 
-                Background="White" CornerRadius="12" Padding="20" 
-                Margin="10" Grid.Column="1">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="On Leave" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
-                        <TextBlock Name="TotalOnLeaveBlock" Text="50" 
-                           FontSize="32" FontWeight="Bold" Foreground="#333333" HorizontalAlignment="Center" />
-                    </StackPanel>
-                </Border>
-
-                <Border Style="{StaticResource HoverableBorderStyle}" 
-                Background="White" CornerRadius="12" Padding="20" 
-                Margin="10" Grid.Column="2">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="New Employees" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
-                        <TextBlock Name="TotalNewEmployeesBlock" Text="+50" 
-                           FontSize="32" FontWeight="Bold" Foreground="LightGreen" HorizontalAlignment="Center" />
-                    </StackPanel>
-                </Border>
-
-                <Border Style="{StaticResource HoverableBorderStyle}" 
-                Background="White" CornerRadius="12" Padding="20" 
-                Margin="10" Grid.Column="3">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="Attention Needed" FontSize="14" Foreground="#8E8E93" HorizontalAlignment="Center" />
-                        <TextBlock Name="TotalAttentionBlock" Text="10" 
-                           FontSize="32" FontWeight="Bold" Foreground="#333333" HorizontalAlignment="Center" />
-                    </StackPanel>
-                </Border>
-            </Grid>
-
-            <!-- Main Content Section -->
-            <Grid Grid.Row="1" Margin="0,131,0,5" Grid.RowSpan="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="430*" />
-                    <ColumnDefinition Width="307*" />
-                </Grid.ColumnDefinitions>
-
-                <!-- Salary Overview -->
-                <Border Grid.Column="0"  Style="{StaticResource ShadowEffectBoxes}" Background="White" CornerRadius="12" Padding="20" Margin="10,10,30,10">
-                    <StackPanel>
-                        <TextBlock Text="Salary Overview" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" />
-                        <lvc:PieChart Name="CategoryPieChart" Height="285" InnerRadius="50" Width="326">
-                            <lvc:PieChart.Series>
-                                <lvc:PieSeries Title="Salaries" Values="5" Fill="#4CAF50" />
-                                <lvc:PieSeries Title="Income" Values="3" Fill="Yellow" />
-                            </lvc:PieChart.Series>
-                        </lvc:PieChart>
-                    </StackPanel>
-                </Border>
-
-                <!-- Attendance Overview -->
-                <Border Grid.Column="1"  Style="{StaticResource ShadowEffectBoxes}" Background="White" CornerRadius="12" Padding="20" Margin="0,10,10,10">
-                    <StackPanel>
-                        <TextBlock Text="Attendance Overview" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" />
-                        <lvc:CartesianChart Height="300">
-                            <lvc:CartesianChart.AxisX>
-                                <lvc:Axis Title="Days" Labels="{Binding Days}" />
-                            </lvc:CartesianChart.AxisX>
-                            <lvc:CartesianChart.AxisY>
-                                <lvc:Axis Title="Attendance" LabelFormatter="{Binding YFormatter}" />
-                            </lvc:CartesianChart.AxisY>
-                            <lvc:CartesianChart.Series>
-                                <lvc:ColumnSeries Title="Attendance" Values="{Binding AttendanceValues[0].Values}" />
-                            </lvc:CartesianChart.Series>
-                        </lvc:CartesianChart>
-                    </StackPanel>
-                </Border>
-            </Grid>
-
-
-            <!-- Border with a Frame for loading UserControls -->
-            <Border  Margin="0,2,0,-18" CornerRadius="10" BorderThickness="1" Grid.RowSpan="3" Grid.Row="1">
-                <Frame Name="fEmployeeDetailsContainer" Margin="-20,-1,-30,-1" Navigated="fEmployeeDetailsContainer_Navigated"/>
+            <!-- Metrics Cards -->
+            <Border Background="White" CornerRadius="12" Width="200" Height="100" Padding="15" Margin="10" Style="{StaticResource HoverableBorderStyle}" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock Text="Total Employees" FontSize="14" Foreground="#8E8E93" TextAlignment="Center" />
+                    <TextBlock Name="TotalItemsTextBlock" FontSize="28" FontWeight="Bold" Foreground="#333" />
+                </StackPanel>
             </Border>
 
-            <!-- Border with a Frame for loading UserControls -->
-            <Border  Margin="0,2,0,-18" CornerRadius="10" BorderThickness="1" Grid.RowSpan="3" Grid.Row="1">
-                <Frame Name="fEmployeeAddContainer" Margin="-20,-1,-30,-1" />
+            <Border x:Name="borderOnLeave" Background="White" CornerRadius="12" Width="200" Height="100" Padding="15" Margin="10" Grid.Column="1" Style="{StaticResource HoverableBorderStyle}" MouseLeftButtonDown="borderOnLeave_MouseLeftButtonDown">
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock Text="On Leave" FontSize="14" Foreground="#8E8E93" TextAlignment="Center" />
+                    <TextBlock x:Name="TotalOnLeaveTextBlock" FontSize="28" FontWeight="Bold" Foreground="#FF3B30" />
+                </StackPanel>
             </Border>
 
+            <Border x:Name="boarderNewEmployees" Background="White" CornerRadius="12" Width="200" Height="100" Padding="15" Margin="10" Grid.Column="2" Style="{StaticResource HoverableBorderStyle}" MouseLeftButtonDown="boarderNewEmployees_MouseLeftButtonDown">
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock Text="New Employees" FontSize="14" Foreground="#8E8E93" TextAlignment="Center" />
+                    <TextBlock x:Name="TotalNewEmployeesTextBlock" FontSize="28" FontWeight="Bold" Foreground="#007AFF" />
+                </StackPanel>
+            </Border>
 
-
+            <Border x:Name="borderAttentionNeeded" Background="White" CornerRadius="12" Width="200" Height="100" Padding="15" Margin="10" Grid.Column="3" Style="{StaticResource HoverableBorderStyle}" MouseLeftButtonDown="borderAttentionNeeded_MouseLeftButtonDown">
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock Text="Attention Needed" FontSize="14" Foreground="#8E8E93" TextAlignment="Center" />
+                    <TextBlock x:Name="TotalAttentionNeededTextBlock" FontSize="28" FontWeight="Bold" Foreground="#FF9500" />
+                </StackPanel>
+            </Border>
         </Grid>
-        <!-- Border with a Frame for loading UserControls 
-        <Border  Margin="0,2,0,10" CornerRadius="10" BorderThickness="1">
-            <Frame Name="fEmployeeEditContainer" Margin="-1,-1,-1,-1" />
-        </Border> -->
+        <ScrollViewer Grid.Row="2">
+            <Grid>
+                <!-- Inventory Overview Charts -->
+                <Grid Grid.Row="2" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
 
+                    <!-- Bar Chart -->
+                    <Border Background="White" Grid.Row="0" CornerRadius="8" Padding="20" Effect="{StaticResource ShadowEffect}" Grid.Column="0" Margin="10">
+                        <StackPanel>
+                            <TextBlock Text="Attendance Overview" FontSize="16" FontWeight="Bold" Foreground="#333" Margin="10" />
+                            <lvc:CartesianChart Name="BarChart" Margin="10" Height="250">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Labels="{Binding XLabels}" Foreground="#666">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator Step="1" IsEnabled="False" />
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.Series>
+                                    <lvc:ColumnSeries Title="Stock Levels" Fill="#007bff" Values="20" />
+                                    <lvc:ColumnSeries Title="Stock Levels" Fill="#007bff" Values="30" />
+                                </lvc:CartesianChart.Series>
+                            </lvc:CartesianChart>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Pie Chart -->
+                    <Border Background="White" Grid.Row="0" CornerRadius="8" Padding="20" Effect="{StaticResource ShadowEffect}" Grid.Column="1" Margin="10">
+                        <StackPanel>
+                            <TextBlock Text="Salary Distribution" FontSize="16" FontWeight="Bold" Foreground="#333" Margin="10" />
+                            <lvc:PieChart Name="CategoryPieChart" Margin="10" Height="250">
+                                <lvc:PieChart.Series>
+                                    <lvc:PieSeries Title="Manager" Values="5" Fill="#4CAF50" />
+                                    <lvc:PieSeries Title="Workers" Values="3" Fill="Yellow" />
+                                    <lvc:PieSeries Title="Cashiers" Values="6" Fill="MediumOrchid" />
+                                </lvc:PieChart.Series>
+                            </lvc:PieChart>
+                        </StackPanel>
+                    </Border>
+                    <!-- DataGrid for Employee List -->
+                    <DataGrid Grid.Row="1" Grid.ColumnSpan="2" Name="EmployeeReportDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" AlternatingRowBackground="#F7F9FA" GridLinesVisibility="Horizontal" Background="White" RowHeight="40" BorderBrush="#BDC3C7" Foreground="#2C3E50" FontSize="14" Margin="-10,0,10,0" PreviewMouseWheel="EmployeeReportDataGrid_PreviewMouseWheel">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Employee ID" Binding="{Binding EmployeeID}" Width="100" />
+                            <DataGridTextColumn Header="National ID" Binding="{Binding NationalIdentificationNumber}" Width="200" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="150" />
+                            <DataGridTextColumn Header="Date of Birth" Binding="{Binding DOB, StringFormat={}{0:MMMM dd yyyy}}" Width="155" />
+                            <DataGridTextColumn Header="Salary" Binding="{Binding Salary}" Width="100" />
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="130" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+
+                
+            </Grid>
+        </ScrollViewer>
+       
+
+        <!-- Border with a Frame for loading UserControls -->
+        <Border Margin="0,10,0,0"   CornerRadius="10" BorderThickness="1" Grid.RowSpan="3" Grid.Row="1">
+            <Frame Name="fEmployeeDetailsContainer"  Navigated="fEmployeeDetailsContainer_Navigated"/>
+        </Border>
+
+        <!-- Border with a Frame for loading UserControls -->
+        <Border  Margin="0,2,0,-18" CornerRadius="10" BorderThickness="1" Grid.RowSpan="3" Grid.Row="1">
+            <Frame Name="fEmployeeAddContainer"  />
+        </Border>
 
 
     </Grid>
+    </ScrollViewer>
 </UserControl>
