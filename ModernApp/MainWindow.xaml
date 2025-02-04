@@ -357,13 +357,7 @@ Click="btnBackDashboard_Click">
                         FontSize="10"
                         Style="{StaticResource MenuButtonTheme}"
                         Margin="10,10,6,3" Checked="RDBHelp_Checked" />
-                            <RadioButton Grid.Row="11" Name="RDfdfBHelp" Content="Help"
-                         Tag="/Images/question.png"
-                         Height="45"
-                         Foreground="White"
-                         FontSize="10"
-                         Style="{StaticResource MenuButtonTheme}"
-                         Margin="10,10,6,3"  />
+                           
                         </Grid>
                     </StackPanel>
 

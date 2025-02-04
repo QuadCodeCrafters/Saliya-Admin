@@ -67,7 +67,7 @@ namespace ModernApp.MVVM.View
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void BtnHelpInventory_Click(object sender, RoutedEventArgs e)
         {
             //Notificationbox.ShowSuccess();
             try
@@ -77,6 +77,114 @@ namespace ModernApp.MVVM.View
                 {
                     // Navigate to the InventoryDetailedView UserControl
                     FHelpViewContainer.Navigate(new HelpInventroySubViews());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+        }
+
+        private void BtnHelpEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            //Notificationbox.ShowSuccess();
+            try
+            {
+                // Ensure fInventoryContainer is a Frame control
+                if (FHelpViewContainer != null)
+                {
+                    // Navigate to the InventoryDetailedView UserControl
+                    FHelpViewContainer.Navigate(new HelpEmployeeSubView());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+        }
+
+        private void BtnHelpReports_Click(object sender, RoutedEventArgs e)
+        {
+            //Notificationbox.ShowSuccess();
+            try
+            {
+                // Ensure fInventoryContainer is a Frame control
+                if (FHelpViewContainer != null)
+                {
+                    // Navigate to the InventoryDetailedView UserControl
+                    FHelpViewContainer.Navigate(new HelpReportsSubView());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+        }
+
+        private void BtnHelpSystem_Click(object sender, RoutedEventArgs e)
+        {
+            //Notificationbox.ShowSuccess();
+            try
+            {
+                // Ensure fInventoryContainer is a Frame control
+                if (FHelpViewContainer != null)
+                {
+                    // Navigate to the InventoryDetailedView UserControl
+                    FHelpViewContainer.Navigate(new HelpSystemSubView());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+        }
+
+        private void BtnHelpSettings_Click(object sender, RoutedEventArgs e)
+        {
+            //Notificationbox.ShowSuccess();
+            try
+            {
+                // Ensure fInventoryContainer is a Frame control
+                if (FHelpViewContainer != null)
+                {
+                    // Navigate to the InventoryDetailedView UserControl
+                    FHelpViewContainer.Navigate(new HelpSettingsSubView());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+        }
+
+        private void BtnHelpHelp_Click(object sender, RoutedEventArgs e)
+        {
+            //Notificationbox.ShowSuccess();
+            try
+            {
+                // Ensure fInventoryContainer is a Frame control
+                if (FHelpViewContainer != null)
+                {
+                    // Navigate to the InventoryDetailedView UserControl
+                    FHelpViewContainer.Navigate(new HelpHelpSubView());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error navigating to page: {ex.Message}");
+            }
+        }
+
+        private void BtnHelpSupport_Click(object sender, RoutedEventArgs e)
+        {
+            //Notificationbox.ShowSuccess();
+            try
+            {
+                // Ensure fInventoryContainer is a Frame control
+                if (FHelpViewContainer != null)
+                {
+                    // Navigate to the InventoryDetailedView UserControl
+                    FHelpViewContainer.Navigate(new HelpSupportSubView());
                 }
             }
             catch (Exception ex)

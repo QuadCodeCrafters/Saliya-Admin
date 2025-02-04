@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="ModernApp.MVC.View.HelpSubViews.HelpHelpSubView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ModernApp.MVC.View.HelpSubViews"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,10,10,20">
+            <Button Name="btnBackHelpingDashboard"
+                    Background="{DynamicResource PrimaryHueMidBrush}"
+                    Foreground="White"
+                    Padding="10,5"
+                    VerticalAlignment="Center"
+                    Click="btnBackHelpingDashboard_Click">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20"
+                                             Margin="0,0,5,0" Foreground="White"/>
+                    <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" Foreground="White"/>
+                </StackPanel>
+            </Button>
+
+            <TextBlock Text="HelpView Help Menu"
+                       Grid.Column="1"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Foreground="{DynamicResource PrimaryHueMidBrush}"
+                       VerticalAlignment="Center"
+                       Padding="10,0,0,0"/>
+        </StackPanel>
+
+        <GridSplitter HorizontalAlignment="Center" Background="#e3e3e5" Height="5" VerticalAlignment="Top" Width="1797" Margin="0,47,0,0"/>
+
+        <StackPanel Grid.Row="1" Margin="20">
+            <!-- 1. Header Section -->
+            <TextBlock Text="1. POS Help Center" FontSize="30" FontWeight="Bold" Foreground="DarkGray"/>
+            <TextBlock Text="   - Your guide to mastering the Point of Admin system" FontSize="14" Foreground="Gray" Margin="0,5,0,20"/>
+
+            <!-- 2. Main Content Area -->
+            <TextBlock Text="2. Main Content Area" FontSize="18" FontWeight="Bold" Margin="0,10,0,5"/>
+            <StackPanel>
+                <TextBlock Text="   2.1 Sales: Process transactions, issue receipts, and manage refunds effectively." FontSize="14"/>
+                <TextBlock Text="   2.2 Inventory: Track stock levels, manage products, and organize categories." FontSize="14"/>
+                <TextBlock Text="   2.3 Employee: Add and manage employees, assign roles, and monitor user activity securely." FontSize="14"/>
+                <TextBlock Text="   2.4 Reports: Generate detailed reports on sales, inventory, and employee performance." FontSize="14"/>
+                <TextBlock Text="   2.5 System: Customize POS system configurations to suit your business requirements." FontSize="14"/>
+                <TextBlock Text="   2.6 Settings: Adjust and manage application preferences and advanced system settings." FontSize="14"/>
+                <TextBlock Text="   2.7 Help: Browse user guides and tutorials to get the most out of your POS system." FontSize="14"/>
+                <TextBlock Text="   2.8 Support: Contact customer support for assistance or troubleshooting." FontSize="14"/>
+            </StackPanel>
+
+            <!-- 3. Footer Section -->
+            <TextBlock Text="3. Footer Section" FontSize="18" FontWeight="Bold" Margin="0,10,0,5"/>
+            <TextBlock Text="   - © 2024 Saliya Outo Plus. All rights reserved." FontSize="12" Foreground="Gray" HorizontalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

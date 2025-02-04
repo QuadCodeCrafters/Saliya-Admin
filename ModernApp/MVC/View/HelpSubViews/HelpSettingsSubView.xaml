@@ -1,0 +1,131 @@
+﻿<UserControl x:Class="ModernApp.MVC.View.HelpSubViews.HelpSettingsSubView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ModernApp.MVC.View.HelpSubViews"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!-- Header -->
+            <RowDefinition Height="*" />
+            <!-- Content -->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Place the StackPanel in the correct row -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,10,10,20">
+            <Button Name="btnBackSettingsDashboard"
+                    Background="{DynamicResource PrimaryHueMidBrush}"
+                    Foreground="White"
+                    Padding="10,5"
+                    VerticalAlignment="Center"
+                    Click="btnBackSettingsDashboard_Click">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Width="20" Height="20"
+                                             Margin="0,0,5,0" Foreground="White"/>
+                    <TextBlock Text="Back" VerticalAlignment="Center" FontSize="14" Foreground="White"/>
+                </StackPanel>
+            </Button>
+
+            <!-- Title -->
+            <TextBlock Text="SettingsView Help Menu"
+                       Grid.Column="1"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Foreground="{DynamicResource PrimaryHueMidBrush}"
+                       VerticalAlignment="Center"
+                       Padding="10,0,0,0"/>
+        </StackPanel>
+
+        <GridSplitter HorizontalAlignment="Center" Background="#e3e3e5" Height="5" VerticalAlignment="Top" Width="1797" Margin="0,47,0,0"/>
+
+        <!-- Description Section with ScrollViewer -->
+        <ScrollViewer Grid.Row="1" Margin="10">
+            <StackPanel>
+                <TextBlock Text="Overview"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Foreground="Black"
+                           Margin="0,10,0,5"/>
+                <TextBlock Text="The Settings interface allows you to configure system preferences, customize user profiles, manage application behavior, and configure other administrative options."
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,15"/>
+
+                <TextBlock Text="2. Navigating the Settings Interface"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="Black"
+                           Margin="0,10,0,5"/>
+                <TextBlock Text="Settings Menu: Located in the main navigation, the settings button directs you to the Settings interface. From there, you can access various configuration options."
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,5"/>
+                <TextBlock Text="Categories: Settings are grouped into categories like General, User Preferences, Security, and Notifications for ease of access."
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,15"/>
+
+                <TextBlock Text="3. Key Settings Sections"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="Black"
+                           Margin="0,10,0,5"/>
+                <TextBlock Text="• 1. General Settings: Adjust system-wide preferences such as language, time zone, and display settings."
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,5"/>
+                <TextBlock Text="• 2. User Preferences: Customize your profile, change themes, and configure accessibility features."
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,5"/>
+                <TextBlock Text="• 3. Security Settings: Manage user authentication, passwords, and privacy settings."
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,5"/>
+                <TextBlock Text="• 4. Notifications: Set preferences for how the system sends alerts and reminders."
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,15"/>
+
+                <TextBlock Text="4. Configuring Settings"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="Black"
+                           Margin="0,10,0,5"/>
+                <TextBlock Text="To adjust any setting, click on the corresponding section and modify the options. Some settings may require you to restart the application for changes to take effect."
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,15"/>
+
+                <TextBlock Text="5. Saving Changes"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="Black"
+                           Margin="0,10,0,5"/>
+                <TextBlock Text="After making adjustments, click Save to apply the changes. A confirmation message will appear once the settings have been successfully updated."
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,15"/>
+
+                <TextBlock Text="6. Troubleshooting"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="Black"
+                           Margin="0,10,0,5"/>
+                <TextBlock Text="Unable to Save Settings: If you are unable to save changes, ensure you have the necessary permissions or consult your administrator."
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,5"/>
+                <TextBlock Text="Setting Not Taking Effect: Try restarting the application or checking for updates."
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,15"/>
+
+                <TextBlock Text="7. Getting More Help"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="Black"
+                           Margin="0,10,0,5"/>
+                <TextBlock Text="For additional assistance, visit the Support section within the Help menu, or reach out to our technical support team through the Contact Support button."
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,5"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
