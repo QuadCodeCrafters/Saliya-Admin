@@ -1,5 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 using ModernApp.Core;
+using ModernApp.Events;
 using ModernApp.MVC.Model;
 using MySql.Data.MySqlClient;
 using System;
@@ -17,7 +18,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-
+using Prism.Events;
 namespace ModernApp
 {
     /// <summary>
@@ -26,9 +27,11 @@ namespace ModernApp
     public partial class loginPage : Window
     {
         private readonly DBconnection dBconnection;
+        public string loggedUsernamw;
         public loginPage()
         {
             InitializeComponent();
+          
             dBconnection = new DBconnection();
         }
 
@@ -36,6 +39,7 @@ namespace ModernApp
         {
             string username = txtusername.Text.Trim();
             string password = txtpassword.Password.Trim();
+            loggedUsernamw= username;
 
             if (string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password))
             {
@@ -60,9 +64,12 @@ namespace ModernApp
             // Validate user credentials
             if (ValidateAdminCredentials(username, password))
             {
+                App.EventAggregator.GetEvent<GetAdminNameEvents>().Publish(username);
                 MainWindow mainWin = new MainWindow();
                 mainWin.Show();
                 this.Close();
+
+               
             }
             else
             {
@@ -72,7 +79,7 @@ namespace ModernApp
             }
         }
 
-
+      
 
         private bool ValidateAdminCredentials(string username, string password)
         {

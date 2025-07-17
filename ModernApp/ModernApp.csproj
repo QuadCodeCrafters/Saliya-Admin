@@ -212,6 +212,7 @@
     <Compile Include="DialogOpenEvent.cs" />
     <Compile Include="Events\ChangeAdminPasswordEvent.cs" />
     <Compile Include="Events\ClearFormEvent.cs" />
+    <Compile Include="Events\GetAdminNameEvent.cs" />
     <Compile Include="Events\logoutConfirmationEvent.cs" />
     <Compile Include="loadingPage.xaml.cs">
       <DependentUpon>loadingPage.xaml</DependentUpon>
@@ -482,10 +483,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Notifications\NotificationBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\ScrollViewerStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

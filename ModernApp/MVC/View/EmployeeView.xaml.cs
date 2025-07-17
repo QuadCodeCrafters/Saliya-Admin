@@ -77,7 +77,7 @@ namespace ModernApp.MVVM.View
                 }
 
                 // Get new employees count (last 30 days)
-                string newEmployeesQuery = "SELECT COUNT(*) FROM Employee WHERE HireDate >= CURDATE() - INTERVAL 30 DAY";
+                string newEmployeesQuery = "SELECT COUNT(*) FROM Employee WHERE HireDate = CURDATE()";
                 using (MySqlCommand cmd = new MySqlCommand(newEmployeesQuery, connection))
                 {
                     TotalNewEmployeesTextBlock.Text = cmd.ExecuteScalar().ToString();

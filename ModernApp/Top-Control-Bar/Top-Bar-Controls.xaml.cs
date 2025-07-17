@@ -1,34 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using MaterialDesignThemes.Wpf;
+using ModernApp.Events;
+using ModernApp.MVVM.View;
+using Prism.Events;
+
 
 namespace ModernApp.Top_Control_Bar
 {
-    /// <summary>
-    /// Interaction logic for Top_Bar_Controls.xaml
-    /// </summary>
     public partial class Top_Bar_Controls : UserControl
     {
+        private readonly IEventAggregator _eventAggregator;
+
+        // Property to manage the visibility of the Notifications popup
+        public bool IsNotificationPopupOpen { get; set; }
+
+        // Constructor
         public Top_Bar_Controls()
         {
             InitializeComponent();
-
-            
-            NotificationButton.Click += (s, e) => NotificationPopup.IsOpen = !NotificationPopup.IsOpen;
-            ProfileButton.Click += (s, e) => ProfilePopup.IsOpen = !ProfilePopup.IsOpen;
+            // Do not subscribe here to avoid Db connection issue
         }
 
+        // Event handler when the admin name is received
+        private void OnAdminNameReceived(string username)
+        {
+            // Assuming you have a TextBox or another control named adminName2
+            if (adminName2 != null)
+            {
+                adminName2.Text = username; // Set the admin name to the TextBox
+            }
+            else
+            {
+                MessageBox.Show("adminName2 control is not available.");
+            }
+        }
+
+        // Called after the control is loaded
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Subscribe after control is loaded
+            if (_eventAggregator != null)
+            {
+                _eventAggregator.GetEvent<GetAdminNameEvents>().Subscribe(OnAdminNameReceived);
+            }
+            else
+            {
+                MessageBox.Show("EventAggregator is null.");
+            }
+        }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
@@ -36,7 +57,7 @@ namespace ModernApp.Top_Control_Bar
             MessageBox.Show("Search clicked!");
         }
 
-        private void DarkModeButton_Click(object sender, RoutedEventArgs e)
+        private void DarkModeToggle_Click(object sender, RoutedEventArgs e)
         {
             // Action for Dark Mode
             MessageBox.Show("Dark mode clicked!");
@@ -44,14 +65,33 @@ namespace ModernApp.Top_Control_Bar
 
         private void NotificationButton_Click(object sender, RoutedEventArgs e)
         {
-            // Toggle notification popup
-            NotificationPopup.IsOpen = !NotificationPopup.IsOpen;
+            // Toggle the visibility of the Notifications popup
+            IsNotificationPopupOpen = !IsNotificationPopupOpen;
+            NotificationsPopup.IsOpen = IsNotificationPopupOpen;
         }
 
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
         {
             // Toggle profile popup
             ProfilePopup.IsOpen = !ProfilePopup.IsOpen;
+        }
+
+        private void ProfilePopup_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // Close the profile popup when it loses focus
+            ProfilePopup.IsOpen = false;
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Publish logout confirmation event
+            App.EventAggregator.GetEvent<logoutConfirmationEvent>().Publish("OpenlogoutConfirmDialog");
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+         
+
         }
     }
 }

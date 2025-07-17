@@ -16,7 +16,7 @@ namespace ModernApp.MVC.Model
         public MySqlConnection GetConnection()
         {
             var connection = new MySqlConnection(_connectionString);
-            MessageBox.Show("Connected successfull ");
+            //MessageBox.Show("Connected successfull");
             return connection;
         }
     }

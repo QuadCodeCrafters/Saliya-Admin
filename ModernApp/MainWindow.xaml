@@ -211,16 +211,9 @@ Click="btnBackDashboard_Click">
                 </Image>
 
 
-                <Border  Margin="997,31,20,10" CornerRadius="10" BorderThickness="1" RenderTransformOrigin="0.5,0.5">
-                    <Border.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleY="-1"/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Border.RenderTransform>
-                    <Frame Name="fTopBoxContainer" />
+                            <Border  CornerRadius="10" Margin="1240,10,7,15" Padding="0" >
+                   
+                    <Frame Name="fTopBoxContainer"  />
                 </Border>
                 <Grid.Effect>
                     <DropShadowEffect Color="Black" BlurRadius="15" ShadowDepth="5" Opacity="0.6"/>
@@ -375,28 +368,7 @@ Click="btnBackDashboard_Click">
 
 
             <!-- Close/Minimize Buttons with Custom Design -->
-            <Ellipse Fill="Red" Grid.Column="1" Height="15" Width="15" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,79" MouseLeftButtonDown="closeApp"/>
-            <Ellipse Fill="Yellow" Grid.Column="1" Height="15" Width="15" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,33,79" MouseLeftButtonDown="minimizeApp"/>
-            <Rectangle Fill="Black" Grid.Column="1" Height="1" Width="7" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,14,86" RenderTransformOrigin="0.5,0.5">
-                <Rectangle.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleY="-1"/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="46.406"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Rectangle.RenderTransform>
-            </Rectangle>
-            <Rectangle Fill="Black" Grid.Column="1" Height="1" Width="7" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,37,86" RenderTransformOrigin="0.5,0.5">
-                <Rectangle.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleY="-1"/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Rectangle.RenderTransform>
-            </Rectangle>
+          
             <!-- Border with a Frame for loading UserControls -->
             <Border  Margin="0,93,0,0" CornerRadius="10" BorderThickness="1" Grid.RowSpan="2" Grid.Column="1">
                 <Frame Name="fEmployeeEditContainer" />
