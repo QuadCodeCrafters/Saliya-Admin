@@ -24,6 +24,11 @@ This project is the updated version of a Point-of-Sale (POS) system admin side, 
 - **User Roles and Permissions**: Admins can manage roles and restrict access based on user types.
 
 ## Admin dasboard pictures
+
+<img width="1366" height="768" alt="Screenshot (15)" src="https://github.com/user-attachments/assets/d98a94f0-6cb4-4e84-9057-e3b24033b7b0" />
+
+<img width="1366" height="768" alt="Screenshot (16)" src="https://github.com/user-attachments/assets/0f5dd93e-b176-4032-8c6e-5538a598a04f" />
+
 <img width="797" height="410" alt="image" src="https://github.com/user-attachments/assets/ecf2cbeb-4b74-41fd-af53-00fdd18b6fb8" />
 
 <img width="797" height="411" alt="image" src="https://github.com/user-attachments/assets/81ceb046-ff33-4e39-b99d-fdf6d0c1541a" />
@@ -48,6 +53,7 @@ This project is the updated version of a Point-of-Sale (POS) system admin side, 
 
 <img width="2646" height="1024" alt="Screenshot (706)" src="https://github.com/user-attachments/assets/7585ff27-f9be-4d00-ba63-082e56f0ec1a" />
 
+<img width="1366" height="768" alt="Screenshot (17)" src="https://github.com/user-attachments/assets/fc8a534c-7160-4cb1-90d8-8244396b8248" />
 
 
 
