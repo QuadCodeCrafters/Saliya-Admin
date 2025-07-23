@@ -15,13 +15,59 @@ This project is the updated version of a Point-of-Sale (POS) system admin side, 
 ### Database:
 - (Edit the database used here, e.g., SQL Server, MySQL, etc.)
 
-## Features
-- **User Login and Authentication**: Secure login system to protect user data.
-- **Dashboard**: A comprehensive interface that provides real-time insights into sales, inventory, and other key metrics.
-- **Point-of-Sale Interface**: Fast and intuitive checkout process.
-- **Inventory Management**: Keep track of products, stock levels, and suppliers.
-- **Sales Reports**: Generate detailed reports to analyze performance over time.
-- **User Roles and Permissions**: Admins can manage roles and restrict access based on user types.
+## 🛠️ Features – Saliya Auto Care Admin Portal
+
+The Saliya Admin Portal is a secure, web-based management system for overseeing all operational aspects of the auto care center. It is designed for managers and administrative staff to streamline day-to-day tasks.
+
+### 🔐 User & Role Management
+- Add, update, and remove employees
+- Assign roles with access-based permissions (Admin, Staff, Manager)
+- Secure login system
+
+### 📊 Dashboard Overview
+- Daily/weekly/monthly earnings summary
+- Real-time service status tracking
+- Inventory alerts and key statistics
+
+### 🚘 Vehicle & Service Management
+- Register vehicles with owner details
+- Track service requests and assign mechanics
+- View detailed service and repair history
+
+### 📦 Inventory Management
+- Manage spare parts and consumables
+- Stock tracking with supplier info
+- Alerts for low stock and out-of-stock items
+
+### 💰 Finance & Invoicing
+- View all POS-generated invoices
+- Monitor payment status (paid, unpaid, partial)
+- Generate financial reports by date range
+- Set service pricing, discounts, and tax
+
+### 📅 Scheduling & Task Assignment
+- Schedule upcoming vehicle services
+- Assign carriers and mechanics to jobs
+- Visual calendar for task and service planning
+
+### 👥 Customer Management
+- Maintain customer profiles and vehicle history
+- Access past services and invoices
+- Send reminders for recurring services
+
+### 🚚 Carrier Task Monitoring
+- Monitor pickup/delivery statuses from driver app
+- View logs and reassign tasks as needed
+
+### ⚙️ System Configuration
+- Update business info, working hours
+- Manage service categories and price lists
+- Backup/restore settings and data
+
+---
+
+> 🎯 Designed for speed, efficiency, and full control over your auto care operations.
+
 
 ## Admin dasboard pictures
 
